@@ -1,0 +1,33 @@
+import { Link } from "react-router-dom";
+
+export default function SiteFooter() {
+  const year = new Date().getFullYear();
+  return (
+    <footer className="mt-16 border-t">
+      <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 sm:grid-cols-3">
+        <div>
+          <p className="font-medium">Tail Wagging Websites Factory Northampton</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Websites & automations that actually win pet care clients.
+          </p>
+          <p className="text-sm mt-2">Phone: <a className="underline" href="tel:+447402342694">+44 7402 342694</a></p>
+        </div>
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-2 sm:block">
+          <Link to="/services">Services</Link>
+          <Link to="/portfolio">Portfolio</Link>
+          <Link to="/pricing">Pricing</Link>
+          <Link to="/faq">FAQ</Link>
+          <Link to="/contact">Contact</Link>
+        </nav>
+        <div className="text-sm text-muted-foreground">
+          <p>© {year} Tail Wagging Websites Factory Northampton.</p>
+          <p>Registered in England & Wales. Privacy & Cookies.</p>
+          <div className="mt-2 flex gap-3">
+            <a href="#" aria-label="Twitter placeholder" className="underline">Twitter</a>
+            <a href="#" aria-label="LinkedIn placeholder" className="underline">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
