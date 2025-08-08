@@ -8,6 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Nebula Night — default dark theme */
+    --background: 220 49% 8%;
+    --foreground: 210 20% 96%;
+
+    --card: 220 49% 10%;
+    --card-foreground: 210 20% 96%;
+
+    --popover: 220 49% 10%;
+    --popover-foreground: 210 20% 96%;
+
+    /* Brand & accents */
+    --primary: 213 94% 66%; /* info accent used for icon highlights */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 210 20% 96%;
+
+    --muted: 220 8% 22%;
+    --muted-foreground: 215 13% 65%;
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 350 88% 63%;
+    --destructive-foreground: 210 20% 96%;
+
+    --border: 220 14% 20%;
+    --input: 220 14% 20%;
+    --ring: 258 92% 75%;
+
+    --radius: 1rem;
+
+    /* Sidebar */
+    --sidebar-background: 220 49% 8%;
+    --sidebar-foreground: 210 20% 96%;
+    --sidebar-primary: 213 94% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 13% 18%;
+    --sidebar-accent-foreground: 210 20% 96%;
+    --sidebar-border: 220 14% 20%;
+    --sidebar-ring: 258 92% 75%;
+
+    /* Nebula Night extras */
+    --brand-gradient-from: 258 90% 66%;
+    --brand-gradient-to: 217 91% 60%;
+    --brand-gradient-from-hover: 262 83% 58%;
+    --brand-gradient-to-hover: 221 83% 56%;
+
+    --bg-page: 220 49% 8%;
+    --glass: 220 39% 11% / 0.72; /* #111827 @ 72% */
+    --glass-hover: 220 39% 11% / 0.82;
+    --surface-border: 0 0% 100% / 0.08;
+    --surface-inner: 0 0% 100% / 0.04;
+
+    --gradient-primary: linear-gradient(90deg, hsl(var(--brand-gradient-from)), hsl(var(--brand-gradient-to)));
+    --gradient-primary-hover: linear-gradient(90deg, hsl(var(--brand-gradient-from-hover)), hsl(var(--brand-gradient-to-hover)));
+
+    /* Subtle nebula overlay */
+    --bg-nebula: radial-gradient(1200px 600px at 10% -10%, hsl(258 90% 30% / 0.35), transparent 60%),
+      radial-gradient(1000px 500px at 110% 0%, hsl(217 91% 40% / 0.28), transparent 60%);
+
+    /* Shadows & motion */
+    --shadow-glow: 0 10px 30px -10px hsl(258 92% 75% / 0.25), 0 0 40px hsl(217 91% 60% / 0.20);
+    --transition-smooth: all 0.18s ease-out;
+
+    /* Accent aliases for Tailwind tokens */
+    --accent-info: 213 94% 66%;
+    --accent-success: 142 72% 47%;
+    --accent-warn: 36 93% 51%;
+    --accent-error: 350 88% 63%;
+  }
+
+  /* Minimal light fallback */
+  .light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -17,8 +91,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Brand: confident green for trust (AA contrast) */
-    --primary: 152 61% 32%;
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
@@ -27,7 +100,7 @@ All colors MUST be HSL.
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 33%;
 
-    --accent: 200 95% 37%;
+    --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,61 +108,9 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 152 61% 32%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 152 61% 32%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 96.1%;
-    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 152 61% 32%;
-
-    /* Extras */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(160 84% 39%) 50%, hsl(190 90% 40%) 100%);
-    --shadow-elevate: 0 10px 30px -10px hsl(var(--primary) / 0.25);
-    --transition-smooth: all 0.2s ease-out;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 152 61% 40%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 190 90% 40%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 152 61% 44%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 152 61% 44%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 152 61% 44%;
+    --radius: 1rem;
   }
 }
 
@@ -100,5 +121,15 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-image: var(--bg-nebula);
+    background-attachment: fixed;
   }
+}
+
+@layer utilities {
+  .bg-glass { background-color: hsla(var(--glass)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .bg-glass-hover { background-color: hsla(var(--glass-hover)); }
+  .border-surface { border-color: hsla(var(--surface-border)); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .bg-gradient-primary { background-image: var(--gradient-primary); }
 }
