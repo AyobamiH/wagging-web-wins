@@ -30,7 +30,7 @@ export default function SiteHeader() {
   className="h-8 w-8"
 >
   <defs>
-    <!-- Softer cosmic glow -->
+ 
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="6" result="blur1" />
       <feMerge>
@@ -39,12 +39,12 @@ export default function SiteHeader() {
       </feMerge>
     </filter>
 
-    <!-- Nebular Night gradient -->
+
     <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#3a0ca3" />  <!-- Deep space violet -->
-      <stop offset="40%" stop-color="#7209b7" /> <!-- Magenta glow -->
-      <stop offset="75%" stop-color="#4361ee" /> <!-- Electric blue -->
-      <stop offset="100%" stop-color="#4cc9f0" /> <!-- Cyan edge -->
+      <stop offset="0%" stop-color="#3a0ca3" /> 
+      <stop offset="40%" stop-color="#7209b7" />
+      <stop offset="75%" stop-color="#4361ee" /> 
+      <stop offset="100%" stop-color="#4cc9f0" /> 
     </radialGradient>
   </defs>
 
