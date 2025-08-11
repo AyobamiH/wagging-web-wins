@@ -18,6 +18,12 @@ const BRAND = {
   locality: "Northampton",
   countryCode: "GB",
   countryName: "United Kingdom",
+  sameAs: [
+    "https://www.tiktok.com/@tailwaggingwebdesigns",
+    "https://www.instagram.com/tailwaggingwebdesigns",
+    "https://www.threads.net/@tailwaggingwebdesigns",
+    "https://www.linkedin.com/in/john-haastrup/",
+  ],
 };
 
 export function Seo({
@@ -32,7 +38,7 @@ export function Seo({
   useEffect(() => {
     const origin = window.location.origin;
     const canonical = origin + path;
-    const img = imageUrl || `${origin}/favicon.ico`;
+    const img = imageUrl || `${origin}/og.png`;
 
     document.title = title;
 
@@ -77,11 +83,18 @@ export function Seo({
     const baseJsonLd: any[] = [
       {
         "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: BRAND.name,
+        url: origin,
+      },
+      {
+        "@context": "https://schema.org",
         "@type": "Organization",
         name: BRAND.name,
         url: origin,
         telephone: BRAND.phone,
         areaServed: BRAND.countryName,
+        sameAs: BRAND.sameAs,
       },
       {
         "@context": "https://schema.org",
