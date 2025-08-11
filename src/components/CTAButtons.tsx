@@ -12,7 +12,7 @@ export const CTAButtons = ({ className = "" }: { className?: string }) => (
       aria-label="Book a Free 20-Minute Consult on Calendly"
     >
       <Button className="min-w-[220px]" size="lg">
-        Book a Free 20-Minute Consult
+        Let's have a chat
       </Button>
     </a>
     <Link to="/portfolio" aria-label="See Portfolio">
@@ -37,7 +37,7 @@ export const SecondaryCTAs = ({ className = "" }: { className?: string }) => (
       aria-label="Book a Free 20-Minute Consult on Calendly"
     >
       <Button size="lg" className="min-w-[220px]">
-        Book a Free 20-Minute Consult
+        Let's have a chat
       </Button>
     </a>
   </div>
