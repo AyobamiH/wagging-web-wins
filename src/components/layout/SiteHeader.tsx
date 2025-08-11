@@ -25,35 +25,38 @@ export default function SiteHeader() {
 >
   {/* Neon Paw SVG */}
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 200 200"
-    className="h-8 w-8"
-  >
-    <defs>
-      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="blur1" />
-        <feMerge>
-          <feMergeNode in="blur1" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <radialGradient id="nebula" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#ff4de1" />
-        <stop offset="100%" stopColor="#8e2de2" />
-      </radialGradient>
-    </defs>
-    <g
-      filter="url(#glow)"
-      fill="url(#nebula)"
-      stroke="#ff4de1"
-      strokeWidth="3"
-    >
-      <ellipse cx="100" cy="130" rx="40" ry="35" />
-      <circle cx="60" cy="70" r="20" />
-      <circle cx="100" cy="50" r="20" />
-      <circle cx="140" cy="70" r="20" />
-    </g>
-  </svg>
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 200 200"
+  className="h-8 w-8"
+>
+  <defs>
+    <!-- Softer cosmic glow -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur1" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Nebular Night gradient -->
+    <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3a0ca3" />  <!-- Deep space violet -->
+      <stop offset="40%" stop-color="#7209b7" /> <!-- Magenta glow -->
+      <stop offset="75%" stop-color="#4361ee" /> <!-- Electric blue -->
+      <stop offset="100%" stop-color="#4cc9f0" /> <!-- Cyan edge -->
+    </radialGradient>
+  </defs>
+
+  <!-- Paw -->
+  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" stroke-width="3">
+    <ellipse cx="100" cy="130" rx="40" ry="35" />
+    <circle cx="60" cy="70" r="20" />
+    <circle cx="100" cy="50" r="20" />
+    <circle cx="140" cy="70" r="20" />
+  </g>
+</svg>
+
 
   <span>Tail Wagging Websites Factory</span>
 </Link>
