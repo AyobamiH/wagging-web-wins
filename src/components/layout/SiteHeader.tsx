@@ -40,7 +40,7 @@ export default function SiteHeader() {
             </NavLink>
           ))}
           <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
-            <Button size="sm">Book a Free 20-Minute Consult</Button>
+            <Button size="sm">Book a Consultation</Button>
           </a>
         </nav>
       </div>
@@ -53,7 +53,7 @@ export default function SiteHeader() {
               </NavLink>
             ))}
             <a href={CalendlyURL} target="_blank" rel="noopener noreferrer" className="py-1">
-              Book a Free 20-Minute Consult
+              Book a Consultation
             </a>
           </div>
         </div>
