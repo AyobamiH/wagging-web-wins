@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function Automations() {
   const serviceJsonLd = [{
@@ -44,7 +45,9 @@ export default function Automations() {
           </article>
         </div>
         <div className="mt-6">
-          <Link to="/contact" className="underline">Talk About Automations</Link>
+          <Link to="/contact">
+            <Button size="lg">Talk About Automations</Button>
+          </Link>
         </div>
       </section>
     </>

@@ -1,7 +1,12 @@
 import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
 
 export default function SpeedUXAudits() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const serviceJsonLd = [{
     "@context": "https://schema.org",
     "@type": "Service",
@@ -36,8 +41,27 @@ export default function SpeedUXAudits() {
             </ul>
           </article>
         </div>
-        <div className="mt-6">
-          <Link to="/contact" className="underline">Request an Audit</Link>
+        <div className="mt-6 flex gap-4">
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger asChild>
+              <Button size="lg">Try Our UX Audit Tool</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl h-[80vh]">
+              <DialogHeader>
+                <DialogTitle>Website UX Audit Tool</DialogTitle>
+              </DialogHeader>
+              <div className="flex-1 overflow-hidden">
+                <iframe
+                  src="https://tools.tailwaggingwebdesign.com"
+                  className="w-full h-full border-0 rounded-lg"
+                  title="UX Audit Tool"
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+          <Link to="/contact">
+            <Button variant="secondary" size="lg">Request Professional Audit</Button>
+          </Link>
         </div>
       </section>
     </>

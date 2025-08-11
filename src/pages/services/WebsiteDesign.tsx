@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function WebsiteDesign() {
   const serviceJsonLd = [{
@@ -50,7 +51,9 @@ export default function WebsiteDesign() {
           </article>
         </div>
         <div className="mt-6">
-          <Link to="/contact" className="underline">Request a Quote</Link>
+          <Link to="/contact">
+            <Button size="lg">Request a Quote</Button>
+          </Link>
         </div>
       </section>
     </>

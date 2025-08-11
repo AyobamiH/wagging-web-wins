@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function LocalSEO() {
   const serviceJsonLd = [{
@@ -45,7 +46,9 @@ export default function LocalSEO() {
           </article>
         </div>
         <div className="mt-6">
-          <Link to="/contact" className="underline">Book a Free Consult</Link>
+          <Link to="/contact">
+            <Button size="lg">Book a Free Consult</Button>
+          </Link>
         </div>
       </section>
     </>

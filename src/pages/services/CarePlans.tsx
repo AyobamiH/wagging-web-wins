@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function CarePlans() {
   const serviceJsonLd = [{
@@ -43,7 +44,9 @@ export default function CarePlans() {
           </article>
         </div>
         <div className="mt-6">
-          <Link to="/contact" className="underline">Choose a Care Plan</Link>
+          <Link to="/contact">
+            <Button size="lg">Choose a Care Plan</Button>
+          </Link>
         </div>
       </section>
     </>
