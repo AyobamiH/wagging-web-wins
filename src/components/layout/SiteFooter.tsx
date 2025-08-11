@@ -12,13 +12,14 @@ export default function SiteFooter() {
           </p>
           <p className="text-sm mt-2">Phone: <a className="underline" href="tel:+447402342694">+44 7402 342694</a></p>
         </div>
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-2 sm:block">
+        <nav aria-label="Footer" className="flex flex-col gap-2">
           <Link to="/services">Services</Link>
           <Link to="/portfolio">Portfolio</Link>
           <Link to="/pricing">Pricing</Link>
           <Link to="/faq">FAQ</Link>
           <Link to="/contact">Contact</Link>
         </nav>
+
         <div className="text-sm text-muted-foreground">
           <p>© {year} Tail Wagging Websites Factory Northampton.</p>
           <p>Registered in England & Wales. Privacy & Cookies.</p>
