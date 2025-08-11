@@ -1,4 +1,6 @@
 import Seo from "@/components/Seo";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Pricing() {
   return (
@@ -33,7 +35,9 @@ export default function Pricing() {
         </div>
         <p className="mt-4 text-sm text-muted-foreground">Payment plans available. Non-profits/charities — ask for reduced rates.</p>
         <div className="mt-6">
-          <a href="/contact" className="underline">Request a Quote</a>
+          <Link to="/contact">
+            <Button size="lg">Request a Quote</Button>
+          </Link>
         </div>
       </section>
     </>

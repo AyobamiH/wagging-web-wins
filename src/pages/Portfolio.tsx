@@ -1,4 +1,6 @@
 import Seo from "@/components/Seo";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Portfolio() {
   const items = [
@@ -28,7 +30,9 @@ export default function Portfolio() {
           ))}
         </div>
         <div className="mt-6">
-          <a href="#" className="underline">See More Projects</a>
+          <Link to="/contact">
+            <Button size="lg">See More Projects</Button>
+          </Link>
         </div>
       </section>
     </>

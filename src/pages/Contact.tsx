@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import Seo from "@/components/Seo";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
 
@@ -65,8 +66,8 @@ export default function Contact() {
             <button type="submit" className="bg-gradient-primary text-white px-6 py-3 rounded-2xl font-medium shadow-glow hover:scale-105 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               Send Message
             </button>
-            <a href={CalendlyURL} target="_blank" rel="noopener noreferrer" className="underline">
-              Or Book a Free 20-Minute Consult
+            <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
+              <Button variant="secondary" size="lg">Book a Free 20-Minute Consult</Button>
             </a>
           </div>
         </form>
