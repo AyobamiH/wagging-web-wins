@@ -36,5 +36,37 @@
       "jsonLdType": "SoftwareApplication"
     },
     "visibility": "public"
+  },
+  {
+    "id": "online-bookings",
+    "name": "Online Bookings",
+    "tagline": "Frictionless appointment scheduling for pet-care pros.",
+    "url": "https://bookings.tailwaggingwebdesign.com/",
+    "subdomain": "bookings.tailwaggingwebdesign.com",
+    "status": "live",
+    "category": "Bookings",
+    "tags": ["appointments","calendly","intake","reminders"],
+    "icon": "/assets/icons/bookings.svg",
+    "thumbnail": "/assets/thumbs/bookings.jpg",
+    "launchedAt": "2025-08-13",
+    "description": "Let clients book in seconds. Reduce no-shows with auto reminders and clean intake.",
+    "seo": { "keywords": ["pet care bookings","calendly","scheduling"], "jsonLdType": "SoftwareApplication" },
+    "visibility": "public"
+  },
+  {
+    "id": "global-billing",
+    "name": "Global Billing",
+    "tagline": "Invoices & receipts in multiple currencies, done right.",
+    "url": "https://globalbill.tailwaggingwebdesign.com/",
+    "subdomain": "globalbill.tailwaggingwebdesign.com",
+    "status": "live",
+    "category": "Billing",
+    "tags": ["invoices","receipts","multi-currency","tax"],
+    "icon": "/assets/icons/billing.svg",
+    "thumbnail": "/assets/thumbs/billing.jpg",
+    "launchedAt": "2025-08-13",
+    "description": "Create and send professional invoices/receipts. Store client history and export records.",
+    "seo": { "keywords": ["pet care invoices","receipts","billing"], "jsonLdType": "SoftwareApplication" },
+    "visibility": "public"
   }
 ]
