@@ -1,0 +1,40 @@
+[
+  {
+    "id": "ux-audit-tool",
+    "name": "Website Speed & UX Audit",
+    "tagline": "Get instant insights on your pet-care website's performance",
+    "url": "https://tools.tailwaggingwebdesign.com",
+    "subdomain": "tools.tailwaggingwebdesign.com",
+    "status": "live",
+    "category": "Audits",
+    "tags": ["pet-care", "seo", "performance", "ux", "speed"],
+    "icon": "",
+    "thumbnail": "",
+    "launchedAt": "2024-01-15",
+    "description": "Analyze your pet-care website's speed, mobile-friendliness, and user experience. Get actionable recommendations to improve bookings and reduce bounce rates.",
+    "seo": {
+      "keywords": ["website audit", "pet care seo", "website speed", "ux analysis"],
+      "jsonLdType": "SoftwareApplication"
+    },
+    "visibility": "public"
+  },
+  {
+    "id": "automation-builder",
+    "name": "Pet-Care Automation Builder",
+    "tagline": "Build workflows that handle bookings, reminders, and follow-ups",
+    "url": "https://automation.tailwaggingwebdesign.com",
+    "subdomain": "automation.tailwaggingwebdesign.com", 
+    "status": "live",
+    "category": "Automations",
+    "tags": ["workflows", "n8n", "zapier", "bookings", "automation"],
+    "icon": "",
+    "thumbnail": "",
+    "launchedAt": "2024-02-01",
+    "description": "Create automated workflows for appointment confirmations, reminder emails, follow-up surveys, and more. Connect your favorite tools without code.",
+    "seo": {
+      "keywords": ["pet care automation", "booking workflows", "n8n templates", "zapier integrations"],
+      "jsonLdType": "SoftwareApplication"
+    },
+    "visibility": "public"
+  }
+]

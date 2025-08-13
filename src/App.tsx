@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import MarketingLayout from "@/components/layout/MarketingLayout";
@@ -13,10 +13,11 @@ import Automations from "@/pages/services/Automations";
 import CarePlans from "@/pages/services/CarePlans";
 import SpeedUXAudits from "@/pages/services/SpeedUXAudits";
 import Pricing from "@/pages/Pricing";
-import Portfolio from "@/pages/Portfolio";
-import About from "@/pages/About";
-import FAQ from "@/pages/FAQ";
-import Contact from "@/pages/Contact";
+import ToolsHub from "./pages/ToolsHub";
+import ToolDetail from "./pages/ToolDetail";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +37,9 @@ const App = () => (
             <Route path="/services/care-plans" element={<CarePlans />} />
             <Route path="/services/speed-ux-audits" element={<SpeedUXAudits />} />
             <Route path="/pricing" element={<Pricing />} />
-            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/tools" element={<ToolsHub />} />
+            <Route path="/tools/:slug" element={<ToolDetail />} />
+            <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />

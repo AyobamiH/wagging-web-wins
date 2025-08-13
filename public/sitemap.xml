@@ -8,7 +8,9 @@
   <url><loc>/services/care-plans</loc></url>
   <url><loc>/services/speed-ux-audits</loc></url>
   <url><loc>/pricing</loc></url>
-  <url><loc>/portfolio</loc></url>
+  <url><loc>/tools</loc></url>
+  <url><loc>/tools/ux-audit-tool</loc></url>
+  <url><loc>/tools/automation-builder</loc></url>
   <url><loc>/about</loc></url>
   <url><loc>/faq</loc></url>
   <url><loc>/contact</loc></url>
