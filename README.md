@@ -1,73 +1,126 @@
-# Welcome to your Lovable project
+# Tail Wagging Websites
 
-## Project info
+A modern, responsive website for pet care business web design services. Built with React, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/0801afb0-329c-472e-8684-c99935d7c2db
+## Features
 
-## How can I edit this code?
+- **Responsive Design**: Mobile-first approach with beautiful layouts
+- **SEO Optimized**: Built-in SEO components with structured data
+- **Modern Tech Stack**: React 18, TypeScript, Vite, Tailwind CSS
+- **Component Library**: Custom UI components built on Radix UI
+- **Interactive Elements**: Modals, forms, and smooth animations
+- **Service Pages**: Dedicated pages for different service offerings
+- **Contact Forms**: Integrated contact functionality
+- **Portfolio Showcase**: Client work and testimonials
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom design system
+- **UI Components**: Radix UI primitives
+- **Routing**: React Router DOM
+- **State Management**: TanStack Query
+- **Forms**: React Hook Form with Zod validation
+- **Icons**: Lucide React
+- **Animations**: Tailwind CSS Animate
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0801afb0-329c-472e-8684-c99935d7c2db) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+ 
+- npm or yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd tail-wagging-websites
+```
 
-Follow these steps:
+2. Install dependencies:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and visit `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Available Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Base UI components (buttons, forms, etc.)
+│   └── layout/         # Layout components (header, footer, etc.)
+├── pages/              # Page components
+│   └── services/       # Service-specific pages
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+└── assets/             # Static assets
 
-This project is built with:
+public/                 # Public assets
+├── og.png             # Open Graph image
+├── robots.txt         # Search engine directives
+└── sitemap.xml        # XML sitemap
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Key Features
 
-## How can I deploy this project?
+### Services Offered
+- Website Design & Rebuilds
+- Local SEO & Content
+- Automations & CRM Integration
+- Website Care Plans
+- Speed & UX Audits
 
-Simply open [Lovable](https://lovable.dev/projects/0801afb0-329c-472e-8684-c99935d7c2db) and click on Share -> Publish.
+### Design System
+The project uses a custom design system built on Tailwind CSS with:
+- Semantic color tokens
+- Consistent spacing and typography
+- Dark/light mode support
+- Responsive breakpoints
+- Custom animations
 
-## Can I connect a custom domain to my Lovable project?
+### SEO Features
+- Dynamic meta tags and Open Graph data
+- Structured data (JSON-LD)
+- XML sitemap
+- Robots.txt
+- Breadcrumb navigation
 
-Yes, you can!
+## Deployment
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The project is optimized for deployment on any static hosting platform:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. Build the project:
+```bash
+npm run build
+```
+
+2. Deploy the `dist` folder to your hosting platform
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is proprietary software for Tail Wagging Websites.
