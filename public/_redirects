@@ -1,0 +1,5 @@
+# 301 redirects for legacy URLs
+/portfolio /tools 301!
+
+# Catch-all for SPA routing
+/* /index.html 200

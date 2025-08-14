@@ -1,16 +1,55 @@
+# Allow all search engines and crawlers
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# Specific rules for major search engines
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
+# Social media crawlers
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
 
-Sitemap: /sitemap.xml
+# AI/LLM crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OpenAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: You.com-Indexer
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Sitemap location
+Sitemap: https://tailwaggingwebdesign.com/sitemap.xml
+
+# Additional crawl instructions
+# No restrictions on crawling frequency for legitimate bots
+# All content is publicly accessible
