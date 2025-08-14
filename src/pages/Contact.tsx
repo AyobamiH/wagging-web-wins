@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import Seo from "@/components/Seo";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/cons
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ export default function Contact() {
       if (error) throw error;
 
       toast.success("Thanks — we'll reply within one business day.");
-      (e.currentTarget as HTMLFormElement).reset();
+      formRef.current?.reset();
     } catch (error) {
       console.error('Error submitting message:', error);
       toast.error("Something went wrong. Please try again or contact us directly.");
@@ -56,7 +57,7 @@ export default function Contact() {
         <p className="mt-3 text-muted-foreground max-w-2xl">
           Tell us about your services, area, and goals — we'll reply within one business day.
         </p>
-        <form onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2" aria-label="Contact form">
+        <form ref={formRef} onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2" aria-label="Contact form">
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">Name</label>
             <input id="name" name="name" required className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
