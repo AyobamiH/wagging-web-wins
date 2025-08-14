@@ -12,9 +12,9 @@ export default function Pricing() {
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Pricing", item: "/pricing" }]}
       />
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold tracking-tight">Clear, transparent starting prices.</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Transparent pricing for pet care websites.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
-          Exact quotes follow discovery, but we publish realistic starting points so you can plan.
+          No hidden costs or surprise fees. Choose the package that fits your business size and growth plans. Payment plans available.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[{

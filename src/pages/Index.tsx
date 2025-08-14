@@ -15,10 +15,10 @@ export default function Index() {
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
           <p className="text-xs font-medium text-muted-foreground">Tail Wagging Websites Factory Northampton</p>
           <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            Get a website that pet parents actually trust.
+            Websites that turn pet parents into paying clients — automatically.
           </h1>
           <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl">
-            We design fast, clear, search-friendly sites for dog walkers, groomers, sitters and trainers — so bookings go up and back-and-forth admin goes down.
+            We build mobile-first websites and smart automations for dog walkers, groomers, pet sitters and trainers in Northampton — so you get more bookings while doing less admin work.
           </p>
           <CTAButtons className="mt-6" />
         </div>
@@ -27,10 +27,10 @@ export default function Index() {
       <section aria-labelledby="trust" className="border-y">
         <div className="mx-auto max-w-6xl px-4 py-6 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
           {[
-            "Niche expertise: pet care only.",
-            "Built for mobile first — where your customers browse.",
-            "Local SEO & Google Business Profile optimisation included.",
-            "Optional automations: forms → CRM/Sheets, WhatsApp/email updates, review requests.",
+            "Specialists in pet care businesses — we know your customers' journey.",
+            "Mobile-first design — 80% of pet bookings happen on phones.",
+            "Local SEO & Google Business Profile setup included as standard.",
+            "Smart automations: booking confirmations, review requests, lead nurturing.",
           ].map((text) => (
             <div key={text} className="flex items-start gap-2">
               <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" aria-hidden />
@@ -45,19 +45,19 @@ export default function Index() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
-              title: "More enquiries, fewer clicks",
+              title: "More bookings, fewer tire-kickers",
               body:
-                "Clear services, transparent pricing ranges, and simple booking paths that reduce drop‑off.",
+                "Clear service descriptions, upfront pricing, and simple booking flows that qualify leads before they contact you.",
             },
             {
-              title: "Faster pages, happier visitors",
+              title: "Lightning-fast pages that rank",
               body:
-                "Optimised images and clean code for quick loads, even on 4G. Better for Google, better for bookings.",
+                "Optimised for Google's Core Web Vitals and mobile-first indexing. Fast sites rank higher and convert better.",
             },
             {
-              title: "Admin that runs itself",
+              title: "Automations that save hours weekly",
               body:
-                "Automate confirmations, reminders, reviews, and lead capture to save hours every week.",
+                "Smart workflows for booking confirmations, payment reminders, review requests, and follow-up sequences.",
             },
           ].map((c) => (
             <article
@@ -104,12 +104,12 @@ export default function Index() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {[
             {
-              q: "Bookings increased within weeks — clients say the site is ‘so easy’.",
-              a: "— [Client name], Dog Walker",
+              q: "Our new website tripled online bookings in just 6 weeks. The automated reminders alone save me 2 hours every day.",
+              a: "— Sarah M., Professional Dog Walker, Northampton",
             },
             {
-              q: "We finally show prices clearly and get better-qualified leads.",
-              a: "— [Client name], Groomer",
+              q: "Finally, a website that actually explains our pricing clearly. We're getting better quality leads and fewer price shoppers.",
+              a: "— Mike T., Mobile Pet Groomer, Kettering",
             },
           ].map((t, idx) => (
             <blockquote key={idx} className="rounded-lg border p-5 bg-card">

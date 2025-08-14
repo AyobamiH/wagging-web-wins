@@ -19,9 +19,9 @@ export default function Services() {
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Services", item: "/services" }]}
       />
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold tracking-tight">Services built for how pet parents actually shop.</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Digital services that grow your pet care business.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
-          We combine clear messaging, mobile-first design, and light automations so people can find you, trust you, and book you.
+          From stunning websites to local SEO and smart automations — everything you need to attract more customers, look professional, and save time on admin work.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((c) => (

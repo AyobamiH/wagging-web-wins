@@ -49,7 +49,7 @@ export default function SiteHeader() {
   </defs>
 
 
-  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" stroke-width="3">
+  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth="3">
     <ellipse cx="100" cy="130" rx="40" ry="35" />
     <circle cx="60" cy="70" r="20" />
     <circle cx="100" cy="50" r="20" />
@@ -75,27 +75,36 @@ export default function SiteHeader() {
             <NavLink
               key={n.to}
               to={n.to}
-              className={({ isActive }) => `text-sm ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+              className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
             >
               {n.label}
             </NavLink>
           ))}
           <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
-            <Button size="sm">Book a Consultation</Button>
+            <Button size="sm" className="bg-gradient-primary hover:scale-105 transition-all duration-200">Book a Consultation</Button>
           </a>
         </nav>
       </div>
       {open && (
-        <div className="sm:hidden border-t">
-          <div className="mx-auto max-w-6xl px-4 py-2 flex flex-col gap-2">
+        <div className="sm:hidden border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
             {navItems.map((n) => (
-              <NavLink key={n.to} to={n.to} onClick={() => setOpen(false)} className="py-1">
+              <NavLink 
+                key={n.to} 
+                to={n.to} 
+                onClick={() => setOpen(false)} 
+                className={({ isActive }) => `py-2 px-3 rounded-md font-medium transition-colors ${isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}
+              >
                 {n.label}
               </NavLink>
             ))}
-            <a href={CalendlyURL} target="_blank" rel="noopener noreferrer" className="py-1">
-              Book a Consultation
-            </a>
+            <div className="pt-2 border-t">
+              <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
+                <Button className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200">
+                  Book a Consultation
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       )}

@@ -27,24 +27,24 @@ export default function Contact() {
         </p>
         <form onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2" aria-label="Contact form">
           <div className="grid gap-2">
-            <label htmlFor="name">Name</label>
-            <input id="name" name="name" required className="border rounded-md px-3 py-2" />
+            <label htmlFor="name" className="text-sm font-medium">Name</label>
+            <input id="name" name="name" required className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
           </div>
           <div className="grid gap-2">
-            <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" required className="border rounded-md px-3 py-2" />
+            <label htmlFor="email" className="text-sm font-medium">Email</label>
+            <input id="email" name="email" type="email" required className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
           </div>
           <div className="grid gap-2">
-            <label htmlFor="phone">Phone</label>
-            <input id="phone" name="phone" inputMode="tel" className="border rounded-md px-3 py-2" />
+            <label htmlFor="phone" className="text-sm font-medium">Phone</label>
+            <input id="phone" name="phone" inputMode="tel" className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
           </div>
           <div className="grid gap-2">
-            <label htmlFor="business">Business Name</label>
-            <input id="business" name="business" className="border rounded-md px-3 py-2" />
+            <label htmlFor="business" className="text-sm font-medium">Business Name</label>
+            <input id="business" name="business" className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
           </div>
           <div className="grid gap-2 sm:col-span-2">
-            <label htmlFor="services">Services Offered</label>
-            <select id="services" name="services" multiple className="border rounded-md px-3 py-2 min-h-[3rem]">
+            <label htmlFor="services" className="text-sm font-medium">Services Offered</label>
+            <select id="services" name="services" multiple className="border border-border bg-background rounded-md px-3 py-2 min-h-[3rem] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
               <option>Dog walking</option>
               <option>Grooming</option>
               <option>Pet sitting</option>
@@ -54,12 +54,12 @@ export default function Contact() {
             </select>
           </div>
           <div className="grid gap-2">
-            <label htmlFor="postcode">Postcode/Area</label>
-            <input id="postcode" name="postcode" className="border rounded-md px-3 py-2" />
+            <label htmlFor="postcode" className="text-sm font-medium">Postcode/Area</label>
+            <input id="postcode" name="postcode" className="border border-border bg-background rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
           </div>
           <div className="grid gap-2 sm:col-span-2">
-            <label htmlFor="message">Message</label>
-            <textarea id="message" name="message" rows={4} className="border rounded-md px-3 py-2"></textarea>
+            <label htmlFor="message" className="text-sm font-medium">Message</label>
+            <textarea id="message" name="message" rows={4} className="border border-border bg-background rounded-md px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"></textarea>
           </div>
           <p className="text-xs text-muted-foreground sm:col-span-2">We use your details only to respond to your enquiry. No spam. Ever.</p>
           <div className="flex items-center gap-3 sm:col-span-2">

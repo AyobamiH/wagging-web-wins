@@ -79,13 +79,22 @@ export function Seo({
     }
     link.href = canonical;
 
-    // JSON-LD: Organization + LocalBusiness
+    // JSON-LD: Enhanced schema with professional services
     const baseJsonLd: any[] = [
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         name: BRAND.name,
         url: origin,
+        description: "Professional web design and digital marketing services for pet care businesses in Northampton",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${origin}/tools?search={search_term_string}`
+          },
+          "query-input": "required name=search_term_string"
+        }
       },
       {
         "@context": "https://schema.org",
@@ -93,21 +102,76 @@ export function Seo({
         name: BRAND.name,
         url: origin,
         telephone: BRAND.phone,
-        areaServed: BRAND.countryName,
+        areaServed: [
+          { "@type": "City", name: "Northampton" },
+          { "@type": "City", name: "Kettering" },
+          { "@type": "City", name: "Wellingborough" },
+          { "@type": "City", name: "Daventry" },
+          { "@type": "Country", name: BRAND.countryName }
+        ],
         sameAs: BRAND.sameAs,
+        knowsAbout: [
+          "Pet Care Website Design",
+          "Local SEO for Pet Businesses",
+          "Mobile-First Web Development",
+          "Pet Business Automation",
+          "Google Business Profile Optimization"
+        ],
+        serviceType: [
+          "Website Design",
+          "Search Engine Optimization",
+          "Digital Marketing",
+          "Business Automation",
+          "Web Development"
+        ]
       },
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        "@type": "ProfessionalService",
         name: BRAND.name,
         url: origin,
         telephone: BRAND.phone,
-        areaServed: { "@type": "Country", name: BRAND.countryName },
+        areaServed: [
+          { "@type": "City", name: "Northampton" },
+          { "@type": "City", name: "Kettering" },
+          { "@type": "City", name: "Wellingborough" },
+          { "@type": "City", name: "Daventry" }
+        ],
         address: {
           "@type": "PostalAddress",
           addressLocality: BRAND.locality,
           addressCountry: BRAND.countryCode,
         },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Pet Care Web Services",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Website Design for Pet Care Businesses",
+                description: "Mobile-first website design specifically for dog walkers, groomers, pet sitters and trainers"
+              }
+            },
+            {
+              "@type": "Offer", 
+              itemOffered: {
+                "@type": "Service",
+                name: "Local SEO for Pet Services",
+                description: "Local search optimization to help pet care businesses be found by nearby customers"
+              }
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service", 
+                name: "Pet Business Automation",
+                description: "Automated workflows for booking confirmations, reminders, and customer communication"
+              }
+            }
+          ]
+        }
       },
     ];
 
