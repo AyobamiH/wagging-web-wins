@@ -24,23 +24,6 @@ serve(async (req) => {
     const { email }: EmailUpdateData = await req.json();
     console.log('Received email update:', email);
 
-    // Insert into Supabase (with UPSERT to handle duplicates)
-    const { data, error } = await supabase
-      .from('email_updates')
-      .upsert([{ email }], { 
-        onConflict: 'email',
-        ignoreDuplicates: true 
-      })
-      .select()
-      .single();
-
-    if (error && error.code !== '23505') { // Ignore duplicate key errors
-      console.error('Database error:', error);
-      throw error;
-    }
-
-    console.log('Email saved to database:', data);
-
     // Send to webhook
     const webhookUrl = 'https://n8n.srv920835.hstgr.cloud/webhook/email-updates';
     
@@ -51,22 +34,21 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         email,
-        id: data?.id,
-        created_at: data?.created_at || new Date().toISOString(),
+        timestamp: new Date().toISOString(),
         source: 'tools_page'
       }),
     });
 
     if (!webhookResponse.ok) {
       console.error('Webhook response not ok:', webhookResponse.status, webhookResponse.statusText);
+      throw new Error(`Webhook failed with status: ${webhookResponse.status}`);
     } else {
       console.log('Email sent to webhook successfully');
     }
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: 'Email subscription successful',
-      id: data?.id 
+      message: 'Email subscription successful'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,

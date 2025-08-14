@@ -30,20 +30,6 @@ serve(async (req) => {
     const messageData: MessageData = await req.json();
     console.log('Received message data:', messageData);
 
-    // Insert into Supabase
-    const { data, error } = await supabase
-      .from('messages')
-      .insert([messageData])
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Database error:', error);
-      throw error;
-    }
-
-    console.log('Message saved to database:', data);
-
     // Send to webhook
     const webhookUrl = 'https://n8n.srv920835.hstgr.cloud/webhook/messages';
     
@@ -54,22 +40,21 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         ...messageData,
-        id: data.id,
-        created_at: data.created_at,
+        timestamp: new Date().toISOString(),
         source: 'contact_form'
       }),
     });
 
     if (!webhookResponse.ok) {
       console.error('Webhook response not ok:', webhookResponse.status, webhookResponse.statusText);
+      throw new Error(`Webhook failed with status: ${webhookResponse.status}`);
     } else {
       console.log('Message sent to webhook successfully');
     }
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: 'Message submitted successfully',
-      id: data.id 
+      message: 'Message submitted successfully'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
