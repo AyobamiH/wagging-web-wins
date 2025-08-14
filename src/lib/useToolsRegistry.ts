@@ -7,7 +7,7 @@ export interface Tool {
   tagline: string;
   url: string;
   subdomain: string;
-  status: 'live' | 'beta' | 'coming_soon' | 'internal';
+  status: 'coming_soon' | 'beta' | 'coming_soon' | 'internal';
   category: "Audits" | "Calculators" | "Automations" | "Bookings" | "Billing" | "Templates" | "Other";
   tags: string[];
   icon?: string;
