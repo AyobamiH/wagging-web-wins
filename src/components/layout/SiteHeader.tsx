@@ -49,7 +49,7 @@ export default function SiteHeader() {
   </defs>
 
 
-  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth="3">
+  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth={3}>
     <ellipse cx="100" cy="130" rx="40" ry="35" />
     <circle cx="60" cy="70" r="20" />
     <circle cx="100" cy="50" r="20" />

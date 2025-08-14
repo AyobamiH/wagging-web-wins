@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { ToolCard } from "@/components/ToolCard";
 import { ToolFilters } from "@/components/ToolFilters";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,17 +16,31 @@ export default function ToolsHub() {
   const { tools, loading, error } = useToolsRegistry();
   const [filteredTools, setFilteredTools] = useState<Tool[]>([]);
   const [email, setEmail] = useState("");
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
   const handleFilteredToolsChange = useCallback((newFilteredTools: Tool[]) => {
     setFilteredTools(newFilteredTools);
   }, []);
 
-  const handleEmailCapture = (e: React.FormEvent) => {
+  const handleEmailCapture = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Wire up email capture
-    console.log("Email captured:", email);
-    setEmail("");
-    // Show success toast or feedback
+    setIsSubmittingEmail(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('submit-email-update', {
+        body: { email }
+      });
+
+      if (error) throw error;
+
+      toast.success("Thanks! You'll receive updates about new tools.");
+      setEmail("");
+    } catch (error) {
+      console.error('Error submitting email:', error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmittingEmail(false);
+    }
   };
 
   const EmptyState = () => (
@@ -112,9 +128,14 @@ export default function ToolsHub() {
                 required
                 className="min-w-[200px]"
               />
-              <Button type="submit" variant="secondary" size="default">
+              <Button 
+                type="submit" 
+                variant="secondary" 
+                size="default"
+                disabled={isSubmittingEmail}
+              >
                 <Mail className="h-4 w-4 mr-1" />
-                Join Updates
+                {isSubmittingEmail ? 'Joining...' : 'Join Updates'}
               </Button>
             </form>
           </div>
