@@ -7,11 +7,7 @@ interface StatusBadgeProps {
 }
 
 const statusConfig = {
-  live: {
-    label: 'Live',
-    variant: 'default' as const,
-    className: 'text-white bg-[linear-gradient(90deg,hsl(var(--accent-success)),hsl(var(--accent-success)))]'
-  },
+ 
   beta: {
     label: 'Beta',
     variant: 'secondary' as const,
