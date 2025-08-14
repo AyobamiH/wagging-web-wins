@@ -67,7 +67,7 @@ export const ToolFilters = ({ tools, onFilteredToolsChange }: ToolFiltersProps) 
   // Notify parent of filtered tools changes
   useEffect(() => {
     onFilteredToolsChange(filteredAndSortedTools);
-  }, [filteredAndSortedTools, onFilteredToolsChange]);
+  }, [filteredAndSortedTools]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev => 
