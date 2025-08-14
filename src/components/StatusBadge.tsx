@@ -7,12 +7,12 @@ interface StatusBadgeProps {
 }
 
 const statusConfig = {
-  comming_soon: {
+  coming_soon: {
     label: 'Live',
     variant: 'default' as const,
     className: 'text-white bg-[linear-gradient(90deg,hsl(var(--accent-success)),hsl(var(--accent-success)))]'
   },
-  comming_soon: {
+  coming_soon: {
     label: 'Beta',
     variant: 'secondary' as const,
     className: 'text-foreground bg-[hsla(var(--accent-warn)/0.2)] border-[hsla(var(--accent-warn)/0.3)]'
@@ -22,7 +22,7 @@ const statusConfig = {
     variant: 'outline' as const,
     className: 'text-muted-foreground'
   },
-  comming_soon: {
+  coming_soon: {
     label: 'Internal',
     variant: 'outline' as const,
     className: 'text-muted-foreground opacity-50'
