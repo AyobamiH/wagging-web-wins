@@ -81,10 +81,47 @@ export default function ToolsHub() {
   return (
     <>
       <Seo
-        title="Free Tools for Pet-Care Pros | Tail Wagging Websites"
-        description="Discover free tools to grow your pet-care business. Website audits, automation builders, and more utilities to attract bookings and streamline operations."
+        title="Free Pet Care Business Tools | Tail Wagging Websites Factory"
+        description="Free tools for pet care businesses: website audits, automation builders, booking systems, and billing solutions. Boost your pet business today."
         path="/tools"
+        keywords={[
+          "free pet care business tools",
+          "pet business automation tools",
+          "website audit for pet care",
+          "pet booking system",
+          "pet care billing software",
+          "dog walker tools",
+          "pet grooming business tools",
+          "free SEO audit pet websites"
+        ]}
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Tools", item: "/tools" }]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Free Pet Care Business Tools",
+            description: "Collection of free tools designed specifically for pet care businesses",
+            mainEntity: {
+              "@type": "ItemList",
+              name: "Pet Care Business Tools",
+              numberOfItems: tools.length,
+              itemListElement: tools.map((tool, index) => ({
+                "@type": "SoftwareApplication",
+                "@id": `https://tailwaggingwebdesign.com/tools/${tool.id}`,
+                name: tool.name,
+                description: tool.description,
+                url: `https://tailwaggingwebdesign.com/tools/${tool.id}`,
+                applicationCategory: tool.category,
+                operatingSystem: "Web Browser",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "GBP"
+                }
+              }))
+            }
+          }
+        ]}
       />
       
       <section className="mx-auto max-w-6xl px-4 py-10">

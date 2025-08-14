@@ -50,7 +50,39 @@ export default function Contact() {
         title="Contact | Tail Wagging Websites"
         description="Tell us about your services, area and goals — we'll reply within one business day."
         path="/contact"
+        keywords={[
+          "contact pet web designer",
+          "pet website consultation",
+          "Northampton web design contact",
+          "pet business website quote",
+          "dog walker website consultation"
+        ]}
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Contact", item: "/contact" }]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            name: "Contact Tail Wagging Websites",
+            description: "Get in touch for your pet care website project",
+            mainEntity: {
+              "@type": "Organization",
+              name: "Tail Wagging Websites Factory Northampton",
+              telephone: "+44 7402 342694",
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+44 7402 342694",
+                contactType: "Customer Service",
+                availableLanguage: "English",
+                hoursAvailable: {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  opens: "09:00",
+                  closes: "17:00"
+                }
+              }
+            }
+          }
+        ]}
       />
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>

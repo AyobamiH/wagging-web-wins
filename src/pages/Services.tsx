@@ -16,7 +16,40 @@ export default function Services() {
         title="Services for Pet Care | Tail Wagging Websites Factory"
         description="Services built for how pet parents shop: design, local SEO, automations, care plans and audits."
         path="/services"
+        keywords={[
+          "pet care web services",
+          "dog walker website design",
+          "pet business local SEO",
+          "pet grooming website",
+          "website automation for pet businesses",
+          "pet care website maintenance",
+          "UX audit for pet websites"
+        ]}
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Services", item: "/services" }]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ServiceCatalog",
+            name: "Pet Care Web Services",
+            description: "Complete web design and digital marketing services for pet care businesses",
+            provider: {
+              "@type": "Organization",
+              name: "Tail Wagging Websites Factory Northampton"
+            },
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Pet Care Digital Services",
+              itemListElement: cards.map((card, index) => ({
+                "@type": "Offer",
+                "@id": `https://tailwaggingwebdesign.com${card.href}`,
+                name: card.title,
+                description: card.desc,
+                url: `https://tailwaggingwebdesign.com${card.href}`,
+                category: "Web Design Service"
+              }))
+            }
+          }
+        ]}
       />
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="text-3xl font-bold tracking-tight">Digital services that grow your pet care business.</h1>

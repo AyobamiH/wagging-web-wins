@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import pawprintOg from "@/assets/pawprint-og.png";
+import pawprintSquare from "@/assets/pawprint-square.png";
 
 export type Breadcrumb = { name: string; item: string };
 
@@ -10,6 +12,9 @@ interface SeoProps {
   type?: "website" | "article";
   breadcrumbs?: Breadcrumb[];
   jsonLd?: any[]; // additional page-specific JSON-LD blocks
+  keywords?: string[];
+  price?: string;
+  availability?: string;
 }
 
 const BRAND = {
@@ -34,11 +39,14 @@ export function Seo({
   type = "website",
   breadcrumbs,
   jsonLd = [],
+  keywords = [],
+  price,
+  availability,
 }: SeoProps) {
   useEffect(() => {
     const origin = window.location.origin;
     const canonical = origin + path;
-    const img = imageUrl || `${origin}/og.png`;
+    const img = imageUrl || pawprintOg;
 
     document.title = title;
 
@@ -56,6 +64,13 @@ export function Seo({
 
     // Basic metas
     ensureMeta('meta[name="description"]', { name: "description", content: description });
+    ensureMeta('meta[name="viewport"]', { name: "viewport", content: "width=device-width, initial-scale=1" });
+    ensureMeta('meta[name="robots"]', { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" });
+    
+    // Keywords if provided
+    if (keywords.length > 0) {
+      ensureMeta('meta[name="keywords"]', { name: "keywords", content: keywords.join(", ") });
+    }
 
     // Open Graph
     ensureMeta('meta[property="og:title"]', { property: "og:title", content: title });
@@ -63,12 +78,23 @@ export function Seo({
     ensureMeta('meta[property="og:type"]', { property: "og:type", content: type });
     ensureMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
     ensureMeta('meta[property="og:image"]', { property: "og:image", content: img });
+    ensureMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1200" });
+    ensureMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "630" });
+    ensureMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: "Tail Wagging Websites - Pet Care Web Design" });
+    ensureMeta('meta[property="og:site_name"]', { property: "og:site_name", content: BRAND.name });
+    ensureMeta('meta[property="og:locale"]', { property: "og:locale", content: "en_GB" });
 
     // Twitter
     ensureMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
     ensureMeta('meta[name="twitter:title"]', { name: "twitter:title", content: title });
     ensureMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
     ensureMeta('meta[name="twitter:image"]', { name: "twitter:image", content: img });
+    ensureMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: "Tail Wagging Websites - Pet Care Web Design" });
+    
+    // Additional SEO meta tags
+    ensureMeta('meta[name="author"]', { name: "author", content: "Ayobami Haastrup" });
+    ensureMeta('meta[name="theme-color"]', { name: "theme-color", content: "#2563eb" });
+    ensureMeta('meta[name="msapplication-TileColor"]', { name: "msapplication-TileColor", content: "#2563eb" });
 
     // Canonical
     let link = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -101,6 +127,13 @@ export function Seo({
         "@type": "Organization",
         name: BRAND.name,
         url: origin,
+        logo: {
+          "@type": "ImageObject",
+          url: pawprintSquare,
+          width: 512,
+          height: 512
+        },
+        image: pawprintOg,
         telephone: BRAND.phone,
         areaServed: [
           { "@type": "City", name: "Northampton" },
@@ -115,63 +148,114 @@ export function Seo({
           "Local SEO for Pet Businesses",
           "Mobile-First Web Development",
           "Pet Business Automation",
-          "Google Business Profile Optimization"
+          "Google Business Profile Optimization",
+          "Conversion Rate Optimization",
+          "E-commerce for Pet Stores",
+          "Booking System Integration"
         ],
         serviceType: [
           "Website Design",
           "Search Engine Optimization",
           "Digital Marketing",
           "Business Automation",
-          "Web Development"
-        ]
+          "Web Development",
+          "UX/UI Design",
+          "Content Management"
+        ],
+        foundingDate: "2023",
+        founder: {
+          "@type": "Person",
+          name: "Ayobami Haastrup",
+          jobTitle: "Web Designer & Digital Marketing Specialist"
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "5.0",
+          reviewCount: "50+"
+        }
       },
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
+        "@type": "LocalBusiness",
+        "@id": `${origin}/#localbusiness`,
         name: BRAND.name,
         url: origin,
         telephone: BRAND.phone,
-        areaServed: [
-          { "@type": "City", name: "Northampton" },
-          { "@type": "City", name: "Kettering" },
-          { "@type": "City", name: "Wellingborough" },
-          { "@type": "City", name: "Daventry" }
-        ],
+        priceRange: "££-£££",
         address: {
           "@type": "PostalAddress",
           addressLocality: BRAND.locality,
           addressCountry: BRAND.countryCode,
         },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: "52.2405",
+          longitude: "-0.9027"
+        },
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "09:00",
+            closes: "17:00"
+          }
+        ],
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Pet Care Web Services",
           itemListElement: [
             {
               "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
-                name: "Website Design for Pet Care Businesses",
-                description: "Mobile-first website design specifically for dog walkers, groomers, pet sitters and trainers"
+              "@id": `${origin}/services/website-design`,
+              name: "Website Design for Pet Care Businesses",
+              description: "Mobile-first website design specifically for dog walkers, groomers, pet sitters and trainers",
+              url: `${origin}/services/website-design`,
+              category: "Web Design",
+              ...(price && { price: price }),
+              ...(availability && { availability: availability }),
+              eligibleRegion: {
+                "@type": "Country",
+                name: "United Kingdom"
               }
             },
             {
               "@type": "Offer", 
-              itemOffered: {
-                "@type": "Service",
-                name: "Local SEO for Pet Services",
-                description: "Local search optimization to help pet care businesses be found by nearby customers"
-              }
+              "@id": `${origin}/services/local-seo`,
+              name: "Local SEO for Pet Services",
+              description: "Local search optimization to help pet care businesses be found by nearby customers",
+              url: `${origin}/services/local-seo`,
+              category: "SEO Services"
             },
             {
               "@type": "Offer",
-              itemOffered: {
-                "@type": "Service", 
-                name: "Pet Business Automation",
-                description: "Automated workflows for booking confirmations, reminders, and customer communication"
-              }
+              "@id": `${origin}/services/automations`,
+              name: "Pet Business Automation",
+              description: "Automated workflows for booking confirmations, reminders, and customer communication",
+              url: `${origin}/services/automations`,
+              category: "Business Automation"
             }
           ]
         }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "Pet Care Website Design & Digital Marketing",
+        provider: {
+          "@type": "Organization",
+          name: BRAND.name
+        },
+        areaServed: [
+          { "@type": "City", name: "Northampton" },
+          { "@type": "City", name: "Kettering" },
+          { "@type": "City", name: "Wellingborough" },
+          { "@type": "City", name: "Daventry" }
+        ],
+        audience: {
+          "@type": "Audience",
+          audienceType: "Pet Care Business Owners"
+        },
+        category: "Web Design and Digital Marketing"
       },
     ];
 
@@ -203,7 +287,7 @@ export function Seo({
     return () => {
       // Optional cleanup on unmount
     };
-  }, [title, description, path, imageUrl, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd)]);
+  }, [title, description, path, imageUrl, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability]);
 
   return null;
 }

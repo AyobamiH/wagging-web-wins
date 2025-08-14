@@ -15,15 +15,56 @@ export default function WebsiteDesign() {
   return (
     <>
       <Seo
-        title="Website Design for Pet Care | Tail Wagging Websites"
-        description="Mobile-first, accessible design with clear services, pricing ranges and simple booking flows."
+        title="Pet Care Website Design | Mobile-First Sites That Convert | Northampton"
+        description="Professional website design for dog walkers, groomers, pet sitters & trainers. Mobile-first, conversion-optimized sites that turn visitors into clients."
         path="/services/website-design"
+        keywords={[
+          "pet care website design",
+          "dog walker website design",
+          "pet grooming website",
+          "pet sitter website design",
+          "mobile-first pet websites",
+          "conversion optimized pet sites",
+          "Northampton pet website design",
+          "responsive pet care websites"
+        ]}
+        price="From £497"
+        availability="InStock"
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Services", item: "/services" },
-          { name: "Website Design & Rebuilds", item: "/services/website-design" },
+          { name: "Website Design", item: "/services/website-design" }
         ]}
-        jsonLd={serviceJsonLd}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://tailwaggingwebdesign.com/services/website-design",
+            name: "Pet Care Website Design",
+            description: "Professional website design for dog walkers, groomers, pet sitters & trainers",
+            provider: {
+              "@type": "Organization",
+              name: "Tail Wagging Websites Factory Northampton"
+            },
+            offers: {
+              "@type": "Offer",
+              name: "Website Design Package",
+              price: "497",
+              priceCurrency: "GBP",
+              availability: "https://schema.org/InStock",
+              validFrom: "2023-01-01"
+            },
+            areaServed: [
+              { "@type": "City", name: "Northampton" },
+              { "@type": "City", name: "Kettering" },
+              { "@type": "City", name: "Wellingborough" }
+            ],
+            audience: {
+              "@type": "BusinessAudience",
+              businessType: "Pet Care Business"
+            }
+          }
+        ]}
       />
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="text-3xl font-bold tracking-tight">Clean, fast websites that turn browsers into bookings.</h1>

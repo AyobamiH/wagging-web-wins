@@ -9,7 +9,30 @@ export default function Index() {
         title="Pet Care Web Design in Northampton | Tail Wagging Websites Factory"
         description="Mobile-first websites and automations for dog walkers, groomers, sitters and trainers. Clear pricing, local SEO, and faster pages. Book a free consult."
         path="/"
+        keywords={[
+          "pet care website design",
+          "dog walker websites Northampton",
+          "pet grooming website design",
+          "pet sitting web design",
+          "mobile-first pet websites",
+          "local SEO for pet businesses",
+          "pet business automation",
+          "Northampton web design"
+        ]}
         breadcrumbs={[{ name: "Home", item: "/" }]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://tailwaggingwebdesign.com/#webpage",
+            name: "Pet Care Web Design in Northampton",
+            description: "Mobile-first websites and automations for dog walkers, groomers, sitters and trainers",
+            isPartOf: {
+              "@type": "WebSite",
+              "@id": "https://tailwaggingwebdesign.com/#website"
+            }
+          }
+        ]}
       />
       <section className="hero">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
