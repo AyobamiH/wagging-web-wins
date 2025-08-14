@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,10 @@ export default function ToolsHub() {
   const { tools, loading, error } = useToolsRegistry();
   const [filteredTools, setFilteredTools] = useState<Tool[]>([]);
   const [email, setEmail] = useState("");
+
+  const handleFilteredToolsChange = useCallback((newFilteredTools: Tool[]) => {
+    setFilteredTools(newFilteredTools);
+  }, []);
 
   const handleEmailCapture = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,7 +133,7 @@ export default function ToolsHub() {
             <div className="mb-8">
               <ToolFilters 
                 tools={tools} 
-                onFilteredToolsChange={setFilteredTools}
+                onFilteredToolsChange={handleFilteredToolsChange}
               />
             </div>
 

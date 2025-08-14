@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -65,7 +65,7 @@ export const ToolFilters = ({ tools, onFilteredToolsChange }: ToolFiltersProps) 
   }, [tools, searchQuery, selectedCategories, selectedStatuses, sortBy]);
 
   // Notify parent of filtered tools changes
-  useMemo(() => {
+  useEffect(() => {
     onFilteredToolsChange(filteredAndSortedTools);
   }, [filteredAndSortedTools, onFilteredToolsChange]);
 
