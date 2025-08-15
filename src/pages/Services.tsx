@@ -281,7 +281,7 @@ export default function Services() {
               <h2 className="font-semibold text-foreground">{c.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{c.desc}</p>
               <div className="mt-4">
-                <Button asChild variant="outline" size="sm" className="rounded-lg border p-5 hover:shadow-md transition-shadow">
+                <Button asChild variant="secondary" size="sm" className="rounded-lg border p-5 hover:shadow-md transition-shadow">
                   <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
                     Learn More
                   </Link>
