@@ -152,10 +152,17 @@ export default function Contact() {
 />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Contact a Pet Web Designer in Northampton</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
-          Tell us about your services, area, and goals — we'll reply within one business day.
+          Book a <strong>pet website consultation</strong> or request a <strong>pet business website quote</strong>. We build fast, SEO-ready sites for dog walkers, dog groomers, pet sitters, and vets across <strong>Northamptonshire</strong>.
         </p>
+        
+        <div className="mt-6 mb-6">
+          <h2 className="text-xl font-semibold mb-2">Areas We Serve</h2>
+          <p className="text-muted-foreground">
+            Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury.
+          </p>
+        </div>
         <form ref={formRef} onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2" aria-label="Contact form">
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">Name</label>
