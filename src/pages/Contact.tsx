@@ -210,6 +210,24 @@ export default function Contact() {
           Phone <a className="underline" href="tel:+447402342694">+44 7402 342694</a> • <a className="underline" href={CalendlyURL} target="_blank" rel="noopener noreferrer">Calendly</a>
         </div>
       </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <h2 className="text-2xl font-bold tracking-tight mb-6">Frequently Asked Questions</h2>
+        <div className="grid gap-6 max-w-4xl">
+          <div className="border border-border rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-2">How much does a pet website cost in Northampton?</h3>
+            <p className="text-muted-foreground">We start with a free consultation. Packages scale from Starter to Enterprise based on bookings, reviews, and automations.</p>
+          </div>
+          <div className="border border-border rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-2">Do you work with dog walkers, groomers and vets?</h3>
+            <p className="text-muted-foreground">Yes—our niche is pet-care. We build for dog walkers, groomers, sitters and veterinary practices with local SEO included.</p>
+          </div>
+          <div className="border border-border rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-2">Can you audit my current site first?</h3>
+            <p className="text-muted-foreground">Yes. We'll run a quick performance and SEO audit and share clear next steps before any build.</p>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

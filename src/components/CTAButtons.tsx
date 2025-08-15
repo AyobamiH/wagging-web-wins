@@ -15,9 +15,9 @@ export const CTAButtons = ({ className = "" }: { className?: string }) => (
         Let's have a chat
       </Button>
     </a>
-    <Link to="/portfolio" aria-label="See Portfolio">
+    <Link to="/tools" aria-label="Explore Tools">
       <Button variant="secondary" size="lg" className="min-w-[160px]">
-        See Portfolio
+        Explore Tools
       </Button>
     </Link>
   </div>

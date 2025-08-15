@@ -14,7 +14,7 @@ export default function SiteFooter() {
         </div>
         <nav aria-label="Footer" className="flex flex-col gap-2">
           <Link to="/services">Services</Link>
-          <Link to="/portfolio">Portfolio</Link>
+          <Link to="/tools">Tools</Link>
           <Link to="/pricing">Pricing</Link>
           <Link to="/faq">FAQ</Link>
           <Link to="/contact">Contact</Link>
