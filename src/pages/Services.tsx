@@ -71,6 +71,7 @@
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { CTAButtons } from "@/components/CTAButtons";
+import { Button } from "@/components/ui/button";
 
 export default function Services() {
   // --- Service cards (UI + used in JSON-LD) ---
@@ -273,18 +274,20 @@ export default function Services() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((c) => (
-            <Link
+            <div
               key={c.href}
-              to={c.href}
-              className="rounded-lg border p-5 hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-offset-2"
-              aria-label={c.title}
+              className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
             >
-              <h2 className="font-semibold">{c.title}</h2>
+              <h2 className="font-semibold text-foreground">{c.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{c.desc}</p>
-              <span className="mt-3 inline-block text-sm font-medium underline underline-offset-4">
-                Learn more
-              </span>
-            </Link>
+              <div className="mt-4">
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
+                    Learn More
+                  </Link>
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
 
