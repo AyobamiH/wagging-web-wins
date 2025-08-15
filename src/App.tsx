@@ -15,7 +15,6 @@ import SpeedUXAudits from "@/pages/services/SpeedUXAudits";
 import Pricing from "@/pages/Pricing";
 import ToolsHub from "./pages/ToolsHub";
 import ToolDetail from "./pages/ToolDetail";
-import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 
@@ -40,7 +39,6 @@ const App = () => (
             <Route path="/tools" element={<ToolsHub />} />
             <Route path="/tools/:slug" element={<ToolDetail />} />
             <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
-            <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
