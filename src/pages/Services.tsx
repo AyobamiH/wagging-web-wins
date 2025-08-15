@@ -70,6 +70,7 @@
 // }
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
+import { CTAButtons } from "@/components/CTAButtons";
 
 export default function Services() {
   // --- Service cards (UI + used in JSON-LD) ---
@@ -295,23 +296,14 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Simple CTA row */}
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link
-            to="/contact"
-            className="rounded-lg bg-yellow-500 px-5 py-2.5 font-medium text-gray-900 hover:bg-yellow-400 transition-colors"
-          >
-            Request a Quote
-          </Link>
-          <a
-            href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
-            className="rounded-lg border px-5 py-2.5 font-medium hover:shadow-sm transition"
-          >
-            Book a Free Consultation
-          </a>
-          <a href="tel:+447402342694" className="text-sm underline underline-offset-4">
-            +44 7402 342694
-          </a>
+        {/* CTA Section */}
+        <div className="mt-8">
+          <CTAButtons className="justify-center sm:justify-start" />
+          <div className="mt-4 text-center sm:text-left">
+            <a href="tel:+447402342694" className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
+              Or call us: +44 7402 342694
+            </a>
+          </div>
         </div>
 
         {/* Visible FAQ that mirrors JSON-LD */}
