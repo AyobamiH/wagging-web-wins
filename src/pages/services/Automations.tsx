@@ -41,6 +41,7 @@ export default function Automations() {
       "@type": "Service",
       "@id": "https://tailwagginwebdesign.com/services/automations#service",
       "name": "Automations & CRM for Pet Businesses",
+      "description": "Automate forms to Sheets/CRM, confirmations, reminders, and review requests.",
       "serviceType": "Workflow Automation",
       "url": "https://tailwagginwebdesign.com/services/automations",
       "areaServed": ["Northampton","Wellingborough","Kettering","Daventry","Towcester","Rushden","Corby","Milton Keynes","Banbury","Northamptonshire"],
