@@ -154,7 +154,7 @@ export default function Contact() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         
         <p className="text-xs font-medium text-muted-foreground">Areas We Serve</p>
-        <p className="text-xs font-medium text-muted-foreground">Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury.</p>
+        <p variant="secondary" className="text-xs font-medium text-muted-foreground">Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury.</p>
         
         <h1 className="text-3xl font-bold tracking-tight"><span> </span>Let's make your website your best employee.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
