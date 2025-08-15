@@ -47,43 +47,110 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact | Tail Wagging Websites"
-        description="Tell us about your services, area and goals — we'll reply within one business day."
-        path="/contact"
-        keywords={[
-          "contact pet web designer",
-          "pet website consultation",
-          "Northampton web design contact",
-          "pet business website quote",
-          "dog walker website consultation"
-        ]}
-        breadcrumbs={[{ name: "Home", item: "/" }, { name: "Contact", item: "/contact" }]}
-        jsonLd={[
-          {
-            "@context": "https://schema.org",
-            "@type": "ContactPage",
-            name: "Contact Tail Wagging Websites",
-            description: "Get in touch for your pet care website project",
-            mainEntity: {
-              "@type": "Organization",
-              name: "Tail Wagging Websites Factory Northampton",
-              telephone: "+44 7402 342694",
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+44 7402 342694",
-                contactType: "Customer Service",
-                availableLanguage: "English",
-                hoursAvailable: {
-                  "@type": "OpeningHoursSpecification",
-                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                  opens: "09:00",
-                  closes: "17:00"
-                }
-              }
-            }
-          }
-        ]}
-      />
+  title="Contact Pet Web Designer in Northampton | Tail Wagging Websites"
+  description="Book a free pet website consultation in Northampton. Request a quote for dog walkers, groomers, sitters & vets across Northamptonshire."
+  path="/contact"
+  keywords={[
+    // Primary intent + locale
+    "contact pet web designer northampton",
+    "pet website consultation northampton",
+    "northampton pet web design contact",
+    "pet business website quote northampton",
+    "book pet web design consultation",
+    "request pet website quote",
+    // Niche services
+    "dog walker website consultation",
+    "dog groomer website designer northampton",
+    "pet sitter website designer northampton",
+    "veterinary website design northampton",
+    "dog daycare website design",
+    "pet grooming website design",
+    "vet practice website designer",
+    "animal care website design",
+    // Local discovery & service-area terms
+    "pet web design agency northamptonshire",
+    "northamptonshire pet web design",
+    "local pet website developer",
+    "pet website designer near me northampton",
+    // Outcome/benefit terms (intent)
+    "seo for pet businesses northampton",
+    "responsive pet website design",
+    "pet business branding and websites",
+    "web design for dog walkers northampton",
+    "pet website contact northampton"
+  ]}
+  breadcrumbs={[{ name: "Home", item: "/" }, { name: "Contact", item: "/contact" }]}
+  jsonLd={[
+    // Organization (referenced by other nodes)
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://tailwagginwebdesign.com/#org",
+      "name": "Tail Wagging Websites Factory Northampton",
+      "url": "https://tailwagginwebdesign.com/",
+      "logo": "https://tailwagginwebdesign.com/og.png",
+      "telephone": "+447402342694",
+      "areaServed": ["Northamptonshire", "Northampton", "Wellingborough", "Kettering", "Daventry", "Towcester", "Rushden", "Corby", "Milton Keynes", "Banbury"],
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "+447402342694",
+        "contactType": "customer service",
+        "availableLanguage": ["English"],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      }]
+    },
+    // Contact page
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "@id": "https://tailwagginwebdesign.com/contact#contact",
+      "url": "https://tailwagginwebdesign.com/contact",
+      "name": "Contact Pet Web Designer in Northampton",
+      "inLanguage": "en-GB",
+      "description": "Book a free pet website consultation or request a quote for dog walkers, groomers, sitters and vets across Northamptonshire.",
+      "about": { "@id": "https://tailwagginwebdesign.com/#org" },
+      "publisher": { "@id": "https://tailwagginwebdesign.com/#org" }
+    },
+    // Breadcrumbs
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tailwagginwebdesign.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://tailwagginwebdesign.com/contact" }
+      ]
+    },
+    // FAQ (boosts long-tail; keep answers concise on page)
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": "https://tailwagginwebdesign.com/contact#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does a pet website cost in Northampton?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We start with a free consultation. Packages scale from Starter to Enterprise based on bookings, reviews, and automations." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you work with dog walkers, groomers and vets?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes—our niche is pet-care. We build for dog walkers, groomers, sitters and veterinary practices with local SEO included." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you audit my current site first?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. We’ll run a quick performance and SEO audit and share clear next steps before any build." }
+        }
+      ]
+    }
+  ]}
+/>
+
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
