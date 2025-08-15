@@ -3,14 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export default function CarePlans() {
-  const serviceJsonLd = [{
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "Website Care Plans",
-    description: "Keep your site fast, secure, backed up and updated with monthly care.",
-    areaServed: "United Kingdom",
-    provider: { "@type": "Organization", name: "Tail Wagging Websites Factory Northampton" },
-  }];
+  
 
   return (
     <>
