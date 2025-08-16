@@ -68,10 +68,9 @@ export default function Pricing() {
     try {
       const { data, error } = await supabase.functions.invoke('create-buy-plan-session', {
         body: {
-          planId,
           planName,
-          price: price * 100, // Convert to pence
-          currency: 'gbp'
+          planPrice: price, // Send as regular number, not in pence
+          onboardingFee: 0, // No onboarding fee for now
         },
       });
 
@@ -80,8 +79,8 @@ export default function Pricing() {
       }
 
       if (data?.url) {
-        // Open Stripe checkout in a new tab
-        window.open(data.url, '_blank');
+        // Redirect to Stripe checkout (same tab)
+        window.location.href = data.url;
       } else {
         throw new Error('No checkout URL received');
       }

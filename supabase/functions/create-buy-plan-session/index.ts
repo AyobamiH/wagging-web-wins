@@ -21,11 +21,11 @@ serve(async (req) => {
       throw new Error('STRIPE_SECRET_KEY is not set');
     }
 
-    const { planId, planName, price, currency } = await req.json();
-    console.log('Request data:', { planId, planName, price, currency });
+    const { planName, planPrice, onboardingFee } = await req.json();
+    console.log('Request data:', { planName, planPrice, onboardingFee });
 
-    if (!planId || !planName || !price) {
-      throw new Error('Missing required fields: planId, planName, or price');
+    if (!planName || !planPrice) {
+      throw new Error('Missing required fields: planName or planPrice');
     }
 
     const stripe = new Stripe(stripeKey, {
@@ -34,18 +34,21 @@ serve(async (req) => {
 
     const origin = req.headers.get('origin') || 'https://your-domain.com';
     
+    // Calculate total price (planPrice + onboardingFee)
+    const totalPrice = (parseFloat(planPrice) + (parseFloat(onboardingFee) || 0)) * 100; // Convert to pence
+    
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
-            currency: currency || 'gbp',
+            currency: 'gbp',
             product_data: {
               name: `${planName} Website Package`,
               description: `Professional pet care website - ${planName} package`,
             },
-            unit_amount: price, // Price should already be in pence/cents
+            unit_amount: totalPrice, // Price in pence
           },
           quantity: 1,
         },
@@ -54,8 +57,9 @@ serve(async (req) => {
       success_url: `${origin}/pricing?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/pricing?canceled=true`,
       metadata: {
-        planId: planId,
         planName: planName,
+        planPrice: planPrice.toString(),
+        onboardingFee: (onboardingFee || 0).toString(),
       },
     });
 
