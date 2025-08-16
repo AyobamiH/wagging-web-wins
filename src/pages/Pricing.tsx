@@ -63,21 +63,26 @@ export default function Pricing() {
     setLoadingPlan(planId);
     
     try {
-      const { data, error } = await supabase.functions.invoke('create-buy-plan-session', {
-        body: {
+      const response = await fetch("https://backend-c469.onrender.com/create-buy-plan-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           planName,
-          planPrice: price, // Send as regular number, not in pence
+          planPrice: parseFloat(price.toString()), // Ensure numeric value
           onboardingFee: 0, // No onboarding fee for now
-        },
+        }),
       });
 
-      if (error) {
-        throw new Error(error.message || 'Failed to create checkout session');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server Error Response:", errorText);
+        throw new Error('Failed to create checkout session');
       }
 
-      if (data?.url) {
+      const { url } = await response.json();
+      if (url) {
         // Redirect to Stripe checkout (same tab)
-        window.location.href = data.url;
+        window.location.href = url;
       } else {
         throw new Error('No checkout URL received');
       }
