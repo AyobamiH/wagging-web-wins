@@ -1,14 +1,9 @@
 import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { Shield, Lock, CreditCard, Users, CheckCircle, Star } from "lucide-react";
 
 export default function Pricing() {
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const packages = [
     {
@@ -59,60 +54,20 @@ export default function Pricing() {
   ];
 
 
-  const handlePurchase = async (planId: string, planName: string, price: number) => {
-    setLoadingPlan(planId);
-    
-    try {
-      const response = await fetch("https://backend-c469.onrender.com/create-buy-plan-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          planName,
-          planPrice: parseFloat(price.toString()), // Ensure numeric value
-          onboardingFee: 0, // No onboarding fee for now
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server Error Response:", errorText);
-        throw new Error('Failed to create checkout session');
-      }
-
-      const { url } = await response.json();
-      if (url) {
-        // Redirect to Stripe checkout (same tab)
-        window.location.href = url;
-      } else {
-        throw new Error('No checkout URL received');
-      }
-      
-    } catch (error) {
-      console.error('Checkout error:', error);
-      toast({
-        title: "Payment Error",
-        description: "Unable to start checkout process. Please try again or contact support.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoadingPlan(null);
-    }
-  };
 
   return (
     <>
       <Seo
-        title="Buy Pet Website Packages | Transparent Pricing - Tail Wagging Websites"
-        description="Purchase professional pet website packages starting from £750. Starter, Pro and Growth plans with instant checkout. Flexible payment options for pet care businesses."
+        title="Pet Website Packages | Pricing & Packages - Tail Wagging Websites"
+        description="Professional pet website packages starting from £750. View our Starter, Pro and Growth plans. Contact us for a custom quote and flexible payment options."
         path="/pricing"
         keywords={[
-          "buy pet website package",
+          "pet website packages",
           "pet website pricing northampton",
-          "purchase pet web design",
-          "pet website packages online",
-          "dog walker website price",
-          "pet grooming website cost",
-          "buy website for pet business",
+          "pet web design packages",
+          "dog walker website cost",
+          "pet grooming website pricing",
+          "pet business website quote",
           "pet care web design pricing"
         ]}
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "Pricing", item: "/pricing" }]}
@@ -185,15 +140,15 @@ export default function Pricing() {
                 ))}
               </ul>
               
-              <Button 
-                className="w-full"
-                size="lg"
-                onClick={() => handlePurchase(pkg.id, pkg.name, pkg.priceValue)}
-                disabled={loadingPlan === pkg.id}
-                variant={pkg.popular ? "default" : "outline"}
-              >
-                {loadingPlan === pkg.id ? "Processing..." : `Purchase ${pkg.name}`}
-              </Button>
+              <Link to="/contact">
+                <Button 
+                  className="w-full"
+                  size="lg"
+                  variant={pkg.popular ? "default" : "outline"}
+                >
+                  Get Quote
+                </Button>
+              </Link>
             </article>
           ))}
         </div>
