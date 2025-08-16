@@ -105,6 +105,7 @@ export default function SpeedUXAudits() {
                   src="https://tools.tailwaggingwebdesign.com"
                   className="w-full h-full border-0 rounded-lg"
                   title="UX Audit Tool"
+                  loading="lazy"
                 />
               </div>
             </DialogContent>
