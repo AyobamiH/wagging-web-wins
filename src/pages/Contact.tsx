@@ -3,6 +3,7 @@ import Seo from "@/components/Seo";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import NorthamptonMap from "@/components/NorthamptonMap";
 
 const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
 
@@ -232,6 +233,8 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
+      <NorthamptonMap />
     </>
   );
 }
