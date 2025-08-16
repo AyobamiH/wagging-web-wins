@@ -32,7 +32,9 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
-    const origin = req.headers.get('origin') || 'https://your-domain.com';
+    const originHeader = req.headers.get('origin');
+    const refererHeader = req.headers.get('referer');
+    const origin = originHeader || (refererHeader ? new URL(refererHeader).origin : undefined) || 'https://0801afb0-329c-472e-8684-c99935d7c2db.lovableproject.com';
     
     // Calculate total price (planPrice + onboardingFee)
     const totalPrice = (parseFloat(planPrice) + (parseFloat(onboardingFee) || 0)) * 100; // Convert to pence

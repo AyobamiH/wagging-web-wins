@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Pricing() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
@@ -57,10 +57,6 @@ export default function Pricing() {
     }
   ];
 
-  const supabase = createClient(
-    "https://nhtqfxzxbcxqslkuetpo.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5odHFmeHp4YmN4cXNsa3VldHBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQxMTE5NDQsImV4cCI6MjA0OTY4Nzk0NH0.QcPJkgJmh6VbPk2kOPGEGQq5s-xsXWHCxBjwgAHUbFE"
-  );
 
   const handlePurchase = async (planId: string, planName: string, price: number) => {
     setLoadingPlan(planId);
