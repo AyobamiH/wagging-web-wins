@@ -1,1 +1,4 @@
 project_id = "viwxxjnehceedyctevau"
+
+[functions.create-buy-plan-session]
+verify_jwt = false

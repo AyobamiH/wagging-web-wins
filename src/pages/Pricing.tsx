@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { createClient } from "@supabase/supabase-js";
 
 export default function Pricing() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
@@ -56,30 +57,29 @@ export default function Pricing() {
     }
   ];
 
+  const supabase = createClient(
+    "https://nhtqfxzxbcxqslkuetpo.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5odHFmeHp4YmN4cXNsa3VldHBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQxMTE5NDQsImV4cCI6MjA0OTY4Nzk0NH0.QcPJkgJmh6VbPk2kOPGEGQq5s-xsXWHCxBjwgAHUbFE"
+  );
+
   const handlePurchase = async (planId: string, planName: string, price: number) => {
     setLoadingPlan(planId);
     
     try {
-      const response = await fetch('https://backend-c469.onrender.com/create-buy-plan-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('create-buy-plan-session', {
+        body: {
           planId,
           planName,
-          price: price * 100, // Convert to cents
+          price: price * 100, // Convert to pence
           currency: 'gbp'
-        }),
+        },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+      if (error) {
+        throw new Error(error.message || 'Failed to create checkout session');
       }
 
-      const data = await response.json();
-      
-      if (data.url) {
+      if (data?.url) {
         // Open Stripe checkout in a new tab
         window.open(data.url, '_blank');
       } else {
