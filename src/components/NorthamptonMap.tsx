@@ -41,13 +41,17 @@ const NorthamptonMap = () => {
           Serving Northampton Pet Care Professionals
         </h2>
         <p className="text-muted-foreground text-lg sm:text-xl mb-8 max-w-3xl mx-auto">
-          Tailwagging Web Design Factory is a Northampton-based web design service dedicated to helping local pet care businesses thrive online.
+          Tail Wagging Websites Factory Northampton is dedicated to helping local pet care businesses thrive online across Northamptonshire.
         </p>
-        <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg border border-border">
+        <div className="w-full h-96 rounded-lg overflow-hidden shadow-glow border border-border">
           <div
             ref={mapContainer}
             className="w-full h-96 md:h-80 sm:h-72"
           />
+        </div>
+        <div className="mt-6 text-sm text-muted-foreground">
+          <p>📍 Based in Northampton • Serving all of Northamptonshire</p>
+          <p className="mt-2">Contact us: <a href="tel:+447402342694" className="underline hover:text-foreground transition-colors">+44 7402 342694</a></p>
         </div>
       </div>
     </section>

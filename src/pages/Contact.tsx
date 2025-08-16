@@ -49,16 +49,18 @@ export default function Contact() {
     <>
       <Seo
   title="Contact Pet Web Designer in Northampton | Tail Wagging Websites"
-  description="Book a free pet website consultation in Northampton. Request a quote for dog walkers, groomers, sitters & vets across Northamptonshire."
+  description="Book a free pet website consultation in Northampton. Request a quote for dog walkers, groomers, sitters & vets across Northamptonshire. View our service area map and contact details."
   path="/contact"
   keywords={[
     // Primary intent + locale
     "contact pet web designer northampton",
     "pet website consultation northampton",
     "northampton pet web design contact",
-    "pet business website quote northampton",
+    "pet business website quote northampton", 
     "book pet web design consultation",
     "request pet website quote",
+    "pet web design service area map",
+    "northampton pet web design location",
     // Niche services
     "dog walker website consultation",
     "dog groomer website designer northampton",
@@ -153,9 +155,10 @@ export default function Contact() {
 />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        
-        <p  className="text-xs font-medium text-muted-foreground">We Serve</p>
-        <p className="text-xs font-medium text-muted-foreground">Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury.</p>
+        <div className="mb-6">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Service Areas</p>
+          <p className="text-sm text-muted-foreground mt-1">Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury</p>
+        </div>
         
         <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">

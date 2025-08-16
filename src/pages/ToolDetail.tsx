@@ -78,7 +78,7 @@ export default function ToolDetail() {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Tail Wagging Websites"
+      "name": "Tail Wagging Websites Factory Northampton"
     }
   };
 
