@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import { trackCalendlyOpen } from "@/lib/analytics";
 
 interface CalendlyEmbedProps {
   buttonText?: string;
@@ -9,6 +10,7 @@ interface CalendlyEmbedProps {
   buttonSize?: "default" | "sm" | "lg";
   className?: string;
   ariaLabel?: string;
+  trackingLocation?: string;
 }
 
 const CALENDLY_URL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
@@ -18,14 +20,20 @@ export const CalendlyEmbed = ({
   buttonVariant = "default",
   buttonSize = "default",
   className = "",
-  ariaLabel = "Book a Free 20-Minute Consult"
+  ariaLabel = "Book a Free 20-Minute Consult",
+  trackingLocation = "unknown"
 }: CalendlyEmbedProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    trackCalendlyOpen(trackingLocation);
+    setIsOpen(true);
+  };
 
   return (
     <>
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         variant={buttonVariant}
         size={buttonSize}
         className={className}

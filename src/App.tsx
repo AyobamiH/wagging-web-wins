@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { trackPageView } from "@/lib/analytics";
 import MarketingLayout from "@/components/layout/MarketingLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
@@ -34,12 +35,24 @@ const isTradesSubdomain = typeof window !== 'undefined' &&
   (window.location.hostname === 'trades.tailwaggingwebdesign.com' || 
    window.location.hostname === 'localhost' && window.location.search.includes('trades=true'));
 
+// Component to track page views
+const PageViewTracker = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location]);
+  
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PageViewTracker />
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route element={<MarketingLayout />}>

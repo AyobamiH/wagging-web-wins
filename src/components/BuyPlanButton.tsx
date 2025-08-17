@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 
 interface BuyPlanButtonProps {
   planName: string;
@@ -22,6 +23,11 @@ const BuyPlanButton = ({
 
   const handleCheckout = async () => {
     console.log("Checkout Details:", { planName, planPrice, onboardingFee });
+    trackEvent('payment_initiated', {
+      plan_name: planName,
+      plan_price: planPrice,
+      onboarding_fee: onboardingFee
+    });
     setIsLoading(true);
 
     try {

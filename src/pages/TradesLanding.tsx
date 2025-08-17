@@ -2,6 +2,8 @@ import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Wrench, ShieldCheck, TrendingUp, Phone, Mail, MapPin, Zap, Hammer, Settings, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
+import { trackCTAClick } from "@/lib/analytics";
 
 export default function TradesLanding() {
   return (
@@ -54,25 +56,6 @@ export default function TradesLanding() {
         ]}
       />
       
-      {/* Custom Header for Trades */}
-      <header className="border-b bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Hammer className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">Trades Web Design</span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a href="#services" className="text-sm hover:text-primary transition-colors">Services</a>
-            <a href="#pricing" className="text-sm hover:text-primary transition-colors">Pricing</a>
-            <a href="#faq" className="text-sm hover:text-primary transition-colors">FAQ</a>
-            <Button size="sm">
-              <Phone className="h-4 w-4 mr-2" />
-              Book Consultation
-            </Button>
-          </nav>
-        </div>
-      </header>
-
       <section className="hero">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
           <p className="text-xs font-medium text-muted-foreground">Trades Websites Northampton</p>
@@ -83,14 +66,22 @@ export default function TradesLanding() {
             We build mobile-first websites and smart automations for electricians, plumbers, builders and skilled tradespeople in Northampton — so you get more enquiries while focusing on the work you love.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              <Phone className="h-4 w-4 mr-2" />
-              Book Free Consultation
-            </Button>
-            <Button variant="outline" size="lg">
-              View Our Work
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+            <CalendlyEmbed
+              buttonText="Book Free Consultation"
+              buttonSize="lg"
+              className="bg-primary hover:bg-primary/90"
+              trackingLocation="trades_hero"
+            />
+            <Link to="/tools">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => trackCTAClick('view_work', 'trades_hero')}
+              >
+                View Our Work
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -238,9 +229,12 @@ export default function TradesLanding() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-full mt-6" variant={pkg.popular ? "default" : "outline"}>
-                Get Started
-              </Button>
+              <CalendlyEmbed
+                buttonText="Get Started"
+                className="w-full"
+                buttonVariant={pkg.popular ? "default" : "outline"}
+                trackingLocation={`trades_${pkg.name.toLowerCase()}_package`}
+              />
             </div>
           ))}
         </div>
@@ -343,75 +337,23 @@ export default function TradesLanding() {
           Join dozens of successful tradespeople in Northampton who trust us with their online presence.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Button size="lg">
-            <Phone className="h-4 w-4 mr-2" />
-            Book Free Consultation
-          </Button>
-          <Button variant="outline" size="lg">
-            <Mail className="h-4 w-4 mr-2" />
-            Get Quote via Email
-          </Button>
+          <CalendlyEmbed
+            buttonText="Book Free Consultation"
+            buttonSize="lg"
+            trackingLocation="trades_bottom_cta"
+          />
+          <Link to="/contact">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => trackCTAClick('get_quote_email', 'trades_bottom_cta')}
+            >
+              <Mail className="h-4 w-4 mr-2" />
+              Get Quote via Email
+            </Button>
+          </Link>
         </div>
       </section>
-
-      {/* Custom Footer for Trades */}
-      <footer className="border-t bg-muted/40">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Hammer className="h-6 w-6 text-primary" />
-                <span className="font-bold">Trades Web Design</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Professional websites and digital marketing for tradespeople in Northampton.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-3">Services</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">Website Design</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Local SEO</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Lead Generation</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Business Automation</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-3">Trades We Serve</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Electricians</li>
-                <li>Plumbers</li>
-                <li>Builders</li>
-                <li>Heating Engineers</li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-3">Contact</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  <span>01604 123456</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  <span>trades@tailwaggingwebdesign.com</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Northampton, UK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2025 Trades Web Design. Part of Tail Wagging Web Design. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
