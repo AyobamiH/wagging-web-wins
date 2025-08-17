@@ -1,30 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowLeft, Mail, Calendar } from "lucide-react";
 
+interface SessionData {
+  id: string;
+  paymentStatus: string;
+  amountTotal: number;
+  currency: string;
+  planName: string;
+  onboardingFee: string;
+  firstInstallment: string;
+  questionnaireId?: string;
+}
+
 const PaymentSuccess = () => {
-  const [searchParams] = useSearchParams();
-  const sessionId = searchParams.get("session_id");
+  const { sessionId } = useParams<{ sessionId: string }>();
   const [isLoading, setIsLoading] = useState(true);
+  const [sessionData, setSessionData] = useState<SessionData | null>(null);
 
   useEffect(() => {
-    // Simulate loading time for better UX
+    const fetchSessionData = async () => {
+      if (!sessionId) return;
+      
+      try {
+        const response = await fetch(`https://backend-c469.onrender.com/success/stripe/${sessionId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setSessionData(data);
+        }
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+      fetchSessionData();
+    }, 1500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [sessionId]);
 
   return (
     <>
       <Seo
         title="Payment Successful - Tail Wagging Web Design"
         description="Thank you for your purchase! Your payment has been processed successfully."
-        path="/payment-success"
+        path={`/success/stripe/${sessionId}`}
         keywords={["payment success", "purchase confirmation", "web design", "pet business"]}
       />
 
@@ -52,7 +78,31 @@ const PaymentSuccess = () => {
               </CardHeader>
 
               <CardContent className="space-y-6">
-                {sessionId && (
+                <p className="text-muted-foreground text-lg">
+                  Your payment has been processed successfully and your order is confirmed.
+                </p>
+                {sessionData && (
+                  <div className="bg-muted rounded-lg p-4 mt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Plan:</span>
+                      <span>{sessionData.planName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Amount:</span>
+                      <span>£{sessionData.amountTotal} {sessionData.currency}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Payment Status:</span>
+                      <span className="capitalize">{sessionData.paymentStatus}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="font-medium">Transaction ID:</span>
+                      <span className="font-mono text-primary">{sessionData.id}</span>
+                    </div>
+                  </div>
+                )}
+
+                {sessionId && !sessionData && (
                   <div className="bg-muted/50 rounded-lg p-4">
                     <p className="text-sm text-muted-foreground mb-1">Transaction ID:</p>
                     <p className="font-mono text-xs break-all">{sessionId}</p>

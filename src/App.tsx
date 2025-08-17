@@ -49,8 +49,8 @@ const App = () => (
               <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/payment-cancel" element={<PaymentCancel />} />
+              <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
+              <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/payment-failed" element={<PaymentFailed />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -11,7 +11,7 @@ const PaymentCancel = () => {
       <Seo
         title="Payment Cancelled - Tail Wagging Web Design"
         description="Your payment was cancelled. You can try again anytime."
-        path="/payment-cancel"
+        path="/cancel"
         keywords={["payment cancelled", "checkout cancelled", "web design", "pet business"]}
       />
 
