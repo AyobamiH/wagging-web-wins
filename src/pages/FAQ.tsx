@@ -1,5 +1,10 @@
+import { useState, useMemo } from "react";
 import Seo from "@/components/Seo";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, MessageCircle, CreditCard, Shield, Palette, TrendingUp, Target } from "lucide-react";
 
 export default function FAQ() {
   const categories = [
@@ -103,8 +108,61 @@ export default function FAQ() {
     ]
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
+
+  const categoryIcons = {
+    "General Questions": MessageCircle,
+    "Services Offered": Target,
+    "Pricing and Payments": CreditCard,
+    "Policies and Procedures": Shield,
+    "General Website & Design": Palette,
+    "Marketing & Online Presence": TrendingUp,
+    "Niche-Specific Questions": Target
+  };
+
+  const categoryColors = {
+    "General Questions": "bg-blue-500/10 text-blue-700 border-blue-200",
+    "Services Offered": "bg-purple-500/10 text-purple-700 border-purple-200",
+    "Pricing and Payments": "bg-green-500/10 text-green-700 border-green-200",
+    "Policies and Procedures": "bg-red-500/10 text-red-700 border-red-200",
+    "General Website & Design": "bg-pink-500/10 text-pink-700 border-pink-200",
+    "Marketing & Online Presence": "bg-orange-500/10 text-orange-700 border-orange-200",
+    "Niche-Specific Questions": "bg-indigo-500/10 text-indigo-700 border-indigo-200"
+  };
+
+  // Flatten all FAQ items for search
+  const allFaqItems = useMemo(() => {
+    return categories.flatMap(category => 
+      faqData[category].map(item => ({
+        ...item,
+        category,
+        id: `${category}-${item.question}`.replace(/\s+/g, '-').toLowerCase()
+      }))
+    );
+  }, [categories, faqData]);
+
+  // Filter FAQ items based on search and category
+  const filteredItems = useMemo(() => {
+    let items = allFaqItems;
+    
+    if (activeCategory !== "all") {
+      items = items.filter(item => item.category === activeCategory);
+    }
+    
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      items = items.filter(item => 
+        item.question.toLowerCase().includes(query) ||
+        item.answer.toLowerCase().includes(query)
+      );
+    }
+    
+    return items;
+  }, [allFaqItems, activeCategory, searchQuery]);
+
   // Generate JSON-LD structured data from all FAQ items
-  const allFaqItems = categories.flatMap(category => 
+  const jsonLdItems = categories.flatMap(category => 
     faqData[category].map(item => ({
       "@type": "Question",
       name: item.question,
@@ -118,7 +176,7 @@ export default function FAQ() {
   const faqJsonLd = [{
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: allFaqItems
+    mainEntity: jsonLdItems
   }];
 
   return (
@@ -130,32 +188,138 @@ export default function FAQ() {
         breadcrumbs={[{ name: "Home", item: "/" }, { name: "FAQ", item: "/faq" }]}
         jsonLd={faqJsonLd}
       />
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold tracking-tight mb-4">Frequently Asked Questions</h1>
-        <p className="text-lg text-muted-foreground mb-8">
-          Everything you need to know about our pet care website design and marketing services in Northampton.
-        </p>
-        
-        <div className="space-y-6">
-          {categories.map((category) => (
-            <div key={category} className="space-y-4">
-              <h2 className="text-xl font-semibold text-primary">{category}</h2>
-              <Accordion type="single" collapsible className="w-full">
-                {faqData[category].map((item, index) => (
-                  <AccordionItem key={index} value={`${category}-${index}`}>
-                    <AccordionTrigger className="text-left">
-                      {item.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">
-                      {item.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+      
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+        {/* Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+          <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Frequently Asked Questions
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+                Everything you need to know about our pet care website design and marketing services in Northampton.
+              </p>
             </div>
-          ))}
+            
+            {/* Search Bar */}
+            <div className="mx-auto mt-10 max-w-xl">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search FAQs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 h-12 bg-background/50 backdrop-blur-sm border-primary/20 focus:border-primary/50"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Main Content */}
+        <div className="mx-auto max-w-6xl px-4 py-12">
+          <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+            {/* Category Tabs */}
+            <div className="mb-8 overflow-x-auto">
+              <TabsList className="inline-flex w-max min-w-full justify-start bg-muted/50 p-1">
+                <TabsTrigger value="all" className="whitespace-nowrap">
+                  All Questions ({allFaqItems.length})
+                </TabsTrigger>
+                {categories.map((category) => {
+                  const Icon = categoryIcons[category];
+                  const count = faqData[category].length;
+                  return (
+                    <TabsTrigger key={category} value={category} className="whitespace-nowrap">
+                      <Icon className="mr-2 h-4 w-4" />
+                      {category} ({count})
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </div>
+
+            {/* FAQ Content */}
+            <div className="space-y-4">
+              {filteredItems.length === 0 ? (
+                <Card className="p-8 text-center">
+                  <div className="text-muted-foreground">
+                    <Search className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                    <h3 className="text-lg font-medium mb-2">No results found</h3>
+                    <p>Try adjusting your search or browse different categories.</p>
+                  </div>
+                </Card>
+              ) : (
+                filteredItems.map((item) => {
+                  const Icon = categoryIcons[item.category];
+                  const colorClass = categoryColors[item.category];
+                  
+                  return (
+                    <Card key={item.id} className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-start justify-between gap-4">
+                          <CardTitle className="text-lg leading-tight group-hover:text-primary transition-colors">
+                            {item.question}
+                          </CardTitle>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Badge variant="secondary" className={`${colorClass} text-xs`}>
+                              <Icon className="mr-1 h-3 w-3" />
+                              {item.category}
+                            </Badge>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-muted-foreground leading-relaxed">
+                          {item.answer}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Results Count */}
+            {searchQuery && (
+              <div className="mt-6 text-center text-sm text-muted-foreground">
+                Showing {filteredItems.length} result{filteredItems.length !== 1 ? 's' : ''} 
+                {searchQuery && (
+                  <span> for "{searchQuery}"</span>
+                )}
+              </div>
+            )}
+          </Tabs>
+
+          {/* CTA Section */}
+          <div className="mt-16 text-center">
+            <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-semibold mb-2">Still have questions?</h3>
+                <p className="text-muted-foreground mb-4">
+                  Can't find what you're looking for? Get in touch with our team.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <a 
+                    href="tel:+447402342694" 
+                    className="inline-flex items-center justify-center px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  >
+                    Call +44 7402 342694
+                  </a>
+                  <a 
+                    href="mailto:heryourbarme@live.com" 
+                    className="inline-flex items-center justify-center px-6 py-2 border border-primary text-primary rounded-md hover:bg-primary/10 transition-colors"
+                  >
+                    Send Email
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
