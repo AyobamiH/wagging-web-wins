@@ -6,8 +6,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { useToolsRegistry, trackToolClick } from "@/lib/useToolsRegistry";
 import { ExternalLink, ArrowLeft, Share2, Calendar, Lightbulb, Users, CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export default function ToolDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -269,15 +268,11 @@ export default function ToolDetail() {
               <p className="text-sm text-muted-foreground mb-4">
                 Book a free consultation to get personalized guidance on using our tools.
               </p>
-              <a
-                href={CalendlyURL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button size="sm" className="w-full">
-                  Book Consultation
-                </Button>
-              </a>
+              <CalendlyEmbed
+                buttonText="Book Consultation"
+                buttonSize="sm"
+                className="w-full"
+              />
             </div>
           </div>
         </div>

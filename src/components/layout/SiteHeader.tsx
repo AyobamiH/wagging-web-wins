@@ -1,8 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
-const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
+import CalendlyEmbed from "../CalendlyEmbed";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -81,9 +80,11 @@ export default function SiteHeader() {
               {n.label}
             </NavLink>
           ))}
-          <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
-            <Button size="sm" className="bg-gradient-primary hover:scale-105 transition-all duration-200">Book a Consultation</Button>
-          </a>
+          <CalendlyEmbed
+            buttonText="Book a Consultation"  
+            buttonSize="sm"
+            className="bg-gradient-primary hover:scale-105 transition-all duration-200"
+          />
         </nav>
       </div>
       {open && (
@@ -100,11 +101,10 @@ export default function SiteHeader() {
               </NavLink>
             ))}
             <div className="pt-2 border-t">
-              <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200">
-                  Book a Consultation
-                </Button>
-              </a>
+              <CalendlyEmbed
+                buttonText="Book a Consultation"
+                className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200"
+              />
             </div>
           </div>
         </div>

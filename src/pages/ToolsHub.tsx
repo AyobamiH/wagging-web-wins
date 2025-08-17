@@ -9,8 +9,7 @@ import { ToolFilters } from "@/components/ToolFilters";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToolsRegistry, Tool } from "@/lib/useToolsRegistry";
 import { ExternalLink, Mail, Wrench } from "lucide-react";
-
-const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export default function ToolsHub() {
   const { tools, loading, error } = useToolsRegistry();
@@ -144,17 +143,12 @@ export default function ToolsHub() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <a
-              href={CalendlyURL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Book a Free Tools Walkthrough"
-            >
-              <Button size="lg" className="min-w-[250px]">
-                <ExternalLink className="h-5 w-5 mr-2" />
-                Book a Free Tools Walkthrough
-              </Button>
-            </a>
+            <CalendlyEmbed
+              buttonText="Book a Free Tools Walkthrough"
+              buttonSize="lg"
+              className="min-w-[250px]"
+              ariaLabel="Book a Free Tools Walkthrough"
+            />
             
             <form onSubmit={handleEmailCapture} className="flex gap-2 w-full sm:w-auto">
               <Input
@@ -218,15 +212,10 @@ export default function ToolsHub() {
               We build tailored solutions for pet-care professionals. 
               Let's discuss your specific needs.
             </p>
-            <a
-              href={CalendlyURL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button size="lg">
-                Schedule a Custom Tools Consultation
-              </Button>
-            </a>
+            <CalendlyEmbed
+              buttonText="Schedule a Custom Tools Consultation"
+              buttonSize="lg"
+            />
           </div>
         )}
       </section>

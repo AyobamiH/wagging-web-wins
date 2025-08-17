@@ -4,8 +4,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import NorthamptonMap from "@/components/NorthamptonMap";
-
-const CalendlyURL = "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -209,13 +208,15 @@ export default function Contact() {
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
-            <a href={CalendlyURL} target="_blank" rel="noopener noreferrer">
-              <Button variant="secondary" size="lg">Book a Free 20-Minute Consult</Button>
-            </a>
+            <CalendlyEmbed
+              buttonText="Book a Free 20-Minute Consult"
+              buttonVariant="secondary"
+              buttonSize="lg"
+            />
           </div>
         </form>
         <div className="mt-6 text-sm">
-          Phone <a className="underline" href="tel:+447402342694">+44 7402 342694</a> • <a className="underline" href={CalendlyURL} target="_blank" rel="noopener noreferrer">Calendly</a>
+          Phone <a className="underline" href="tel:+447402342694">+44 7402 342694</a> • Book online above
         </div>
       </section>
 
