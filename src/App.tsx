@@ -9,6 +9,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 
 // Lazy load components to reduce initial bundle size
 const Index = lazy(() => import("./pages/Index"));
+const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
 const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
@@ -28,6 +29,11 @@ const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
 
 const queryClient = new QueryClient();
 
+// Check if we're on the trades subdomain
+const isTradesSubdomain = typeof window !== 'undefined' && 
+  (window.location.hostname === 'trades.tailwaggingwebdesign.com' || 
+   window.location.hostname === 'localhost' && window.location.search.includes('trades=true'));
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -37,7 +43,8 @@ const App = () => (
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route element={<MarketingLayout />}>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
+              <Route path="/trades" element={<TradesLanding />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/website-design" element={<WebsiteDesign />} />
               <Route path="/services/local-seo" element={<LocalSEO />} />

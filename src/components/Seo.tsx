@@ -15,6 +15,8 @@ interface SeoProps {
   keywords?: string[];
   price?: string;
   availability?: string;
+  noIndex?: boolean;
+  canonicalOverride?: string;
 }
 
 const BRAND = {
@@ -42,6 +44,8 @@ export function Seo({
   keywords = [],
   price,
   availability,
+  noIndex = false,
+  canonicalOverride
 }: SeoProps) {
   useEffect(() => {
     const origin = window.location.origin;
@@ -65,7 +69,10 @@ export function Seo({
     // Basic metas
     ensureMeta('meta[name="description"]', { name: "description", content: description });
     ensureMeta('meta[name="viewport"]', { name: "viewport", content: "width=device-width, initial-scale=1" });
-    ensureMeta('meta[name="robots"]', { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" });
+    
+    // Set robots meta (noindex if specified, otherwise default)
+    const robotsContent = noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+    ensureMeta('meta[name="robots"]', { name: "robots", content: robotsContent });
     
     // Keywords if provided
     if (keywords.length > 0) {
@@ -96,14 +103,15 @@ export function Seo({
     ensureMeta('meta[name="theme-color"]', { name: "theme-color", content: "#2563eb" });
     ensureMeta('meta[name="msapplication-TileColor"]', { name: "msapplication-TileColor", content: "#2563eb" });
 
-    // Canonical
+    // Canonical (use override if provided, otherwise construct from origin + path)
+    const finalCanonical = canonicalOverride || canonical;
     let link = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!link) {
       link = document.createElement("link");
       link.rel = "canonical";
       document.head.appendChild(link);
     }
-    link.href = canonical;
+    link.href = finalCanonical;
 
     // JSON-LD: Enhanced schema with professional services
     const baseJsonLd: any[] = [
@@ -287,7 +295,7 @@ export function Seo({
     return () => {
       // Optional cleanup on unmount
     };
-  }, [title, description, path, imageUrl, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability]);
+  }, [title, description, path, imageUrl, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability, noIndex, canonicalOverride]);
 
   return null;
 }
