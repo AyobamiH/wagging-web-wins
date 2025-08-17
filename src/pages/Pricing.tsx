@@ -2,6 +2,7 @@ import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Shield, Lock, CreditCard, Users, CheckCircle, Star } from "lucide-react";
+import BuyPlanButton from "@/components/BuyPlanButton";
 
 export default function Pricing() {
 
@@ -58,8 +59,8 @@ export default function Pricing() {
   return (
     <>
       <Seo
-        title="Pet Website Packages | Pricing & Packages - Tail Wagging Websites"
-        description="Professional pet website packages starting from £750. View our Starter, Pro and Growth plans. Contact us for a custom quote and flexible payment options."
+        title="Buy Pet Website Packages | Transparent Pricing - Tail Wagging Websites"
+        description="Purchase professional pet website packages starting from £750. Starter, Pro and Growth plans with instant checkout. Flexible payment options for pet care businesses."
         path="/pricing"
         keywords={[
           "pet website packages",
@@ -140,15 +141,12 @@ export default function Pricing() {
                 ))}
               </ul>
               
-              <Link to="/contact">
-                <Button 
-                  className="w-full"
-                  size="lg"
-                  variant={pkg.popular ? "default" : "outline"}
-                >
-                  Get Quote
-                </Button>
-              </Link>
+              <BuyPlanButton
+                planName={pkg.name}
+                planPrice={pkg.priceValue}
+                onboardingFee={0}
+                variant={pkg.popular ? "default" : "outline"}
+              />
             </article>
           ))}
         </div>
