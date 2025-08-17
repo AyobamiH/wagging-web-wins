@@ -36,11 +36,11 @@ export const CalendlyEmbed = ({
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl w-full h-[80vh] p-0">
-          <DialogHeader className="p-6 pb-0">
-            <DialogTitle>Schedule Your Free Consultation</DialogTitle>
+        <DialogContent className="max-w-5xl w-full h-[90vh] p-0 flex flex-col">
+          <DialogHeader className="p-4 pb-2 shrink-0">
+            <DialogTitle className="text-center">Schedule Your Free Consultation</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 p-6 pt-2">
+          <div className="flex-1 min-h-0 px-4 pb-4">
             <iframe
               src={CALENDLY_URL}
               width="100%"
