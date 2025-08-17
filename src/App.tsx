@@ -21,6 +21,7 @@ const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Contact = lazy(() => import("./pages/Contact"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>
