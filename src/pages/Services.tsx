@@ -342,19 +342,7 @@ export default function Services() {
 
         <section className="bg-muted/40 border-y">
           <div className="mx-auto max-w-6xl px-4 py-8">
-            <div className="text-center">
-              <h2 className="text-xl font-semibold tracking-tight mb-3">
-                Looking for trades website design?
-              </h2>
-              <p className="text-muted-foreground mb-4">
-                We also specialize in professional websites for electricians, plumbers, builders, and other skilled tradespeople.
-              </p>
-              <Button asChild>
-                <a href="https://trades.tailwaggingwebdesign.com">
-                  View Trades Services
-                </a>
-              </Button>
-            </div>
+            
           </div>
         </section>
       </section>
