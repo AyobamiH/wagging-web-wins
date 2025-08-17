@@ -22,6 +22,8 @@ const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Contact = lazy(() => import("./pages/Contact"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
+const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,8 @@ const App = () => (
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-cancel" element={<PaymentCancel />} />
+              <Route path="/payment-failed" element={<PaymentFailed />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

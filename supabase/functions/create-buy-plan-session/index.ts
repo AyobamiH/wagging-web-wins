@@ -57,7 +57,7 @@ serve(async (req) => {
       ],
       mode: 'payment',
       success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/pricing?canceled=true`,
+      cancel_url: `${origin}/payment-cancel`,
       metadata: {
         planName: planName,
         planPrice: planPrice.toString(),
