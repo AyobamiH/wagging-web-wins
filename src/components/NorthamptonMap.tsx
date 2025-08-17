@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { Button } from "@/components/ui/button";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXlvYmFtaWoiLCJhIjoiY20wczlscGtxMGhweTJpc2JlaTV5a3V0bCJ9.2I7odcwuW_Zz0Et9tQcwJw';
 
@@ -51,7 +52,11 @@ const NorthamptonMap = () => {
         </div>
         <div className="mt-6 text-sm text-muted-foreground">
           <p>📍 Based in Northampton • Serving all of Northamptonshire</p>
-          <p className="mt-2">Contact us: <a href="tel:+447402342694" className="underline hover:text-foreground transition-colors">+44 7402 342694</a></p>
+          <div className="mt-3">
+            <Button variant="default" size="sm" asChild>
+              <a href="tel:+447402342694">Call +44 7402 342694</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

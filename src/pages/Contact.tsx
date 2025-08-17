@@ -154,10 +154,6 @@ export default function Contact() {
 />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <div className="mb-6">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Service Areas</p>
-          <p className="text-sm text-muted-foreground mt-1">Northampton, Wellingborough, Kettering, Daventry, Towcester, Rushden, Corby, Milton Keynes, Banbury</p>
-        </div>
         
         <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
@@ -215,8 +211,11 @@ export default function Contact() {
             />
           </div>
         </form>
-        <div className="mt-6 text-sm">
-          Phone <a className="underline" href="tel:+447402342694">+44 7402 342694</a> • Book online above
+        <div className="mt-6 flex items-center gap-3">
+          <Button variant="default" size="sm" asChild>
+            <a href="tel:+447402342694">Call +44 7402 342694</a>
+          </Button>
+          <span className="text-sm text-muted-foreground">• Book online above</span>
         </div>
       </section>
 

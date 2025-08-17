@@ -303,9 +303,9 @@ export default function Services() {
         <div className="mt-8">
           <CTAButtons className="justify-center sm:justify-start" />
           <div className="mt-4 text-center sm:text-left">
-            <a href="tel:+447402342694" className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
-              Or call us: +44 7402 342694
-            </a>
+            <Button variant="default" size="sm" asChild>
+              <a href="tel:+447402342694">Call +44 7402 342694</a>
+            </Button>
           </div>
         </div>
 

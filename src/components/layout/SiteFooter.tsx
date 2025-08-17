@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
@@ -10,12 +11,15 @@ export default function SiteFooter() {
           <p className="text-sm text-muted-foreground mt-2">
             Websites & automations that actually win pet care clients.
           </p>
-          <p className="text-sm mt-2">Phone: <a className="underline" href="tel:+447402342694">+44 7402 342694</a></p>
+          <Button variant="default" size="sm" asChild className="mt-2 w-fit">
+            <a href="tel:+447402342694">Call +44 7402 342694</a>
+          </Button>
         </div>
         <nav aria-label="Footer" className="flex flex-col gap-2">
           <Link to="/services">Services</Link>
           <Link to="/tools">Tools</Link>
           <Link to="/pricing">Pricing</Link>
+          <Link to="/service-areas">Service Areas</Link>
           <Link to="/faq">FAQ</Link>
           <Link to="/contact">Contact</Link>
         </nav>

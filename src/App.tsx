@@ -21,6 +21,7 @@ const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Contact = lazy(() => import("./pages/Contact"));
+const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
               <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/payment-failed" element={<PaymentFailed />} />
