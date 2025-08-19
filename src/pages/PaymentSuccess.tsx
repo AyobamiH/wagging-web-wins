@@ -4,6 +4,7 @@ import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowLeft, Mail, Calendar } from "lucide-react";
+import { trackPurchaseSuccess, trackNavClick } from "@/lib/analytics";
 
 interface SessionData {
   id: string;
@@ -30,6 +31,15 @@ const PaymentSuccess = () => {
         if (response.ok) {
           const data = await response.json();
           setSessionData(data);
+          
+          // Track successful purchase
+          trackPurchaseSuccess({
+            transactionId: data.id,
+            planName: data.planName,
+            amount: data.amountTotal,
+            currency: data.currency,
+            paymentStatus: data.paymentStatus,
+          });
         }
       } catch (error) {
         console.error('Error fetching session data:', error);
@@ -141,14 +151,14 @@ const PaymentSuccess = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild variant="outline" className="flex items-center space-x-2">
-                    <Link to="/">
+                    <Link to="/" onClick={() => trackNavClick('Back to Home', '/', 'payment_success')}>
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Home</span>
                     </Link>
                   </Button>
                   
                   <Button asChild className="flex items-center space-x-2">
-                    <Link to="/contact">
+                    <Link to="/contact" onClick={() => trackNavClick('Contact Us', '/contact', 'payment_success')}>
                       <Mail className="w-4 h-4" />
                       <span>Contact Us</span>
                     </Link>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import NorthamptonMap from "@/components/NorthamptonMap";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import { trackContactSubmit } from "@/lib/analytics";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,6 +35,9 @@ export default function Contact() {
 
       if (error) throw error;
 
+      // Track successful form submission
+      trackContactSubmit('contact_page_form', 'contact_page');
+      
       toast.success("Thanks — we'll reply within one business day.");
       formRef.current?.reset();
     } catch (error) {

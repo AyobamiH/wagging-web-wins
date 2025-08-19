@@ -3,7 +3,8 @@ import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StatusBadge } from "@/components/StatusBadge";
-import { useToolsRegistry, trackToolClick } from "@/lib/useToolsRegistry";
+import { useToolsRegistry } from "@/lib/useToolsRegistry";
+import { trackToolOpen, trackNavClick } from "@/lib/analytics";
 import { ExternalLink, ArrowLeft, Share2, Calendar, Lightbulb, Users, CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
@@ -16,7 +17,13 @@ export default function ToolDetail() {
 
   const handleOpenTool = () => {
     if (tool) {
-      trackToolClick(tool);
+      trackToolOpen({
+        id: tool.id,
+        name: tool.name,
+        category: tool.category,
+        status: tool.status,
+        url: tool.url
+      }, 'tool_detail');
       window.open(tool.url, '_blank', 'noopener,noreferrer');
     }
   };
@@ -99,7 +106,7 @@ export default function ToolDetail() {
         {/* Back Navigation */}
         <div className="mb-6">
           <Button variant="ghost" asChild className="mb-4">
-            <Link to="/tools">
+            <Link to="/tools" onClick={() => trackNavClick('Back to Tools', '/tools', 'tool_detail')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Tools
             </Link>

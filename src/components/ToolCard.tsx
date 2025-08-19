@@ -4,8 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { ExternalLink, Info } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Tool, trackToolClick } from "@/lib/useToolsRegistry";
-import { trackToolOpen } from "@/lib/analytics";
+import { Tool } from "@/lib/useToolsRegistry";
+import { trackToolOpen, trackToolInfoView } from "@/lib/analytics";
 
 
 interface ToolCardProps {
@@ -15,9 +15,18 @@ interface ToolCardProps {
 
 export const ToolCard = ({ tool, index }: ToolCardProps) => {
   const handleOpenTool = () => {
-    trackToolClick(tool);
-    trackToolOpen(tool.name, tool.url);
+    trackToolOpen({
+      id: tool.id,
+      name: tool.name,
+      category: tool.category,
+      status: tool.status,
+      url: tool.url
+    }, 'tool_card');
     window.open(tool.url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleInfoClick = () => {
+    trackToolInfoView(tool.name, tool.id);
   };
 
   return (
@@ -74,6 +83,7 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
                 size="sm"
                 asChild
                 className="px-3"
+                onClick={handleInfoClick}
               >
                 <Link to={`/tools/${tool.id}`}>
                   <Info className="h-4 w-4" />

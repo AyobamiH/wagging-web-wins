@@ -71,27 +71,4 @@ export const useToolsRegistry = () => {
   };
 };
 
-// Analytics tracking
-export const trackToolClick = (tool: Tool) => {
-  // Track tool click analytics
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'tool_click', {
-      custom_parameter_1: tool.id,
-      custom_parameter_2: tool.name,
-      custom_parameter_3: tool.category,
-      custom_parameter_4: tool.status,
-      custom_parameter_5: tool.subdomain,
-    });
-  }
-  
-  // Also track with custom analytics if available
-  if (typeof window !== 'undefined' && (window as any).analytics) {
-    (window as any).analytics.track('tool_click', {
-      id: tool.id,
-      name: tool.name,
-      category: tool.category,
-      status: tool.status,
-      subdomain: tool.subdomain,
-    });
-  }
-};
+// Remove old trackToolClick - now handled by consolidated trackToolOpen in analytics.ts
