@@ -1,49 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tail Wagging Websites Factory Northampton</title>
-    <meta name="description" content="Mobile-first pet care web design, SEO, and automations in Northampton, UK." />
-    <meta name="author" content="Tail Wagging Websites Factory Northampton" />
-    
-    <!-- Performance & Caching -->
-    <link rel="dns-prefetch" href="//tools.tailwaggingwebdesign.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
-    
-    <link rel="icon" href="/favicon.png" type="image/png">
+ <head>
+  <!-- Core -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tail Wagging Websites Factory Northampton</title>
+  <meta name="description" content="Mobile-first pet care web design, SEO, and automations in Northampton, UK." />
+  <meta name="author" content="Tail Wagging Websites Factory Northampton" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://tailwagginwebdesign.com/" />
+  <link rel="alternate" hreflang="en-GB" href="https://tailwagginwebdesign.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://tailwagginwebdesign.com/" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="color-scheme" content="light dark" />
 
-    <meta property="og:title" content="Tail Wagging Websites Factory Northampton" />
-    <meta property="og:description" content="Websites & automations that actually win pet care clients." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og.png" />
+  <!-- Identity / Favicons / PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0B1220" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)" />
+  <!-- Identity links (optional) -->
+  <link rel="me" href="https://www.instagram.com/tailwaggingwebdesigns/" />
+  <link rel="me" href="https://www.tiktok.com/@tailwaggingwebdesigns" />
+  <link rel="me" href="https://www.linkedin.com/in/john-haastrup/" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/og.png" />
-    <meta name="theme-color" content="#0B1220" />
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBQBZ0ZDWQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-VBQBZ0ZDWQ');
-    </script>
-    
-    <style>
-      /* Critical, above-the-fold CSS: keep tiny */
-      :root { color-scheme: light dark; }
-      body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
-      header[role="banner"]{ position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px); background-color: rgba(255,255,255,0.75);}
-      @media (prefers-color-scheme: dark){ header[role="banner"]{ background-color: rgba(20,23,28,0.6);} }
-      .hero{ padding: 2rem 1rem; max-width: 72rem; margin: 0 auto; }
-      /* Loading spinner */
-      .spinner { width: 32px; height: 32px; border: 2px solid #3b82f6; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; }
-      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-  </head>
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Tail Wagging Websites Factory Northampton" />
+  <meta property="og:title" content="Tail Wagging Websites Factory Northampton" />
+  <meta property="og:description" content="Websites & automations that actually win pet care clients." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://tailwagginwebdesign.com/" />
+  <meta property="og:image" content="https://tailwagginwebdesign.com/og.png" />
+  <meta property="og:image:secure_url" content="https://tailwagginwebdesign.com/og.png" />
+  <meta property="og:image:alt" content="Pet-care web design & automations" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_GB" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tail Wagging Websites Factory Northampton" />
+  <meta name="twitter:description" content="Websites & automations that actually win pet care clients." />
+  <meta name="twitter:image" content="https://tailwagginwebdesign.com/og.png" />
+
+  <!-- Performance Hints -->
+  <link rel="dns-prefetch" href="//tools.tailwaggingwebdesign.com" />
+  <link rel="dns-prefetch" href="//bookings.tailwaggingwebdesign.com" />
+  <link rel="dns-prefetch" href="//globalbill.tailwaggingwebdesign.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+  <!-- Preload hero image only if above the fold -->
+  <!-- <link rel="preload" as="image" href="/hero-1200.jpg" imagesrcset="/hero-1200.jpg 1x, /hero-2400.jpg 2x" fetchpriority="high"> -->
+
+  <!-- Analytics (ensure the same ID in both places) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBQBZ0ZDWQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-VBQBZ0ZDWQ', { anonymize_ip: true });
+  </script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://tailwaggingwebdesign.com/#org",
+        "name": "Tail Wagging Websites Factory Northampton",
+        "url": "https://tailwaggingwebdesign.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://tailwaggingwebdesign.com/og.png",
+          "width": 1200,
+          "height": 630
+        },
+        "telephone": "+447402342694",
+        "sameAs": [
+          "https://www.instagram.com/tailwaggingwebdesigns/",
+          "https://www.tiktok.com/@tailwaggingwebdesigns",
+          "https://www.linkedin.com/in/john-haastrup/"
+        ],
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": "+447402342694",
+          "contactType": "sales",
+          "availableLanguage": ["English"],
+          "areaServed": "GB"
+        }]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://tailwaggingwebdesign.com/#website",
+        "url": "https://tailwaggingwebdesign.com/",
+        "name": "Tail Wagging Websites Factory Northampton",
+        "publisher": { "@id": "https://tailwaggingwebdesign.com/#org" },
+        "inLanguage": "en-GB",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://tailwaggingwebdesign.com/search?q={query}",
+          "query-input": "required name=query"
+        }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://tailwaggingwebdesign.com/#local",
+        "name": "Pet Web Design & Automations – Tail Wagging Websites Factory Northampton",
+        "url": "https://tailwagginwebdesign.com/",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://tailwaggingwebdesign.com/og.png",
+          "width": 1200,
+          "height": 630
+        },
+        "telephone": "+447402342694",
+        "priceRange": "££",
+        "areaServed": [
+          "Northampton","Wellingborough","Kettering","Daventry","Towcester",
+          "Rushden","Corby","Milton Keynes","Banbury","Northamptonshire"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "GB",
+          "addressRegion": "Northamptonshire",
+          "addressLocality": "Northampton"
+        },
+        "potentialAction": [
+          { "@type": "ContactAction", "target": "https://tailwaggingwebdesign.com/contact", "name": "Request a quote" },
+          { "@type": "ScheduleAction", "target": "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call", "name": "Book a consultation" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://tailwaggingwebdesign.com/#webpage",
+        "url": "https://tailwaggingwebdesign.com/",
+        "name": "Pet Care Web Design in Northampton",
+        "description": "Mobile-first websites and automations for dog walkers, groomers, sitters and trainers.",
+        "isPartOf": { "@id": "https://tailwaggingwebdesign.com/#website" },
+        "inLanguage": "en-GB",
+        "primaryImageOfPage": { "@id": "https://tailwaggingwebdesign.com/#primary-image" },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tailwaggingwebdesign.com/" }
+          ]
+        }
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://tailwaggingwebdesign.com/#primary-image",
+        "url": "https://tailwaggingwebdesign.com/og.png",
+        "width": 1200,
+        "height": 630
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://tailwaggingwebdesign.com/#how-it-works",
+        "name": "How it works",
+        "description": "Three simple steps from discovery to launch.",
+        "step": [
+          { "@type": "HowToStep", "name": "Discover", "text": "A short call to map goals, audience, and must-have features." },
+          { "@type": "HowToStep", "name": "Build", "text": "Mobile-first design, copywriting, and technical setup." },
+          { "@type": "HowToStep", "name": "Launch & grow", "text": "SEO basics, analytics, and optional care plan with updates." }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Critical, above-the-fold CSS (keep minimal) -->
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Noto Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    header[role="banner"]{ position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px); background-color: rgba(255,255,255,0.75);}
+    @media (prefers-color-scheme: dark){ header[role="banner"]{ background-color: rgba(20,23,28,0.6);} }
+    .hero{ padding: 2rem 1rem; max-width: 72rem; margin: 0 auto; }
+    .spinner { width: 32px; height: 32px; border: 2px solid #3b82f6; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
 
   <body>
     <div id="root"></div>
