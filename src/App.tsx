@@ -7,6 +7,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
 import MarketingLayout from "@/components/layout/MarketingLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import WhyDoDogs from "@/pages/WhyDoDogs";
 
 // Lazy load components to reduce initial bundle size
 const Index = lazy(() => import("./pages/Index"));
@@ -22,11 +23,13 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const WhyDoDogs = lazy(() => import("./pages/WhyDoDogs")); 
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
+
 
 const queryClient = new QueryClient();
 
@@ -69,6 +72,7 @@ const App = () => (
               <Route path="/tools/:slug" element={<ToolDetail />} />
               <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
