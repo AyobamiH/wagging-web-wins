@@ -7,7 +7,6 @@ import { lazy, Suspense, useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
 import MarketingLayout from "@/components/layout/MarketingLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import WhyDoDogs from "@/pages/WhyDoDogs";
 
 // Lazy load components to reduce initial bundle size
 const Index = lazy(() => import("./pages/Index"));
@@ -23,7 +22,6 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
-const WhyDoDogs = lazy(() => import("./pages/WhyDoDogs"));
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
@@ -59,7 +57,6 @@ const App = () => (
           <Routes>
             <Route element={<MarketingLayout />}>
               <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
-              <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/trades" element={<TradesLanding />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/website-design" element={<WebsiteDesign />} />
