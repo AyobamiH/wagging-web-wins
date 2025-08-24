@@ -153,5 +153,113 @@
     <priority>0.8</priority>
     <lastmod>2025-08-14</lastmod>
   </url>
-  
+
+  <!-- Content Hub: Why Do Dogs… -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
+  <!-- Licking & Affection -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/lick-people/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/lick-after-shower/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/licking-problem/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
+  <!-- Eating & Health -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/eat-grass/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/eat-poop/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/drooling-or-nibbling/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
+  <!-- Movement & Body Language -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/shake-or-shiver/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/scoot/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/follow-to-bathroom/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
+  <!-- Sounds & Communication -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/howl/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/bark-at-nothing-or-postie/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/pant-a-lot/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
+  <!-- Behaviour Quirks -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/dig/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/hump/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/stare/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-08-24</lastmod>
+  </url>
+
 </urlset>

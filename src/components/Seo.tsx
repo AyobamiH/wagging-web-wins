@@ -9,6 +9,7 @@ interface SeoProps {
   description: string;
   path: string; // canonical path e.g. "/services"
   imageUrl?: string;
+  imageAlt?: string;
   type?: "website" | "article";
   breadcrumbs?: Breadcrumb[];
   jsonLd?: any[]; // additional page-specific JSON-LD blocks
@@ -17,6 +18,7 @@ interface SeoProps {
   availability?: string;
   noIndex?: boolean;
   canonicalOverride?: string;
+  hreflang?: { lang: string; href: string }[];
 }
 
 const BRAND = {
@@ -38,6 +40,7 @@ export function Seo({
   description,
   path,
   imageUrl,
+  imageAlt,
   type = "website",
   breadcrumbs,
   jsonLd = [],
@@ -45,7 +48,8 @@ export function Seo({
   price,
   availability,
   noIndex = false,
-  canonicalOverride
+  canonicalOverride,
+  hreflang = []
 }: SeoProps) {
   useEffect(() => {
     const origin = window.location.origin;
@@ -87,7 +91,7 @@ export function Seo({
     ensureMeta('meta[property="og:image"]', { property: "og:image", content: img });
     ensureMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1200" });
     ensureMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "630" });
-    ensureMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: "Tail Wagging Websites - Pet Care Web Design" });
+    ensureMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: imageAlt || "Tail Wagging Websites - Pet Care Web Design" });
     ensureMeta('meta[property="og:site_name"]', { property: "og:site_name", content: BRAND.name });
     ensureMeta('meta[property="og:locale"]', { property: "og:locale", content: "en_GB" });
 
@@ -96,7 +100,7 @@ export function Seo({
     ensureMeta('meta[name="twitter:title"]', { name: "twitter:title", content: title });
     ensureMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
     ensureMeta('meta[name="twitter:image"]', { name: "twitter:image", content: img });
-    ensureMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: "Tail Wagging Websites - Pet Care Web Design" });
+    ensureMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: imageAlt || "Tail Wagging Websites - Pet Care Web Design" });
     
     // Additional SEO meta tags
     ensureMeta('meta[name="author"]', { name: "author", content: "Ayobami Haastrup" });
@@ -112,6 +116,21 @@ export function Seo({
       document.head.appendChild(link);
     }
     link.href = finalCanonical;
+
+    // Hreflang tags if provided
+    if (hreflang.length > 0) {
+      // Remove existing hreflang links
+      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => link.remove());
+      
+      // Add new hreflang links
+      hreflang.forEach(({ lang, href }) => {
+        const hreflangLink = document.createElement("link");
+        hreflangLink.rel = "alternate";
+        hreflangLink.hreflang = lang;
+        hreflangLink.href = href;
+        document.head.appendChild(hreflangLink);
+      });
+    }
 
     // JSON-LD: Enhanced schema with professional services
     const baseJsonLd: any[] = [
@@ -295,7 +314,7 @@ export function Seo({
     return () => {
       // Optional cleanup on unmount
     };
-  }, [title, description, path, imageUrl, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability, noIndex, canonicalOverride]);
+  }, [title, description, path, imageUrl, imageAlt, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability, noIndex, canonicalOverride, JSON.stringify(hreflang)]);
 
   return null;
 }

@@ -1,5 +1,23 @@
 # 301 redirects for legacy URLs
 /portfolio /tools 301!
 
+# Canonical trailing slash enforcement for why-do-dogs
+/why-do-dogs /why-do-dogs/ 301!
+/why-do-dogs/lick-people /why-do-dogs/lick-people/ 301!
+/why-do-dogs/lick-after-shower /why-do-dogs/lick-after-shower/ 301!
+/why-do-dogs/licking-problem /why-do-dogs/licking-problem/ 301!
+/why-do-dogs/eat-grass /why-do-dogs/eat-grass/ 301!
+/why-do-dogs/eat-poop /why-do-dogs/eat-poop/ 301!
+/why-do-dogs/drooling-or-nibbling /why-do-dogs/drooling-or-nibbling/ 301!
+/why-do-dogs/shake-or-shiver /why-do-dogs/shake-or-shiver/ 301!
+/why-do-dogs/scoot /why-do-dogs/scoot/ 301!
+/why-do-dogs/follow-to-bathroom /why-do-dogs/follow-to-bathroom/ 301!
+/why-do-dogs/howl /why-do-dogs/howl/ 301!
+/why-do-dogs/bark-at-nothing-or-postie /why-do-dogs/bark-at-nothing-or-postie/ 301!
+/why-do-dogs/pant-a-lot /why-do-dogs/pant-a-lot/ 301!
+/why-do-dogs/dig /why-do-dogs/dig/ 301!
+/why-do-dogs/hump /why-do-dogs/hump/ 301!
+/why-do-dogs/stare /why-do-dogs/stare/ 301!
+
 # Catch-all for SPA routing
 /* /index.html 200

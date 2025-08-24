@@ -22,6 +22,7 @@ const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const WhyDoDogs = lazy(() => import("./pages/WhyDoDogs")); 
+const WhyDogsGuideDetail = lazy(() => import("./pages/WhyDogsGuideDetail")); 
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
@@ -71,6 +72,7 @@ const App = () => (
               <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
+              <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
