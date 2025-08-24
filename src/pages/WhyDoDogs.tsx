@@ -14,8 +14,8 @@ export default function WhyDoDogs() {
       <Seo
         title="Why Do Dogs…? | Tail Wagging Websites"
         description={description}
-        url={`https://tailwaggingwebdesign.com${WHY_DOGS_PILLAR_URL}`}
-        image="https://tailwaggingwebdesign.com/og/why-dogs.jpg"
+        path={WHY_DOGS_PILLAR_URL}
+        imageUrl="https://tailwaggingwebdesign.com/og/why-dogs.jpg"
         type="website"
       />
 

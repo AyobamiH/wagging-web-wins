@@ -7,8 +7,6 @@ import { lazy, Suspense, useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
 import MarketingLayout from "@/components/layout/MarketingLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import WhyDoDogs from "@/pages/WhyDoDogs";
-
 // Lazy load components to reduce initial bundle size
 const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));

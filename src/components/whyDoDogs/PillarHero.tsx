@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import CTAButtons from "@/components/CTAButtons";
 
 type Props = { title: string; subtitle: string };
 
@@ -24,16 +23,29 @@ export default function PillarHero({ title, subtitle }: Props) {
           {subtitle}
         </motion.p>
 
-        <div className="mt-8 flex justify-center">
-          <CTAButtons
-            primaryLabel="Book a consult"
-            primaryHref="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
-            secondaryLabel="See all guides"
-            secondaryHref="#clusters"
-            // colour override to brand blue
-            classNamePrimary="bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]"
-            classNameSecondary="text-[var(--brand-primary)] hover:underline"
-          />
+        <div className="mt-8 flex justify-center gap-4">
+          <a
+            href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
+            className="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-semibold text-white shadow-sm focus:outline-none focus:ring-2 transition-colors"
+            style={{ 
+              backgroundColor: "var(--brand-primary)"
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.backgroundColor = "var(--brand-primary-hover)")
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.style.backgroundColor = "var(--brand-primary)")
+            }
+          >
+            Book a consult
+          </a>
+          <a
+            href="#clusters"
+            className="inline-flex items-center justify-center px-6 py-3 text-base font-semibold hover:underline"
+            style={{ color: "var(--brand-primary)" }}
+          >
+            See all guides
+          </a>
         </div>
       </div>
 
