@@ -58,8 +58,7 @@ export default function SiteHeader() {
 </svg>
 
 
-  <span>Tail Wagging Websites Factory</span>
-  <span className="text-xs text-muted-foreground hidden sm:inline-block ml-1">Northampton</span>
+  
 </Link>
 
         
