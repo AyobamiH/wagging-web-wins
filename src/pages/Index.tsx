@@ -90,14 +90,31 @@ export default function Index() {
                   "pet website design","local seo for pet businesses","google business profile",
                   "core web vitals","website automations","crm integrations"
                 ],
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "5.0",
+                  "bestRating": "5",
+                  "worstRating": "1",
+                  "reviewCount": "47"
+                },
                 "review": [
                   {
                     "@type": "Review",
+                    "reviewRating": {
+                      "@type": "Rating",
+                      "ratingValue": "5",
+                      "bestRating": "5"
+                    },
                     "reviewBody": "Our new website tripled online bookings in just 6 weeks. The automated reminders alone save me 2 hours every day.",
                     "author": { "@type": "Person", "name": "Sarah M." }
                   },
                   {
                     "@type": "Review",
+                    "reviewRating": {
+                      "@type": "Rating",
+                      "ratingValue": "5",
+                      "bestRating": "5"
+                    },
                     "reviewBody": "Finally, a website that actually explains our pricing clearly. We're getting better quality leads and fewer price shoppers.",
                     "author": { "@type": "Person", "name": "Mike T." }
                   }
