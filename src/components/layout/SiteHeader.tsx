@@ -42,10 +42,10 @@ export default function SiteHeader() {
 
 
     <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#3a0ca3" /> 
-      <stop offset="40%" stop-color="#7209b7" />
-      <stop offset="75%" stop-color="#4361ee" /> 
-      <stop offset="100%" stop-color="#4cc9f0" /> 
+      <stop offset="0%" stopColor="#3a0ca3" /> 
+      <stop offset="40%" stopColor="#7209b7" />
+      <stop offset="75%" stopColor="#4361ee" /> 
+      <stop offset="100%" stopColor="#4cc9f0" /> 
     </radialGradient>
   </defs>
 
