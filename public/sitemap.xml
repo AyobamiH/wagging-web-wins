@@ -154,6 +154,14 @@
     <lastmod>2025-08-14</lastmod>
   </url>
 
+  <!-- Blog -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2025-08-26</lastmod>
+  </url>
+
   <!-- Content Hub: Why Do Dogs… -->
   <url>
     <loc>https://tailwaggingwebdesign.com/why-do-dogs/</loc>

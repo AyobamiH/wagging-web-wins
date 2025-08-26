@@ -9,6 +9,7 @@ export default function SiteHeader() {
   const navItems = [
     { to: "/services", label: "Services" },
     { to: "/tools", label: "Tools" },
+    { to: "/blog", label: "Blog" },
     { to: "/pricing", label: "Pricing" },
     { to: "/service-areas", label: "Service Areas" },
     { to: "/faq", label: "FAQ" },
