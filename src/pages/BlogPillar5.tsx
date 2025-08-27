@@ -32,10 +32,10 @@ export default function BlogPillar5() {
       <Seo
         title="Social Media, Stories & Email Marketing for Pet Businesses"
         description="Master social content, storytelling frameworks, email sequences, and content calendars that build trust and book more pet care services. Proven strategies for pet businesses."
-        path="/blog/pillar/social-story-email-growth"
+        path="/blog/pillar-5"
         breadcrumbs={[
           { name: "Blog", item: "/blog" },
-          { name: "Pillar 5: Social & Email Growth", item: "/blog/pillar/social-story-email-growth" }
+          { name: "Pillar 5: Social & Email Growth", item: "/blog/pillar-5" }
         ]}
         jsonLd={[
           {
@@ -43,7 +43,7 @@ export default function BlogPillar5() {
             "@type": "CollectionPage",
             "name": "Social Media, Stories & Email Marketing for Pet Businesses",
             "description": "Master social content, storytelling frameworks, email sequences, and content calendars that build trust and book more pet care services.",
-            "url": "https://tailwaggingwebdesign.com/blog/pillar/social-story-email-growth",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar-5",
             "mainEntity": {
               "@type": "ItemList",
               "numberOfItems": posts.length,
@@ -208,7 +208,7 @@ export default function BlogPillar5() {
             <div className="mt-16 max-w-4xl mx-auto">
               <h3 className="font-semibold mb-4">Explore Other Pillars</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link to="/blog/pillar/booking-and-reliability" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-1" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                     <span className="text-primary font-semibold text-sm">1</span>
                   </div>
@@ -218,7 +218,7 @@ export default function BlogPillar5() {
                   </div>
                 </Link>
                 
-                <Link to="/blog/pillar/offers-pricing-partnerships" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
                   <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
                     <span className="text-accent font-semibold text-sm">6</span>
                   </div>

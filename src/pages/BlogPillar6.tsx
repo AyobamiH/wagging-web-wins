@@ -33,14 +33,14 @@ export default function BlogPillar6() {
       <Seo
         title="Offers, Pricing & Partnerships • Pet Business Growth"
         description="Strategic pricing, partnership playbooks, and referral systems that drive sustainable pet business growth. Master competitive pricing and build profitable partnerships."
-        path="/blog/pillar/offers-pricing-partnerships"
+        path="/blog/pillar-6"
         imageUrl="https://tailwaggingwebdesign.com/og/pet-business-partnerships-playbook.jpg"
         imageAlt="Pet business partnerships and pricing strategies"
         keywords={["pet business pricing", "partnerships", "referral programs", "competitive pricing", "business growth", "pet care pricing strategies"]}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" },
-          { name: "Pillar 6: Offers & Partnerships", item: "/blog/pillar/offers-pricing-partnerships" }
+          { name: "Pillar 6: Offers & Partnerships", item: "/blog/pillar-6" }
         ]}
         jsonLd={[
           {
@@ -48,7 +48,7 @@ export default function BlogPillar6() {
             "@type": "CollectionPage",
             "name": "Offers, Pricing & Partnerships for Pet Businesses",
             "description": "Strategic pricing, partnership playbooks, and referral systems that drive sustainable pet business growth.",
-            "url": "https://tailwaggingwebdesign.com/blog/pillar/offers-pricing-partnerships",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar-6",
             "mainEntity": {
               "@type": "ItemList",
               "name": "Pet Business Growth Articles",

@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Calendar, TrendingUp } from "lucide-react";
 import Seo from "@/components/Seo";
+import { cn } from "@/lib/utils";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 
 const POSTS_PER_PAGE = 6;
@@ -78,90 +79,125 @@ export default function BlogSupabase() {
               Practical strategies and tools to grow your pet service business
             </p>
             
-            {/* Pillar Navigation */}
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <Link 
-                to="/blog/pillar/booking-and-reliability"
-                className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg hover:shadow-md transition-all duration-200 group"
-              >
-                <div className="bg-primary/20 rounded-full p-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold group-hover:text-primary transition-colors">Pillar 1: Booking & Reliability</h3>
-                  <p className="text-sm text-muted-foreground">Master booking systems, reduce no-shows, and optimize scheduling</p>
-                </div>
-              </Link>
-              
-              <Link 
-                to="/blog/pillar/social-story-email-growth"
-                className="flex items-center gap-3 p-4 bg-gradient-to-r from-secondary/10 to-secondary/5 border border-secondary/20 rounded-lg hover:shadow-md transition-all duration-200 group"
-              >
-                <div className="bg-secondary/20 rounded-full p-2">
-                  <TrendingUp className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold group-hover:text-secondary transition-colors">Pillar 5: Social & Email Growth</h3>
-                  <p className="text-sm text-muted-foreground">Master social content, storytelling, and email marketing</p>
-                </div>
-              </Link>
-              
-              <Link 
-                to="/blog/pillar/offers-pricing-partnerships"
-                className="flex items-center gap-3 p-4 bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20 rounded-lg hover:shadow-md transition-all duration-200 group"
-              >
-                <div className="bg-accent/20 rounded-full p-2">
-                  <TrendingUp className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold group-hover:text-accent transition-colors">Pillar 6: Offers & Partnerships</h3>
-                  <p className="text-sm text-muted-foreground">Strategic pricing, partnerships, and business growth</p>
-                </div>
-              </Link>
-            </div>
+        {/* Pillar Navigation */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <Link
+            to="/blog/pillar-1"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
+          >
+            Pillar 1: Pet Business Foundations
+          </Link>
+          <Link
+            to="/blog/pillar-2"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium opacity-60"
+          >
+            Pillar 2: Coming Soon
+          </Link>
+          <Link
+            to="/blog/pillar-3"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
+          >
+            Pillar 3: Local SEO & GBP
+          </Link>
+          <Link
+            to="/blog/pillar-4"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
+          >
+            Pillar 4: Trust, Safety & Compliance
+          </Link>
+          <Link
+            to="/blog/pillar-5"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
+          >
+            Pillar 5: Client Experience & Retention
+          </Link>
+          <Link
+            to="/blog/pillar-6"
+            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
+          >
+            Pillar 6: Content & Social Media
+          </Link>
+        </div>
           </div>
 
           {/* Pillar Filters */}
-          <div className="flex flex-wrap gap-2 justify-center mb-8">
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
             <button
-              onClick={() => handlePillarFilter()}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                !pillarFilter 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
+              onClick={() => handlePillarFilter('')}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                !pillarFilter
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
             >
               All Posts
             </button>
             <button
-              onClick={() => handlePillarFilter('Pillar 1')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                pillarFilter === 'Pillar 1' 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
+              onClick={() => handlePillarFilter('pillar-1')}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                pillarFilter === 'pillar-1'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
             >
-              Pillar 1: Booking & Reliability
+              Pillar 1
+            </button>
+            <button
+              onClick={() => handlePillarFilter('pillar-2')}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors opacity-60",
+                pillarFilter === 'pillar-2'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
+            >
+              Pillar 2
+            </button>
+            <button
+              onClick={() => handlePillarFilter('pillar-3')}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                pillarFilter === 'pillar-3'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
+            >
+              Pillar 3
+            </button>
+            <button
+              onClick={() => handlePillarFilter('pillar-4')}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                pillarFilter === 'pillar-4'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
+            >
+              Pillar 4
             </button>
             <button
               onClick={() => handlePillarFilter('pillar-5')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                pillarFilter === 'pillar-5' 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                pillarFilter === 'pillar-5'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
             >
-              Pillar 5: Social & Email
+              Pillar 5
             </button>
             <button
               onClick={() => handlePillarFilter('pillar-6')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                pillarFilter === 'pillar-6' 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-full transition-colors",
+                pillarFilter === 'pillar-6'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background border border-border hover:bg-accent"
+              )}
             >
-              Pillar 6: Offers & Partnerships
+              Pillar 6
             </button>
           </div>
 
@@ -183,7 +219,7 @@ export default function BlogSupabase() {
                   Master booking systems, reduce no-shows, automate updates, and optimize scheduling to build a reliable foundation.
                 </p>
                 <Link 
-                  to="/blog/pillar/booking-and-reliability"
+                  to="/blog/pillar-1"
                   className="inline-flex items-center text-primary hover:underline font-medium"
                 >
                   Explore Pillar 1 →
@@ -205,7 +241,7 @@ export default function BlogSupabase() {
                   Strategic pricing, partnership playbooks, and referral systems that drive sustainable growth.
                 </p>
                 <Link 
-                  to="/blog/pillar/offers-pricing-partnerships"
+                  to="/blog/pillar-6"
                   className="inline-flex items-center text-accent hover:underline font-medium"
                 >
                   Explore Pillar 6 →

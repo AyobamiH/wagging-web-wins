@@ -218,11 +218,11 @@ export default function BlogPostSupabase() {
         </div>
 
         {/* Internal Links */}
-        {post.pillarTag === 'Pillar 1' && (
+        {post.pillarTag === 'pillar-1' && (
           <div className="my-8 p-6 bg-muted/50 rounded-lg">
             <h3 className="font-semibold mb-4">More from Pillar 1: Booking & Reliability</h3>
             <div className="grid gap-3 md:grid-cols-2">
-              <Link to="/blog/pillar/booking-and-reliability" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+              <Link to="/blog/pillar-1" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm">View All Pillar 1 Articles</span>
               </Link>

@@ -18,7 +18,7 @@ const BlogPillar1 = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const pillarPosts = await postRepository.list({ pillar: 'Pillar 1' });
+        const pillarPosts = await postRepository.list({ pillar: 'pillar-1' });
         setPosts(pillarPosts);
       } catch (error) {
         console.error('Error fetching Pillar 1 posts:', error);
@@ -46,14 +46,14 @@ const BlogPillar1 = () => {
       <Seo 
         title="Booking & Reliability • Pet Business Foundation"
         description="Master booking systems, reduce no-shows, automate care updates, and optimize scheduling to build a reliable pet business foundation. Complete guides for pet sitters and groomers."
-        path="/blog/pillar/booking-and-reliability"
+        path="/blog/pillar-1"
         imageUrl="https://tailwaggingwebdesign.com/og/calendly-vs-built-in-booking-for-pet-sitters.jpg"
         imageAlt="Pet business booking and reliability systems"
         keywords={["pet booking systems", "no-show prevention", "pet sitting scheduling", "automated reminders", "pet grooming booking", "route optimization"]}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" },
-          { name: "Pillar 1: Booking & Reliability", item: "/blog/pillar/booking-and-reliability" }
+          { name: "Pillar 1: Booking & Reliability", item: "/blog/pillar-1" }
         ]}
         jsonLd={[
           {
@@ -61,7 +61,7 @@ const BlogPillar1 = () => {
             "@type": "CollectionPage",
             "name": "Booking & Reliability for Pet Businesses",
             "description": "Master booking systems, reduce no-shows, automate care updates, and optimize scheduling to build a reliable pet business foundation.",
-            "url": "https://tailwaggingwebdesign.com/blog/pillar/booking-and-reliability",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar-1",
             "mainEntity": {
               "@type": "ItemList",
               "name": "Pet Business Reliability Articles",
@@ -192,7 +192,7 @@ const BlogPillar1 = () => {
             <div className="mt-8 p-6 bg-muted/50 rounded-lg">
               <h3 className="font-semibold mb-4">Explore Other Pillars</h3>
               <div className="grid gap-4 md:grid-cols-2">
-                <Link to="/blog/pillar/offers-pricing-partnerships" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
                   <div className="bg-primary/20 rounded-full p-2">
                     <Calendar className="w-4 h-4 text-primary" />
                   </div>
