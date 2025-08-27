@@ -129,7 +129,8 @@ const BlogPillar1 = () => {
             {loading ? (
               <div className="grid gap-6 md:grid-cols-2">
                 {[1, 2, 3, 4].map((i) => (
-                  <Card key={i} className="h-64 animate-pulse">
+                  <Card key={i} className="overflow-hidden animate-pulse">
+                    <div className="aspect-[2/1] bg-muted"></div>
                     <CardHeader>
                       <div className="h-4 bg-muted rounded w-3/4"></div>
                       <div className="h-6 bg-muted rounded"></div>
@@ -146,8 +147,22 @@ const BlogPillar1 = () => {
             ) : (
               <div className="grid gap-6 md:grid-cols-2">
                 {orderedPosts.map((post, index) => (
-                  <Card key={post.slug} className="group hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
-                    <CardHeader>
+                  <Card key={post.slug} className="group hover:shadow-lg transition-all duration-200 hover:-translate-y-1 overflow-hidden">
+                    {/* Image Thumbnail */}
+                    {post.ogImageUrl && (
+                      <div className="aspect-[2/1] overflow-hidden">
+                        <img
+                          src={post.ogImageUrl}
+                          alt={post.coverAlt || `${post.title} thumbnail`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                          decoding="async"
+                          width="600"
+                          height="315"
+                        />
+                      </div>
+                    )}
+                    <CardHeader className="pb-3">
                       <div className="flex items-center justify-between mb-2">
                         <Badge variant="outline">
                           Pillar 1
