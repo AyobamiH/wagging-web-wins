@@ -26,7 +26,7 @@ const WhyDoDogs = lazy(() => import("./pages/WhyDoDogs"));
 const WhyDogsGuideDetail = lazy(() => import("./pages/WhyDogsGuideDetail")); 
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
-const Blog = lazy(() => import("./pages/Blog"));
+const BlogSupabase = lazy(() => import("./pages/BlogSupabase"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const BlogPostSupabase = lazy(() => import("./pages/BlogPostSupabase"));
 const BlogPillar6 = lazy(() => import("./pages/BlogPillar6"));
@@ -79,7 +79,7 @@ const App = () => (
               <Route path="/faq" element={<FAQ />} />
               <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
-              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog" element={<BlogSupabase />} />
               <Route path="/blog/pillar/offers-pricing-partnerships" element={<BlogPillar6 />} />
               <Route path="/blog/:slug" element={<BlogPostSupabase />} />
               <Route path="/contact" element={<Contact />} />
