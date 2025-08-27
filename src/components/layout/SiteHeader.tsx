@@ -116,7 +116,7 @@ export default function SiteHeader() {
   return (
   <header
     role="banner"
-    className="sticky top-0 z-50 border-b border-white/10 bg-transparent supports-[backdrop-filter]:bg-gray-950/55 supports-[backdrop-filter]:backdrop-blur-md"
+    className="sticky top-0 z-50 border-b border-white/10 "
   >
     <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between text-white">
       <Link
