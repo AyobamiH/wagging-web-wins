@@ -12,6 +12,7 @@ const PaymentFailed = () => {
         title="Payment Failed - Tail Wagging Web Design"
         description="Your payment could not be processed. Please try again or contact support."
         path="/payment-failed"
+        noIndex={true}
         keywords={["payment failed", "payment error", "web design", "pet business"]}
       />
 

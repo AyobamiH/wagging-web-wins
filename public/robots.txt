@@ -49,7 +49,7 @@ Allow: /
 
 # Sitemap locations
 Sitemap: https://tailwaggingwebdesign.com/sitemap.xml
-Sitemap: https://tailwaggingwebdesign.com/blog-sitemap
+Sitemap: https://viwxxjnehceedyctevau.supabase.co/functions/v1/blog-sitemap
 
 # Additional crawl instructions
 # No restrictions on crawling frequency for legitimate bots

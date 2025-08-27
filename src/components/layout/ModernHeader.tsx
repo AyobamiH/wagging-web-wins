@@ -48,8 +48,8 @@ export default function ModernHeader() {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 font-semibold tracking-tight"
-            aria-label="Go to home"
+            className="text-xl font-bold transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight"
+            aria-label="Tail Wagging Websites - Home"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

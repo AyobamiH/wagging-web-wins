@@ -1,49 +1,39 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.55.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const HYGRAPH_API_ENDPOINT = 'https://ap-south-1.cdn.hygraph.com/content/cm42biopg009607w3wk4e5ay2/master';
-
 interface BlogPost {
   slug: string;
-  updatedAt: string;
-  publishedAt: string;
+  updated_at: string;
+  published_at: string;
 }
 
 async function fetchAllBlogPosts(): Promise<BlogPost[]> {
-  const query = `
-    query AllBlogPosts {
-      posts(orderBy: publishedAt_DESC, first: 1000) {
-        slug
-        updatedAt
-        publishedAt
-      }
-    }
-  `;
-
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+  const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+  
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  
   try {
-    const response = await fetch(HYGRAPH_API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch posts: ${response.status}`);
-    }
-
-    const { data, errors } = await response.json();
+    console.log('Fetching posts from Supabase...');
     
-    if (errors) {
-      throw new Error(`GraphQL errors: ${JSON.stringify(errors)}`);
+    const { data: posts, error } = await supabase
+      .from('posts')
+      .select('slug, updated_at, published_at')
+      .eq('published', true)
+      .order('published_at', { ascending: false })
+      .limit(1000);
+
+    if (error) {
+      throw new Error(`Supabase error: ${error.message}`);
     }
 
-    return data.posts || [];
+    console.log(`Found ${posts?.length || 0} published posts`);
+    return posts || [];
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     return [];
@@ -54,7 +44,7 @@ function generateBlogSitemap(posts: BlogPost[]): string {
   const baseUrl = 'https://tailwaggingwebdesign.com';
   
   const urlElements = posts.map(post => {
-    const lastmod = post.updatedAt || post.publishedAt;
+    const lastmod = post.updated_at || post.published_at;
     const formattedDate = new Date(lastmod).toISOString().split('T')[0];
     
     return `

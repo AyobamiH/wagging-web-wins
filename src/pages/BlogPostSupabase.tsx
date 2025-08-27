@@ -110,23 +110,55 @@ export default function BlogPostSupabase() {
           {
             "@context": "https://schema.org",
             "@type": "Article",
+            "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
             "headline": post.title,
             "description": post.metaDescription,
             "datePublished": post.publishedAt,
+            "dateModified": post.publishedAt,
+            "wordCount": post.content.replace(/<[^>]*>/g, '').split(' ').length,
+            "articleBody": post.excerpt,
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`
+            },
             "author": {
               "@type": "Organization",
-              "name": "Tail Wagging Websites"
+              "name": "Tail Wagging Websites Factory Northampton",
+              "url": "https://tailwaggingwebdesign.com"
             },
             "publisher": {
               "@type": "Organization",
-              "name": "Tail Wagging Websites",
+              "name": "Tail Wagging Websites Factory Northampton",
+              "url": "https://tailwaggingwebdesign.com",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://tailwaggingwebdesign.com/og.png"
+                "url": "https://tailwaggingwebdesign.com/og.png",
+                "width": 1200,
+                "height": 630
               }
             },
-            "image": post.ogImageUrl || "https://tailwaggingwebdesign.com/og/blog.jpg",
-            "url": `https://tailwaggingwebdesign.com/blog/${post.slug}`
+            "image": {
+              "@type": "ImageObject",
+              "url": post.ogImageUrl || "https://tailwaggingwebdesign.com/og/blog.jpg",
+              "width": 1200,
+              "height": 630,
+              "caption": post.coverAlt || `${post.title} cover image`
+            },
+            "url": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
+            "isPartOf": {
+              "@type": "Blog",
+              "name": "Tail Wagging Web Design Blog",
+              "url": "https://tailwaggingwebdesign.com/blog"
+            },
+            "about": {
+              "@type": "Thing",
+              "name": "Pet Care Web Design",
+              "description": "Web design and digital marketing for pet care businesses"
+            },
+            "audience": {
+              "@type": "Audience",
+              "audienceType": "Pet Care Business Owners"
+            }
           },
           ...(post.faq ? [{
             "@context": "https://schema.org",
@@ -162,6 +194,7 @@ export default function BlogPostSupabase() {
               width={1200}
               height={630}
               loading="lazy"
+              fetchPriority="high"
               decoding="async"
               className="object-cover w-full h-full"
             />

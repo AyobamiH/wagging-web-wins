@@ -12,6 +12,7 @@ const PaymentCancel = () => {
         title="Payment Cancelled - Tail Wagging Web Design"
         description="Your payment was cancelled. You can try again anytime."
         path="/cancel"
+        noIndex={true}
         keywords={["payment cancelled", "checkout cancelled", "web design", "pet business"]}
       />
 
