@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import NorthamptonMap from "@/components/NorthamptonMap";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
-import { trackContactSubmit } from "@/lib/analytics";
+import { trackContactSubmit, trackFAQToggle } from "@/lib/analytics";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -159,10 +159,12 @@ export default function Contact() {
 
       <section className="mx-auto max-w-6xl px-4 py-10">
         
-        <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
-        <p className="mt-3 text-muted-foreground max-w-2xl">
-          Tell us about your services, area, and goals — we'll reply within one business day.
-        </p>
+        <header>
+          <h1 className="text-3xl font-bold tracking-tight">Let's make your website your best employee.</h1>
+          <p className="mt-3 text-muted-foreground max-w-2xl">
+            Tell us about your services, area, and goals — we'll reply within one business day.
+          </p>
+        </header>
         <form ref={formRef} onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2" aria-label="Contact form">
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">Name</label>
@@ -226,18 +228,33 @@ export default function Contact() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h2 className="text-2xl font-bold tracking-tight mb-6">Frequently Asked Questions</h2>
         <div className="grid gap-6 max-w-4xl">
-          <div className="border border-border rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-2">How much does a pet website cost in Northampton?</h3>
-            <p className="text-muted-foreground">We start with a free consultation. Packages scale from Starter to Enterprise based on bookings, reviews, and automations.</p>
-          </div>
-          <div className="border border-border rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-2">Do you work with dog walkers, groomers and vets?</h3>
-            <p className="text-muted-foreground">Yes—our niche is pet-care. We build for dog walkers, groomers, sitters and veterinary practices with local SEO included.</p>
-          </div>
-          <div className="border border-border rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-2">Can you audit my current site first?</h3>
-            <p className="text-muted-foreground">Yes. We'll run a quick performance and SEO audit and share clear next steps before any build.</p>
-          </div>
+          <details 
+            className="border border-border rounded-lg p-6 group"
+            onToggle={(e) => trackFAQToggle("How much does a pet website cost in Northampton?", "contact", e.currentTarget.open ? 'open' : 'close')}
+          >
+            <summary className="text-lg font-semibold mb-2 cursor-pointer hover:text-primary transition-colors">
+              How much does a pet website cost in Northampton?
+            </summary>
+            <p className="text-muted-foreground mt-2">We start with a free consultation. Packages scale from Starter to Enterprise based on bookings, reviews, and automations.</p>
+          </details>
+          <details 
+            className="border border-border rounded-lg p-6 group"
+            onToggle={(e) => trackFAQToggle("Do you work with dog walkers, groomers and vets?", "contact", e.currentTarget.open ? 'open' : 'close')}
+          >
+            <summary className="text-lg font-semibold mb-2 cursor-pointer hover:text-primary transition-colors">
+              Do you work with dog walkers, groomers and vets?
+            </summary>
+            <p className="text-muted-foreground mt-2">Yes—our niche is pet-care. We build for dog walkers, groomers, sitters and veterinary practices with local SEO included.</p>
+          </details>
+          <details 
+            className="border border-border rounded-lg p-6 group"
+            onToggle={(e) => trackFAQToggle("Can you audit my current site first?", "contact", e.currentTarget.open ? 'open' : 'close')}
+          >
+            <summary className="text-lg font-semibold mb-2 cursor-pointer hover:text-primary transition-colors">
+              Can you audit my current site first?
+            </summary>
+            <p className="text-muted-foreground mt-2">Yes. We'll run a quick performance and SEO audit and share clear next steps before any build.</p>
+          </details>
         </div>
       </section>
 

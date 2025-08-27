@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, MessageCircle, CreditCard, Shield, Palette, TrendingUp, Target } from "lucide-react";
+import { trackFAQToggle, trackSearch } from "@/lib/analytics";
 
 export default function FAQ() {
   const categories = [
@@ -111,6 +112,19 @@ export default function FAQ() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    // Track search after the query is set (filteredItems will update on next render)
+    if (value.trim()) {
+      setTimeout(() => trackSearch(value, 'faq_page'), 0);
+    }
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    trackFAQToggle(`Category: ${category}`, 'navigation', 'open');
+  };
+
   const categoryIcons = {
     "General Questions": MessageCircle,
     "Services Offered": Target,
@@ -181,13 +195,25 @@ export default function FAQ() {
 
   return (
     <>
-      <Seo
-        title="FAQ - Pet Care Website Design & Marketing | Tail Wagging Websites Northampton"
-        description="Get answers to common questions about pet care website design, SEO, pricing, and services for dog walkers, groomers, and pet businesses in Northampton."
-        path="/faq"
-        breadcrumbs={[{ name: "Home", item: "/" }, { name: "FAQ", item: "/faq" }]}
-        jsonLd={faqJsonLd}
-      />
+        <Seo
+          title="FAQ - Pet Care Website Design & Marketing Questions"
+          description="Get answers to common questions about pet care website design, SEO, pricing, and services for dog walkers, groomers, and pet businesses in Northampton."
+          path="/faq"
+          keywords={[
+            "pet care website FAQ",
+            "pet business web design questions",
+            "dog walker website FAQ",
+            "pet groomer website questions",
+            "pet website pricing questions",
+            "pet business SEO FAQ",
+            "veterinary website FAQ",
+            "pet website design help",
+            "Northampton pet web designer FAQ",
+            "pet business website support"
+          ]}
+          breadcrumbs={[{ name: "Home", item: "/" }, { name: "FAQ", item: "/faq" }]}
+          jsonLd={faqJsonLd}
+        />
       
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
         {/* Hero Section */}
@@ -211,7 +237,7 @@ export default function FAQ() {
                   type="text"
                   placeholder="Search FAQs..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-9 h-12 bg-background/50 backdrop-blur-sm border-primary/20 focus:border-primary/50"
                 />
               </div>
@@ -221,7 +247,7 @@ export default function FAQ() {
 
         {/* Main Content */}
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+          <Tabs value={activeCategory} onValueChange={handleCategoryChange} className="w-full">
             {/* Category Tabs */}
             <div className="mb-8 overflow-x-auto">
               <TabsList className="inline-flex w-max min-w-full justify-start bg-muted/50 p-1">

@@ -10,10 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import Seo from "@/components/Seo";
+import { trackNavClick, trackBlogPostView } from "@/lib/analytics";
+import { useWebVitals } from "@/hooks/useWebVitals";
 
 const postRepository = new SupabasePostRepository();
 
 export default function BlogPillar5() {
+  useWebVitals(); // Track performance metrics
+
   const { data: posts = [], isLoading, error } = useQuery({
     queryKey: ['pillar5-posts'],
     queryFn: () => postRepository.list({ pillar: 'pillar-5' }),
@@ -33,6 +37,20 @@ export default function BlogPillar5() {
         title="Social Media, Stories & Email Marketing for Pet Businesses"
         description="Master social content, storytelling frameworks, email sequences, and content calendars that build trust and book more pet care services. Proven strategies for pet businesses."
         path="/blog/pillar-5"
+        keywords={[
+          "pet business social media",
+          "pet care email marketing",
+          "dog walker social media",
+          "pet groomer marketing",
+          "pet business storytelling",
+          "pet care content calendar",
+          "veterinary social media",
+          "pet business email sequences",
+          "pet care content marketing",
+          "dog walking social content",
+          "pet grooming email marketing",
+          "pet business brand stories"
+        ]}
         breadcrumbs={[
           { name: "Blog", item: "/blog" },
           { name: "Pillar 5: Social & Email Growth", item: "/blog/pillar-5" }
@@ -167,6 +185,7 @@ export default function BlogPillar5() {
                         <Link
                           to={`/blog/${post.slug}`}
                           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          onClick={() => trackBlogPostView(post.title, post.slug, 'pillar-5', 'pillar5_post_grid')}
                         >
                           Read Article
                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -208,7 +227,7 @@ export default function BlogPillar5() {
             <div className="mt-16 max-w-4xl mx-auto">
               <h3 className="font-semibold mb-4">Explore Other Pillars</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link to="/blog/pillar-1" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-1" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors" onClick={() => trackNavClick('Pillar 1: Booking & Reliability', '/blog/pillar-1', 'pillar5_cross_navigation')}>
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                     <span className="text-primary font-semibold text-sm">1</span>
                   </div>
@@ -218,7 +237,7 @@ export default function BlogPillar5() {
                   </div>
                 </Link>
                 
-                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors" onClick={() => trackNavClick('Pillar 6: Offers & Partnerships', '/blog/pillar-6', 'pillar5_cross_navigation')}>
                   <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
                     <span className="text-accent font-semibold text-sm">6</span>
                   </div>

@@ -4,8 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, MapPin, Star, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
+import { trackNavClick, trackBlogPostView } from "@/lib/analytics";
+import { useWebVitals } from "@/hooks/useWebVitals";
 
 export default function BlogPillar3() {
+  useWebVitals(); // Track performance metrics
+
   const posts = [
     {
       slug: "google-business-profile-pet-sitter-90-day-plan-uk",
@@ -40,14 +44,49 @@ export default function BlogPillar3() {
   return (
     <>
       <Seo
-        title="Local SEO & Google Business Profile for Pet Care Pros"
-        description="Master local SEO with our complete guide to Google Business Profile optimization, service area pages, review strategies, and photo tips for pet sitters, dog walkers, and groomers."
+        title="Local SEO & Google Business Profile for Pet Care Professionals"
+        description="Master local SEO with comprehensive guides to Google Business Profile optimization, service area pages, review strategies, and photo tips for pet sitters, dog walkers, and groomers."
         path="/blog/pillar-3"
         imageUrl="/og/blog.jpg"
+        keywords={[
+          "local SEO pet business",
+          "Google Business Profile pet care",
+          "pet business local search",
+          "dog walker local SEO",
+          "pet groomer local SEO",
+          "veterinary practice local SEO",
+          "pet business reviews",
+          "Google My Business pet care",
+          "local search optimization pets",
+          "pet business Google ranking",
+          "service area pages pet business",
+          "pet care local marketing"
+        ]}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" },
           { name: "Local SEO & GBP", item: "/blog/pillar-3" }
+        ]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Local SEO & Google Business Profile for Pet Care Professionals",
+            "description": "Master local SEO with comprehensive guides to Google Business Profile optimization, service area pages, review strategies, and photo tips.",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar-3",
+            "mainEntity": {
+              "@type": "ItemList",
+              "name": "Local SEO Articles for Pet Businesses",
+              "numberOfItems": 4,
+              "itemListElement": posts.map((post, index) => ({
+                "@type": "Article",
+                "position": index + 1,
+                "name": post.title,
+                "description": post.excerpt,
+                "url": `https://tailwaggingwebdesign.com/blog/${post.slug}`
+              }))
+            }
+          }
         ]}
       />
 
@@ -66,12 +105,12 @@ export default function BlogPillar3() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/contact">
+              <Link to="/contact" onClick={() => trackNavClick('Get Local SEO Help', '/contact', 'pillar3_hero')}>
                 Get Local SEO Help
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/blog">
+              <Link to="/blog" onClick={() => trackNavClick('All Guides', '/blog', 'pillar3_hero')}>
                 All Guides
               </Link>
             </Button>
@@ -96,7 +135,10 @@ export default function BlogPillar3() {
                         <span>{post.readTime}</span>
                       </div>
                       <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        <Link to={`/blog/${post.slug}`}>
+                        <Link 
+                          to={`/blog/${post.slug}`}
+                          onClick={() => trackBlogPostView(post.title, post.slug, 'pillar-3', 'pillar3_post_grid')}
+                        >
                           {post.title}
                         </Link>
                       </CardTitle>
@@ -108,7 +150,10 @@ export default function BlogPillar3() {
                     {post.excerpt}
                   </CardDescription>
                   <Button variant="ghost" size="sm" className="p-0 h-auto font-medium" asChild>
-                    <Link to={`/blog/${post.slug}`}>
+                    <Link 
+                      to={`/blog/${post.slug}`}
+                      onClick={() => trackBlogPostView(post.title, post.slug, 'pillar-3', 'pillar3_read_guide')}
+                    >
                       Read guide →
                     </Link>
                   </Button>
@@ -129,7 +174,7 @@ export default function BlogPillar3() {
               Book a free consultation to discuss your specific market and goals.
             </p>
             <Button size="lg" asChild>
-              <Link to="/contact">
+              <Link to="/contact" onClick={() => trackNavClick('Book Free Consultation', '/contact', 'pillar3_bottom_cta')}>
                 Book Free Consultation
               </Link>
             </Button>

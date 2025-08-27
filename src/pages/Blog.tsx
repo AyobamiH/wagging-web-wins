@@ -6,6 +6,7 @@ import Seo from "@/components/Seo";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { trackNavClick, trackBlogPostView } from "@/lib/analytics";
 
 const HYGRAPH_API_ENDPOINT = 'https://ap-south-1.cdn.hygraph.com/content/cm42biopg009607w3wk4e5ay2/master';
 const POSTS_PER_PAGE = 6;
@@ -96,6 +97,7 @@ export default function Blog() {
 
   const handlePageChange = (page: number) => {
     setSearchParams({ page: page.toString() });
+    trackNavClick(`Page ${page}`, `/blog?page=${page}`, 'blog_pagination');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -111,11 +113,28 @@ export default function Blog() {
   return (
     <>
       <Seo
-        title="Blog • Tail Wagging Websites"
-        description="Insights, tips and guides for pet business owners on web design, local SEO, marketing automation and growing your business online."
+        title="Pet Care Business Blog • Web Design, SEO & Marketing Tips"
+        description="Expert insights on web design, local SEO, marketing automation, and business growth strategies for pet care professionals. Discover proven tactics that book more clients."
         path="/blog"
         imageUrl="https://tailwaggingwebdesign.com/og/blog.jpg"
-        imageAlt="Tail Wagging Websites Blog"
+        imageAlt="Pet care business blog with web design and marketing insights"
+        keywords={[
+          "pet care business blog",
+          "pet business marketing tips",
+          "dog walker SEO tips",
+          "pet groomer marketing",
+          "pet sitting business advice",
+          "veterinary practice marketing",
+          "pet care web design blog", 
+          "local SEO for pet businesses",
+          "pet business automation",
+          "pet care website tips",
+          "dog walking business growth",
+          "pet grooming marketing strategies",
+          "pet business lead generation",
+          "pet care digital marketing",
+          "veterinary marketing blog"
+        ]}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" }
@@ -123,15 +142,34 @@ export default function Blog() {
         jsonLd={[
           {
             "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "name": "Blog • Tail Wagging Websites",
-            "description": "Insights, tips and guides for pet business owners on web design, local SEO, marketing automation and growing your business online.",
+            "@type": "Blog",
+            "@id": "https://tailwaggingwebdesign.com/blog#blog",
+            "name": "Pet Care Business Blog",
+            "description": "Expert insights on web design, local SEO, marketing automation, and business growth strategies for pet care professionals.",
+            "url": "https://tailwaggingwebdesign.com/blog",
+            "inLanguage": "en-GB",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Tail Wagging Websites",
+              "url": "https://tailwaggingwebdesign.com/",
+              "logo": "https://tailwaggingwebdesign.com/og.png"
+            },
+            "mainEntity": {
+              "@type": "ItemList",
+              "name": "Pet Care Business Articles",
+              "numberOfItems": data?.postsConnection.aggregate.count || 0
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Pet Care Business Blog",
             "url": "https://tailwaggingwebdesign.com/blog",
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "/blog" }
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tailwaggingwebdesign.com/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://tailwaggingwebdesign.com/blog" }
               ]
             }
           }
@@ -170,13 +208,18 @@ export default function Blog() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {data?.posts.map((post) => (
                     <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                      <Link to={`/blog/${post.slug}`}>
+                      <Link 
+                        to={`/blog/${post.slug}`}
+                        onClick={() => trackBlogPostView(post.title, post.slug, undefined, 'blog_listing')}
+                      >
                         {post.coverImage && (
                           <div className="aspect-video overflow-hidden">
                             <img
                               src={post.coverImage.url}
                               alt={post.coverImage.altText || `${post.title} cover image`}
                               className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                              decoding="async"
                             />
                           </div>
                         )}

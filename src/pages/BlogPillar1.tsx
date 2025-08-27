@@ -8,12 +8,16 @@ import CalendlyEmbed from "@/components/CalendlyEmbed";
 import Seo from "@/components/Seo";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 import type { Post } from "@/lib/repositories/types";
+import { trackNavClick, trackBlogPostView } from "@/lib/analytics";
+import { useWebVitals } from "@/hooks/useWebVitals";
 
 const postRepository = new SupabasePostRepository();
 
 const BlogPillar1 = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useWebVitals(); // Track performance metrics
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -94,7 +98,7 @@ const BlogPillar1 = () => {
                   ariaLabel="Book a free consultation to discuss your booking systems"
                   trackingLocation="pillar1_hero"
                 />
-                <Link to="/blog">
+                <Link to="/blog" onClick={() => trackNavClick('All Articles', '/blog', 'pillar1_header')}>
                   <Button variant="outline" size="lg">
                     <BookOpen className="w-4 h-4 mr-2" />
                     All Articles
@@ -163,6 +167,7 @@ const BlogPillar1 = () => {
                       <Link 
                         to={`/blog/${post.slug}`}
                         className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
+                        onClick={() => trackBlogPostView(post.title, post.slug, 'pillar-1', 'pillar1_post_grid')}
                       >
                         Read Article
                         <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -192,7 +197,7 @@ const BlogPillar1 = () => {
             <div className="mt-8 p-6 bg-muted/50 rounded-lg">
               <h3 className="font-semibold mb-4">Explore Other Pillars</h3>
               <div className="grid gap-4 md:grid-cols-2">
-                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/blog/pillar-6" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors" onClick={() => trackNavClick('Pillar 6: Offers, Pricing & Partnerships', '/blog/pillar-6', 'pillar1_related_links')}>
                   <div className="bg-primary/20 rounded-full p-2">
                     <Calendar className="w-4 h-4 text-primary" />
                   </div>
@@ -201,7 +206,7 @@ const BlogPillar1 = () => {
                     <p className="text-sm text-muted-foreground">Strategic pricing and partnership systems</p>
                   </div>
                 </Link>
-                <Link to="/tools" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors">
+                <Link to="/tools" className="flex items-center gap-3 p-3 bg-background rounded hover:bg-accent/50 transition-colors" onClick={() => trackNavClick('Business Tools Hub', '/tools', 'pillar1_related_links')}>
                   <div className="bg-accent/20 rounded-full p-2">
                     <BookOpen className="w-4 h-4 text-accent" />
                   </div>

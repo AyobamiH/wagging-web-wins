@@ -98,3 +98,53 @@ export const trackToolInfoView = (toolName: string, toolId: string) => {
     tool_name: toolName,
   });
 };
+
+// Blog and content interactions
+export const trackBlogPostView = (postTitle: string, postSlug: string, pillar?: string, location?: string) => {
+  trackEvent('blog_post_view', {
+    post_title: postTitle,
+    post_slug: postSlug,
+    pillar: pillar || 'unknown',
+    location: location || 'unknown',
+  });
+};
+
+export const trackBlogPostRead = (postSlug: string, readingProgress: number, timeOnPage: number) => {
+  trackEvent('blog_post_read', {
+    post_slug: postSlug,
+    reading_progress: readingProgress,
+    time_on_page: timeOnPage,
+  });
+};
+
+export const trackSearch = (query: string, location: string, resultsCount?: number) => {
+  trackEvent('search', {
+    query,
+    location,
+    results_count: resultsCount || 0,
+  });
+};
+
+export const trackFilter = (filterType: string, filterValue: string, location: string, resultsCount?: number) => {
+  trackEvent('filter_applied', {
+    filter_type: filterType,
+    filter_value: filterValue,
+    location,
+    results_count: resultsCount || 0,
+  });
+};
+
+// Performance tracking
+export const trackWebVitals = (name: string, value: number) => {
+  trackEvent('web_vitals', {
+    metric_name: name,
+    value: Math.round(value),
+  });
+};
+
+export const trackPageLoad = (path: string, loadTime: number) => {
+  trackEvent('page_load', {
+    path,
+    load_time: Math.round(loadTime),
+  });
+};
