@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReviewsProvider } from "@/contexts/ReviewsContext";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
@@ -27,6 +28,8 @@ const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const BlogPostSupabase = lazy(() => import("./pages/BlogPostSupabase"));
+const BlogPillar6 = lazy(() => import("./pages/BlogPillar6"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
@@ -52,10 +55,11 @@ const PageViewTracker = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <ReviewsProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <PageViewTracker />
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
@@ -76,7 +80,8 @@ const App = () => (
               <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/blog/pillar/offers-pricing-partnerships" element={<BlogPillar6 />} />
+              <Route path="/blog/:slug" element={<BlogPostSupabase />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
@@ -89,6 +94,7 @@ const App = () => (
         </Suspense>
       </BrowserRouter>
     </TooltipProvider>
+    </ReviewsProvider>
   </QueryClientProvider>
 );
 
