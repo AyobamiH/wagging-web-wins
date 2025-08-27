@@ -90,7 +90,7 @@ export default function SiteHeader() {
         </nav>
       </div>
       {open && (
-        <div className="sm:hidden border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="sm:hidden border-t bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/80">
           <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
             {navItems.map((n) => (
               <NavLink 
