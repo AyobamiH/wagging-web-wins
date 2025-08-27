@@ -116,7 +116,7 @@ export default function SiteHeader() {
   return (
   <header
     role="banner"
-    className="sticky top-0 z-50 border-b border-white/10  "
+    className="sticky top-0 z-50 border-b border-white/10 "
   >
     <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between text-white">
       <Link
@@ -199,7 +199,7 @@ export default function SiteHeader() {
     </div>
 
     {open && (
-      <div className="sm:hidden border-t border-white/10  backdrop-blur-md">
+      <div className="sm:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
           {navItems.map((n) => (
             <NavLink
