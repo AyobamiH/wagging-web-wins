@@ -1,26 +1,15 @@
-# Blog sitemap endpoint
-/blog-sitemap /supabase/functions/v1/blog-sitemap 200
 
-# 301 redirects for legacy URLs
-/portfolio /tools 301!
+# Blog pillar redirects - old format to new format
+/blog/pillar/booking-and-reliability /blog/pillar-1 301
+/blog/pillar/offers-pricing-partnerships /blog/pillar-6 301
 
-# Canonical trailing slash enforcement for why-do-dogs
-/why-do-dogs /why-do-dogs/ 301!
-/why-do-dogs/lick-people /why-do-dogs/lick-people/ 301!
-/why-do-dogs/lick-after-shower /why-do-dogs/lick-after-shower/ 301!
-/why-do-dogs/licking-problem /why-do-dogs/licking-problem/ 301!
-/why-do-dogs/eat-grass /why-do-dogs/eat-grass/ 301!
-/why-do-dogs/eat-poop /why-do-dogs/eat-poop/ 301!
-/why-do-dogs/drooling-or-nibbling /why-do-dogs/drooling-or-nibbling/ 301!
-/why-do-dogs/shake-or-shiver /why-do-dogs/shake-or-shiver/ 301!
-/why-do-dogs/scoot /why-do-dogs/scoot/ 301!
-/why-do-dogs/follow-to-bathroom /why-do-dogs/follow-to-bathroom/ 301!
-/why-do-dogs/howl /why-do-dogs/howl/ 301!
-/why-do-dogs/bark-at-nothing-or-postie /why-do-dogs/bark-at-nothing-or-postie/ 301!
-/why-do-dogs/pant-a-lot /why-do-dogs/pant-a-lot/ 301!
-/why-do-dogs/dig /why-do-dogs/dig/ 301!
-/why-do-dogs/hump /why-do-dogs/hump/ 301!
-/why-do-dogs/stare /why-do-dogs/stare/ 301!
+# Legacy redirects
+/blog/pillar-1/* /blog/pillar-1 301
+/blog/pillar-2/* /blog/pillar-2 301
+/blog/pillar-3/* /blog/pillar-3 301
+/blog/pillar-4/* /blog/pillar-4 301
+/blog/pillar-5/* /blog/pillar-5 301
+/blog/pillar-6/* /blog/pillar-6 301
 
-# Catch-all for SPA routing
+# SPA fallback
 /* /index.html 200

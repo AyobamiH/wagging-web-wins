@@ -1,359 +1,284 @@
+
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { Calendar, TrendingUp } from "lucide-react";
 import Seo from "@/components/Seo";
-import { cn } from "@/lib/utils";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 
-const POSTS_PER_PAGE = 6;
 const postRepository = new SupabasePostRepository();
 
 export default function BlogSupabase() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
-  const pillarFilter = searchParams.get('pillar') || undefined;
-
-  const { data: posts, isLoading, error } = useQuery({
-    queryKey: ['supabase-posts', currentPage, pillarFilter],
-    queryFn: () => postRepository.list({ 
-      limit: POSTS_PER_PAGE,
-      offset: (currentPage - 1) * POSTS_PER_PAGE,
-      pillar: pillarFilter
-    }),
+  const [selectedPillar, setSelectedPillar] = useState<string>("all");
+  
+  const { data: posts = [], isLoading } = useQuery({
+    queryKey: ['blog-posts', selectedPillar],
+    queryFn: () => postRepository.list({
+      pillar: selectedPillar === "all" ? undefined : selectedPillar,
+      featuredFirst: true,
+      limit: 50
+    })
   });
 
-  const { data: allPosts } = useQuery({
-    queryKey: ['all-posts-count', pillarFilter],
-    queryFn: () => postRepository.list({ pillar: pillarFilter }),
-  });
+  const pillars = [
+    { id: "all", name: "All Posts", count: posts.length },
+    { id: "pillar-1", name: "Booking & Reliability", count: posts.filter(p => p.pillarTag === "pillar-1").length },
+    { id: "pillar-2", name: "Website UX & Conversion", count: posts.filter(p => p.pillarTag === "pillar-2").length },
+    { id: "pillar-3", name: "Local SEO & GBP", count: posts.filter(p => p.pillarTag === "pillar-3").length },
+    { id: "pillar-4", name: "Trust, Safety & Compliance", count: posts.filter(p => p.pillarTag === "pillar-4").length },
+    { id: "pillar-5", name: "Client Experience & Retention", count: posts.filter(p => p.pillarTag === "pillar-5").length },
+    { id: "pillar-6", name: "Content & Social Media", count: posts.filter(p => p.pillarTag === "pillar-6").length },
+  ];
 
-  const totalPages = allPosts ? Math.ceil(allPosts.length / POSTS_PER_PAGE) : 0;
-
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams();
-    params.set('page', page.toString());
-    if (pillarFilter) params.set('pillar', pillarFilter);
-    setSearchParams(params);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handlePillarFilter = (pillar?: string) => {
-    const params = new URLSearchParams();
-    if (pillar) params.set('pillar', pillar);
-    setSearchParams(params);
-  };
-
-  if (error) {
-    return (
-      <div className="mx-auto max-w-6xl px-4 py-12 text-center">
-        <h1 className="text-2xl font-semibold">Something went wrong</h1>
-        <p className="mt-2 text-muted-foreground">Unable to load blog posts. Please try again later.</p>
-      </div>
-    );
-  }
+  const pillarHubs = [
+    {
+      id: "pillar-1",
+      title: "Pet Business Foundations",
+      description: "Master booking systems, reduce no-shows, automate updates, and optimize scheduling.",
+      href: "/blog/pillar-1",
+      count: posts.filter(p => p.pillarTag === "pillar-1").length
+    },
+    {
+      id: "pillar-2", 
+      title: "Website UX & Conversion",
+      description: "Build websites that convert visitors into bookings with proven UX strategies.",
+      href: "/blog/pillar-2",
+      count: posts.filter(p => p.pillarTag === "pillar-2").length
+    },
+    {
+      id: "pillar-3",
+      title: "Local SEO & Google Business Profile", 
+      description: "Master local search with Google Business Profile optimization and review strategies.",
+      href: "/blog/pillar-3",
+      count: posts.filter(p => p.pillarTag === "pillar-3").length
+    },
+    {
+      id: "pillar-4",
+      title: "Trust, Safety & Compliance",
+      description: "Build client trust with proper safety standards, forms, and GDPR compliance.",
+      href: "/blog/pillar-4", 
+      count: posts.filter(p => p.pillarTag === "pillar-4").length
+    },
+    {
+      id: "pillar-5",
+      title: "Client Experience & Retention",
+      description: "Reduce cancellations and increase bookings with proven welcome sequences.",
+      href: "/blog/pillar-5",
+      count: posts.filter(p => p.pillarTag === "pillar-5").length
+    },
+    {
+      id: "pillar-6",
+      title: "Content & Social Media",
+      description: "Create engaging content that builds authority and attracts ideal clients.",
+      href: "/blog/pillar-6",
+      count: posts.filter(p => p.pillarTag === "pillar-6").length
+    }
+  ];
 
   return (
     <>
       <Seo
-        title="Blog • Tail Wagging Websites"
-        description="Insights, tips and guides for pet business owners on web design, local SEO, marketing automation and growing your business online."
+        title="Pet Care Business Blog - Marketing Guides & Strategies"
+        description="Comprehensive guides for pet care professionals. Master booking systems, local SEO, client retention, content marketing, and compliance for your pet business."
         path="/blog"
-        imageUrl="https://tailwaggingwebdesign.com/og/blog.jpg"
-        imageAlt="Tail Wagging Websites Blog"
+        imageUrl="/og/blog.jpg"
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" }
         ]}
       />
 
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-12">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-4">Pet Business Insights</h1>
-            <p className="text-lg text-muted-foreground">
-              Practical strategies and tools to grow your pet service business
-            </p>
-            
-        {/* Pillar Navigation */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          <Link
-            to="/blog/pillar-1"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
-          >
-            Pillar 1: Pet Business Foundations
-          </Link>
-          <Link
-            to="/blog/pillar-2"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium opacity-60"
-          >
-            Pillar 2: Coming Soon
-          </Link>
-          <Link
-            to="/blog/pillar-3"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
-          >
-            Pillar 3: Local SEO & GBP
-          </Link>
-          <Link
-            to="/blog/pillar-4"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
-          >
-            Pillar 4: Trust, Safety & Compliance
-          </Link>
-          <Link
-            to="/blog/pillar-5"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
-          >
-            Pillar 5: Client Experience & Retention
-          </Link>
-          <Link
-            to="/blog/pillar-6"
-            className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-background hover:bg-accent transition-colors text-sm font-medium"
-          >
-            Pillar 6: Content & Social Media
-          </Link>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Pet Care Business Marketing Hub
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            Comprehensive guides to grow your pet care business. From booking systems to local SEO, 
+            client retention to content marketing—everything you need to succeed.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild>
+              <Link to="/contact">
+                Get Personalized Help
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/#reviews">
+                312+ Success Stories
+              </Link>
+            </Button>
+          </div>
         </div>
-          </div>
 
-          {/* Pillar Filters */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            <button
-              onClick={() => handlePillarFilter('')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                !pillarFilter
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              All Posts
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-1')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                pillarFilter === 'pillar-1'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 1
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-2')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors opacity-60",
-                pillarFilter === 'pillar-2'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 2
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-3')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                pillarFilter === 'pillar-3'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 3
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-4')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                pillarFilter === 'pillar-4'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 4
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-5')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                pillarFilter === 'pillar-5'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 5
-            </button>
-            <button
-              onClick={() => handlePillarFilter('pillar-6')}
-              className={cn(
-                "px-3 py-1.5 text-sm rounded-full transition-colors",
-                pillarFilter === 'pillar-6'
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background border border-border hover:bg-accent"
-              )}
-            >
-              Pillar 6
-            </button>
-          </div>
-
-          {/* Featured Pillar Hubs */}
-          {!pillarFilter && (
-            <div className="mb-12 grid gap-6 md:grid-cols-2">
-              {/* Pillar 1 Hub */}
-              <div className="p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
-                    <span className="text-sm font-bold text-white">P1</span>
-                  </div>
-                  <div>
-                    <Badge variant="secondary" className="mb-2">New Collection</Badge>
-                    <h2 className="text-xl font-semibold">Booking & Reliability</h2>
-                  </div>
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  Master booking systems, reduce no-shows, automate updates, and optimize scheduling to build a reliable foundation.
-                </p>
-                <Link 
-                  to="/blog/pillar-1"
-                  className="inline-flex items-center text-primary hover:underline font-medium"
-                >
-                  Explore Pillar 1 →
-                </Link>
-              </div>
-
-              {/* Pillar 6 Hub */}
-              <div className="p-6 rounded-2xl bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent/70 flex items-center justify-center">
-                    <span className="text-sm font-bold text-white">P6</span>
-                  </div>
-                  <div>
-                    <Badge variant="secondary" className="mb-2">Featured Collection</Badge>
-                    <h2 className="text-xl font-semibold">Offers & Partnerships</h2>
-                  </div>
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  Strategic pricing, partnership playbooks, and referral systems that drive sustainable growth.
-                </p>
-                <Link 
-                  to="/blog/pillar-6"
-                  className="inline-flex items-center text-accent hover:underline font-medium"
-                >
-                  Explore Pillar 6 →
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* Posts Grid */}
-          {isLoading ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="overflow-hidden">
-                  <Skeleton className="aspect-video w-full" />
-                  <CardHeader>
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
-          ) : posts?.length === 0 ? (
-            <div className="text-center py-12">
-              <h2 className="text-xl font-semibold">No posts yet</h2>
-              <p className="mt-2 text-muted-foreground">Check back soon for new content!</p>
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts?.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                  <Link to={`/blog/${post.slug}`}>
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={post.ogImageUrl || "/og/blog.jpg"}
-                        alt={post.coverAlt || `${post.title} cover image`}
-                        width={400}
-                        height={225}
-                        loading="lazy"
-                        decoding="async"
-                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                      />
+        {/* Marketing Pillars Overview */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
+            The 6 Marketing Pillars
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {pillarHubs.map((pillar) => (
+              <Card key={pillar.id} className="group hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                      <span className="text-primary font-semibold text-sm">
+                        {pillar.id.split('-')[1]}
+                      </span>
                     </div>
-                    <CardHeader>
-                      <div className="flex items-center gap-2 mb-2">
-                        {post.pillarTag && (
-                          <Badge variant="secondary" className="text-xs capitalize">
-                            {post.pillarTag.replace('-', ' ')}
-                          </Badge>
-                        )}
-                      </div>
-                      <CardTitle className="line-clamp-2 hover:text-primary transition-colors">
-                        {post.title}
-                      </CardTitle>
-                      <p className="text-sm text-muted-foreground line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <time dateTime={post.publishedAt}>
-                          {format(new Date(post.publishedAt), 'MMM d, yyyy')}
-                        </time>
-                      </div>
-                    </CardHeader>
-                  </Link>
-                </Card>
-              ))}
-            </div>
-          )}
+                    <Badge variant="secondary">
+                      {pillar.count} Guide{pillar.count !== 1 ? 's' : ''}
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                    <Link to={pillar.href}>
+                      {pillar.title}
+                    </Link>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-sm mb-3">
+                    {pillar.description}
+                  </CardDescription>
+                  <Button variant="ghost" size="sm" className="p-0 h-auto font-medium" asChild>
+                    <Link to={pillar.href}>
+                      Explore pillar →
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-12 flex justify-center">
-              <Pagination>
-                <PaginationContent>
-                  {currentPage > 1 && (
-                    <PaginationItem>
-                      <PaginationPrevious
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className="cursor-pointer"
-                      />
-                    </PaginationItem>
-                  )}
-                  
-                  {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                    const pageNum = i + Math.max(1, currentPage - 2);
-                    if (pageNum > totalPages) return null;
-                    
-                    return (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          onClick={() => handlePageChange(pageNum)}
-                          isActive={pageNum === currentPage}
-                          className="cursor-pointer"
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
+        {/* Filter Tabs */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2 justify-center">
+            {pillars.map((pillar) => (
+              <Button
+                key={pillar.id}
+                variant={selectedPillar === pillar.id ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedPillar(pillar.id)}
+                className={`${selectedPillar === pillar.id ? '' : 'hover:bg-muted'}`}
+              >
+                {pillar.name}
+                {pillar.count > 0 && (
+                  <Badge variant="secondary" className="ml-2 text-xs">
+                    {pillar.count}
+                  </Badge>
+                )}
+              </Button>
+            ))}
+          </div>
+        </div>
 
-                  {currentPage < totalPages && (
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className="cursor-pointer"
-                      />
-                    </PaginationItem>
-                  )}
-                </PaginationContent>
-              </Pagination>
+        {/* Calendly Embed */}
+        <div className="mb-12 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2">Need Personalized Guidance?</h3>
+            <p className="text-muted-foreground mb-4">
+              Get tailored advice for your specific pet care business challenges and goals.
+            </p>
+            <CalendlyEmbed 
+              buttonText="Book Free Strategy Call"
+              buttonSize="lg"
+              ariaLabel="Book a free strategy call for pet business marketing"
+              trackingLocation="blog_hub"
+            />
+          </div>
+        </div>
+
+        {/* Posts Grid */}
+        {isLoading ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i} className="overflow-hidden">
+                <Skeleton className="aspect-video w-full" />
+                <CardHeader>
+                  <Skeleton className="h-4 w-16 mb-2" />
+                  <Skeleton className="h-6 w-full mb-2" />
+                  <Skeleton className="h-4 w-24" />
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">
+              {selectedPillar === "all" 
+                ? "No posts available yet." 
+                : `No posts available for ${pillars.find(p => p.id === selectedPillar)?.name}.`
+              }
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <Card key={post.id} className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <Link to={`/blog/${post.slug}`}>
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={post.ogImageUrl || "/og/blog.jpg"}
+                      alt={post.coverAlt || `${post.title} cover image`}
+                      width={400}
+                      height={225}
+                      loading="lazy"
+                      decoding="async"
+                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <CardHeader>
+                    {post.pillarTag && (
+                      <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                        {post.pillarTag.replace('-', ' ')}
+                      </Badge>
+                    )}
+                    <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </CardTitle>
+                    <CardDescription className="text-sm line-clamp-3 mb-2">
+                      {post.excerpt}
+                    </CardDescription>
+                    <p className="text-xs text-muted-foreground">
+                      {format(new Date(post.publishedAt), 'MMM d, yyyy')}
+                    </p>
+                  </CardHeader>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {/* Bottom CTA */}
+        <div className="mt-16 text-center">
+          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 md:p-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              Ready to Transform Your Pet Business?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Join 312+ pet care professionals who've grown their businesses with our proven strategies. 
+              Get personalized guidance tailored to your specific goals and challenges.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild>
+                <Link to="/contact">
+                  Start Your Growth Journey
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/services">
+                  Explore Our Services
+                </Link>
+              </Button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>
