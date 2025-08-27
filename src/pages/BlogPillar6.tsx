@@ -31,15 +31,30 @@ export default function BlogPillar6() {
   return (
     <>
       <Seo
-        title="Offers, Pricing & Partnerships • Blog Pillar 6"
-        description="Master pricing strategies, partnership playbooks, and referral systems that drive sustainable growth for your pet business."
+        title="Offers, Pricing & Partnerships • Pet Business Growth"
+        description="Strategic pricing, partnership playbooks, and referral systems that drive sustainable pet business growth. Master competitive pricing and build profitable partnerships."
         path="/blog/pillar/offers-pricing-partnerships"
-        imageUrl="https://tailwaggingwebdesign.com/og/pillar6-hub.jpg"
-        imageAlt="Blog Pillar 6: Offers, Pricing & Partnerships"
+        imageUrl="https://tailwaggingwebdesign.com/og/pet-business-partnerships-playbook.jpg"
+        imageAlt="Pet business partnerships and pricing strategies"
+        keywords={["pet business pricing", "partnerships", "referral programs", "competitive pricing", "business growth", "pet care pricing strategies"]}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" },
-          { name: "Offers, Pricing & Partnerships", item: "/blog/pillar/offers-pricing-partnerships" }
+          { name: "Pillar 6: Offers & Partnerships", item: "/blog/pillar/offers-pricing-partnerships" }
+        ]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Offers, Pricing & Partnerships for Pet Businesses",
+            "description": "Strategic pricing, partnership playbooks, and referral systems that drive sustainable pet business growth.",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar/offers-pricing-partnerships",
+            "mainEntity": {
+              "@type": "ItemList",
+              "name": "Pet Business Growth Articles",
+              "description": "Comprehensive guides on pricing strategies and partnerships for pet care businesses"
+            }
+          }
         ]}
       />
 

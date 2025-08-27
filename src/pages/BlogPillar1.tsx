@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronRight, BookOpen } from "lucide-react";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
-import { Seo } from "@/components/Seo";
+import Seo from "@/components/Seo";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 import type { Post } from "@/lib/repositories/types";
 
@@ -44,9 +44,31 @@ const BlogPillar1 = () => {
   return (
     <>
       <Seo 
-        title="Pillar 1 — Booking, Reminders & Reliability | Pet Business Hub"
-        description="Master the fundamentals of pet business operations: booking systems, no-show prevention, client communication, and efficient scheduling. Reduce friction, increase trust, and protect your calendar with proven strategies."
+        title="Booking & Reliability • Pet Business Foundation"
+        description="Master booking systems, reduce no-shows, automate care updates, and optimize scheduling to build a reliable pet business foundation. Complete guides for pet sitters and groomers."
         path="/blog/pillar/booking-and-reliability"
+        imageUrl="https://tailwaggingwebdesign.com/og/calendly-vs-built-in-booking-for-pet-sitters.jpg"
+        imageAlt="Pet business booking and reliability systems"
+        keywords={["pet booking systems", "no-show prevention", "pet sitting scheduling", "automated reminders", "pet grooming booking", "route optimization"]}
+        breadcrumbs={[
+          { name: "Home", item: "/" },
+          { name: "Blog", item: "/blog" },
+          { name: "Pillar 1: Booking & Reliability", item: "/blog/pillar/booking-and-reliability" }
+        ]}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Booking & Reliability for Pet Businesses",
+            "description": "Master booking systems, reduce no-shows, automate care updates, and optimize scheduling to build a reliable pet business foundation.",
+            "url": "https://tailwaggingwebdesign.com/blog/pillar/booking-and-reliability",
+            "mainEntity": {
+              "@type": "ItemList",
+              "name": "Pet Business Reliability Articles",
+              "description": "Essential guides for building reliable booking and scheduling systems for pet care businesses"
+            }
+          }
+        ]}
       />
       
       <main className="min-h-screen bg-gradient-to-b from-background to-secondary/20 pt-20">
