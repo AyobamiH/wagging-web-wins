@@ -97,7 +97,7 @@ export default function SiteHeader() {
                 key={n.to} 
                 to={n.to} 
                 onClick={() => setOpen(false)} 
-                className={({ isActive }) => `py-2 px-3 rounded-md font-medium transition-colors ${isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}
+                className={({ isActive }) => `py-2 px-3 rounded-md font-medium transition-colors ${isActive ? "text-gradient-primary " : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}
               >
                 {n.label}
               </NavLink>
