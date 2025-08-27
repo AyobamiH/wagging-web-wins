@@ -47,8 +47,9 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://tailwaggingwebdesign.com/sitemap.xml
+Sitemap: https://tailwaggingwebdesign.com/blog-sitemap
 
 # Additional crawl instructions
 # No restrictions on crawling frequency for legitimate bots

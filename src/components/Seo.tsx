@@ -295,7 +295,7 @@ export function Seo({
             "@type": "ListItem",
             position: i + 1,
             name: b.name,
-            item: origin + b.item,
+            item: b.item.startsWith('http') ? b.item : origin + b.item,
           })),
         }]
       : [];

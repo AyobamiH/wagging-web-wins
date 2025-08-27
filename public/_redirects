@@ -1,3 +1,6 @@
+# Blog sitemap endpoint
+/blog-sitemap /supabase/functions/v1/blog-sitemap 200
+
 # 301 redirects for legacy URLs
 /portfolio /tools 301!
 

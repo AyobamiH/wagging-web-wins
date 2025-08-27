@@ -11,12 +11,11 @@ export default function ClusterSection({ cluster, items, id }: Props) {
         initial={{ opacity: 0, y: 6 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl md:text-3xl font-bold text-gray-900"
+        className="text-2xl md:text-3xl font-bold text-foreground"
       >
         {cluster}
       </motion.h2>
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-           style={{ borderColor: "var(--brand-divider)" }}>
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 border-border">
         {items.map((g) => (
           <ArticleCard
             key={g.slug}

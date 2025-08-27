@@ -117,8 +117,8 @@ export default function Blog() {
         imageUrl="https://tailwaggingwebdesign.com/og/blog.jpg"
         imageAlt="Tail Wagging Websites Blog"
         breadcrumbs={[
-          { name: "Home", item: "https://tailwaggingwebdesign.com/" },
-          { name: "Blog", item: "https://tailwaggingwebdesign.com/blog" }
+          { name: "Home", item: "/" },
+          { name: "Blog", item: "/blog" }
         ]}
         jsonLd={[
           {
@@ -130,17 +130,17 @@ export default function Blog() {
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tailwaggingwebdesign.com/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://tailwaggingwebdesign.com/blog" }
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "/blog" }
               ]
             }
           }
         ]}
       />
 
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Blog</h1>
+      <div className="min-h-screen bg-background">
+        <div className="text-center mb-8 pt-12">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Blog</h1>
           <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
             Insights, tips and guides for pet business owners on web design, local SEO, marketing automation and growing your business online.
           </p>
@@ -165,83 +165,85 @@ export default function Blog() {
             <p className="mt-2 text-muted-foreground">Check back soon for new content!</p>
           </div>
         ) : (
-          <>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {data?.posts.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <Link to={`/blog/${post.slug}`}>
-                    {post.coverImage && (
-                      <div className="aspect-video overflow-hidden">
-                        <img
-                          src={post.coverImage.url}
-                          alt={post.coverImage.altText || `${post.title} cover image`}
-                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <CardHeader>
-                      <CardTitle className="line-clamp-2 hover:text-primary transition-colors">
-                        {post.title}
-                      </CardTitle>
-                      <p className="text-sm text-muted-foreground line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        {post.author?.name && <span>By {post.author.name}</span>}
-                        <span>•</span>
-                        <time dateTime={post.publishedAt}>
-                          {format(new Date(post.publishedAt), 'MMM d, yyyy')}
-                        </time>
-                      </div>
-                    </CardHeader>
-                  </Link>
-                </Card>
-              ))}
-            </div>
+            <>
+              <div className="mx-auto max-w-6xl px-4 pb-8">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {data?.posts.map((post) => (
+                    <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                      <Link to={`/blog/${post.slug}`}>
+                        {post.coverImage && (
+                          <div className="aspect-video overflow-hidden">
+                            <img
+                              src={post.coverImage.url}
+                              alt={post.coverImage.altText || `${post.title} cover image`}
+                              className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+                        <CardHeader>
+                          <CardTitle className="line-clamp-2 hover:text-primary transition-colors">
+                            {post.title}
+                          </CardTitle>
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {post.excerpt}
+                          </p>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            {post.author?.name && <span>By {post.author.name}</span>}
+                            <span>•</span>
+                            <time dateTime={post.publishedAt}>
+                              {format(new Date(post.publishedAt), 'MMM d, yyyy')}
+                            </time>
+                          </div>
+                        </CardHeader>
+                      </Link>
+                    </Card>
+                  ))}
+                </div>
 
-            {totalPages > 1 && (
-              <div className="mt-8 flex justify-center">
-                <Pagination>
-                  <PaginationContent>
-                    {currentPage > 1 && (
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          className="cursor-pointer"
-                        />
-                      </PaginationItem>
-                    )}
-                    
-                    {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                      const pageNum = i + Math.max(1, currentPage - 2);
-                      if (pageNum > totalPages) return null;
-                      
-                      return (
-                        <PaginationItem key={pageNum}>
-                          <PaginationLink
-                            onClick={() => handlePageChange(pageNum)}
-                            isActive={pageNum === currentPage}
-                            className="cursor-pointer"
-                          >
-                            {pageNum}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    })}
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center">
+                    <Pagination>
+                      <PaginationContent>
+                        {currentPage > 1 && (
+                          <PaginationItem>
+                            <PaginationPrevious
+                              onClick={() => handlePageChange(currentPage - 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
+                        )}
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
+                          const pageNum = i + Math.max(1, currentPage - 2);
+                          if (pageNum > totalPages) return null;
+                          
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                onClick={() => handlePageChange(pageNum)}
+                                isActive={pageNum === currentPage}
+                                className="cursor-pointer"
+                              >
+                                {pageNum}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
 
-                    {currentPage < totalPages && (
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          className="cursor-pointer"
-                        />
-                      </PaginationItem>
-                    )}
-                  </PaginationContent>
-                </Pagination>
+                        {currentPage < totalPages && (
+                          <PaginationItem>
+                            <PaginationNext
+                              onClick={() => handlePageChange(currentPage + 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
+                        )}
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
               </div>
-            )}
-          </>
+            </>
         )}
       </div>
     </>

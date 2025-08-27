@@ -10,6 +10,7 @@ export default function SiteHeader() {
     { to: "/services", label: "Services" },
     { to: "/tools", label: "Tools" },
     { to: "/blog", label: "Blog" },
+    { to: "/why-do-dogs", label: "Why Do Dogs…?" },
     { to: "/pricing", label: "Pricing" },
     { to: "/service-areas", label: "Service Areas" },
     { to: "/faq", label: "FAQ" },

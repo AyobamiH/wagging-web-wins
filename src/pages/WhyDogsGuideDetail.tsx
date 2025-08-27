@@ -73,7 +73,7 @@ export default function WhyDogsGuideDetail() {
         jsonLd={articleJsonLd}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-background">
         {/* Hero Section */}
         <section className="px-4 py-16 sm:py-24">
           <div className="mx-auto max-w-4xl text-center">
@@ -83,18 +83,14 @@ export default function WhyDogsGuideDetail() {
               transition={{ duration: 0.6 }}
             >
               <div className="mb-4">
-                <span className="inline-block rounded-full px-3 py-1 text-sm font-medium"
-                      style={{ 
-                        backgroundColor: "var(--brand-secondary)", 
-                        color: "var(--brand-primary)" 
-                      }}>
+                <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                   {guide.cluster}
                 </span>
               </div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
                 {guide.title}
               </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600 max-w-3xl mx-auto">
+              <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-3xl mx-auto">
                 {guide.metaDescription}
               </p>
             </motion.div>
@@ -111,14 +107,14 @@ export default function WhyDogsGuideDetail() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="prose prose-lg prose-gray mx-auto"
+              className="prose prose-lg prose-gray mx-auto dark:prose-invert"
             >
               {/* Introduction */}
               <div className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                   What you need to know
                 </h2>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                   Understanding <strong>{guide.primaryKeyword}</strong> is important for every dog owner. 
                   This guide covers the main reasons behind this behavior, what's normal vs concerning, 
                   and practical steps you can take.
@@ -126,26 +122,26 @@ export default function WhyDogsGuideDetail() {
               </div>
 
               {/* Quick Triage */}
-              <div className="mb-12 p-6 bg-blue-50 rounded-2xl border border-blue-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="mb-12 p-6 bg-card/50 backdrop-blur-sm rounded-2xl border border-border">
+                <h3 className="text-xl font-semibold text-foreground mb-3">
                   Quick check: Is this normal?
                 </h3>
-                <ul className="space-y-2 text-gray-700">
-                  <li>✓ <strong>Usually normal:</strong> Occasional, mild behavior</li>
-                  <li>✓ <strong>Monitor:</strong> Sudden changes or increased frequency</li>
-                  <li>⚠️ <strong>See your vet:</strong> Persistent, severe, or painful behavior</li>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li>✓ <strong className="text-accent-success">Usually normal:</strong> Occasional, mild behavior</li>
+                  <li>✓ <strong className="text-accent-warn">Monitor:</strong> Sudden changes or increased frequency</li>
+                  <li>⚠️ <strong className="text-accent-error">See your vet:</strong> Persistent, severe, or painful behavior</li>
                 </ul>
               </div>
 
               {/* Main Causes */}
               <div className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                   Why this happens
                 </h2>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                   Most cases of {guide.primaryKeyword.toLowerCase()} are completely normal and relate to:
                 </p>
-                <ul className="mt-4 space-y-2 text-gray-700">
+                <ul className="mt-4 space-y-2 text-muted-foreground">
                   <li>• Natural instincts and breed behaviors</li>
                   <li>• Communication and social bonding</li>
                   <li>• Environmental responses</li>
@@ -155,22 +151,22 @@ export default function WhyDogsGuideDetail() {
 
               {/* What to do */}
               <div className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                   What you can do
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
-                  <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                    <h4 className="font-semibold text-green-800 mb-2">✓ Helpful approaches</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
+                  <div className="p-4 bg-accent-success/10 rounded-lg border border-accent-success/20">
+                    <h4 className="font-semibold text-accent-success mb-2">✓ Helpful approaches</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
                       <li>• Observe patterns and triggers</li>
                       <li>• Provide alternative outlets</li>
                       <li>• Use positive reinforcement</li>
                       <li>• Maintain consistent routines</li>
                     </ul>
                   </div>
-                  <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                    <h4 className="font-semibold text-red-800 mb-2">✗ Avoid these</h4>
-                    <ul className="text-sm text-red-700 space-y-1">
+                  <div className="p-4 bg-accent-error/10 rounded-lg border border-accent-error/20">
+                    <h4 className="font-semibold text-accent-error mb-2">✗ Avoid these</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
                       <li>• Punishment or harsh corrections</li>
                       <li>• Ignoring sudden behavior changes</li>
                       <li>• Assuming it will resolve on its own</li>
@@ -181,12 +177,12 @@ export default function WhyDogsGuideDetail() {
               </div>
 
               {/* When to seek help */}
-              <div className="mb-12 p-6 bg-yellow-50 rounded-2xl border border-yellow-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="mb-12 p-6 bg-accent-warn/10 rounded-2xl border border-accent-warn/20">
+                <h3 className="text-xl font-semibold text-foreground mb-3">
                   When to contact your vet
                 </h3>
-                <p className="text-gray-700 mb-3">Book an appointment if you notice:</p>
-                <ul className="space-y-2 text-gray-700">
+                <p className="text-muted-foreground mb-3">Book an appointment if you notice:</p>
+                <ul className="space-y-2 text-muted-foreground">
                   <li>• Sudden onset or dramatic increase in behavior</li>
                   <li>• Signs of pain, distress, or discomfort</li>
                   <li>• Behavior interfering with eating, sleeping, or daily activities</li>
@@ -198,9 +194,9 @@ export default function WhyDogsGuideDetail() {
         </section>
 
         {/* FAQ Section */}
-        <section className="px-4 py-16 bg-white">
+        <section className="px-4 py-16 bg-card/30 backdrop-blur-sm">
           <div className="mx-auto max-w-4xl">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            <h2 className="text-3xl font-bold text-center text-foreground mb-12">
               Common questions about {guide.primaryKeyword.toLowerCase()}
             </h2>
             <FAQList 
@@ -230,9 +226,9 @@ export default function WhyDogsGuideDetail() {
         {relatedGuides.length > 0 && (
           <section className="px-4 py-16">
             <div className="mx-auto max-w-6xl">
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-                Related guides in {guide.cluster}
-              </h2>
+            <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+              Related guides in {guide.cluster}
+            </h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {relatedGuides.map((relatedGuide) => (
                   <ArticleCard
@@ -248,7 +244,7 @@ export default function WhyDogsGuideDetail() {
         )}
 
         {/* CTA Section */}
-        <section className="px-4 py-16 bg-gradient-to-r from-blue-600 to-blue-700">
+        <section className="px-4 py-16 bg-gradient-primary">
           <div className="mx-auto max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -256,15 +252,15 @@ export default function WhyDogsGuideDetail() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl font-bold text-white mb-6">
+              <h2 className="text-3xl font-bold text-primary-foreground mb-6">
                 Need personalized advice for your dog?
               </h2>
-              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+              <p className="text-xl text-primary-foreground/80 mb-8 max-w-3xl mx-auto">
                 Every dog is different. Get tailored guidance for your specific situation with a consultation.
               </p>
               <a
                 href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 text-lg font-semibold text-blue-600 shadow-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 transition-colors"
+                className="inline-flex items-center justify-center rounded-2xl bg-background px-8 py-4 text-lg font-semibold text-foreground shadow-glow hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-primary transition-all duration-300"
               >
                 Book a consultation
               </a>

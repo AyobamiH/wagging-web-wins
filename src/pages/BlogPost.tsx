@@ -155,9 +155,9 @@ export default function BlogPost() {
         imageUrl={post.coverImage?.url || "https://tailwaggingwebdesign.com/og/blog.jpg"}
         imageAlt={post.coverImage?.altText || `${post.title} cover image`}
         breadcrumbs={[
-          { name: "Home", item: "https://tailwaggingwebdesign.com/" },
-          { name: "Blog", item: "https://tailwaggingwebdesign.com/blog" },
-          { name: post.title, item: `https://tailwaggingwebdesign.com/blog/${post.slug}` }
+          { name: "Home", item: "/" },
+          { name: "Blog", item: "/blog" },
+          { name: post.title, item: `/blog/${post.slug}` }
         ]}
         jsonLd={[
           {
@@ -184,16 +184,17 @@ export default function BlogPost() {
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tailwaggingwebdesign.com/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://tailwaggingwebdesign.com/blog" },
-                { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://tailwaggingwebdesign.com/blog/${post.slug}` }
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "/blog" },
+                { "@type": "ListItem", "position": 3, "name": post.title, "item": `/blog/${post.slug}` }
               ]
             }
           }
         ]}
       />
 
-      <article className="mx-auto max-w-4xl px-4 py-8">
+      <div className="min-h-screen bg-background">
+        <article className="mx-auto max-w-4xl px-4 py-8">
         <div className="mb-6">
           <Link 
             to="/blog" 
@@ -243,11 +244,11 @@ export default function BlogPost() {
         )}
 
         {relatedPosts.length > 0 && (
-          <section className="mt-12 pt-8 border-t">
-            <h2 className="text-2xl font-semibold mb-6">Related posts</h2>
+          <section className="mt-12 pt-8 border-t border-border">
+            <h2 className="text-2xl font-semibold mb-6 text-foreground">Related posts</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {relatedPosts.map((relatedPost) => (
-                <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
                   <Link to={`/blog/${relatedPost.slug}`}>
                     {relatedPost.coverImage && (
                       <div className="aspect-video overflow-hidden">
@@ -273,6 +274,7 @@ export default function BlogPost() {
           </section>
         )}
       </article>
+    </div>
     </>
   );
 }
