@@ -17,216 +17,210 @@ export default function SiteHeader() {
     { to: "/contact", label: "Contact" },
   ];
 
-  return (
-    <header role="banner" className="border-b bg-background/80 supports-[backdrop-filter]:backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <Link
-  to="/"
-  className="flex items-center gap-2 font-semibold tracking-tight"
-  aria-label="Go to home"
->
-  {/* Neon Paw SVG */}
-  <svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 200 200"
-  className="h-8 w-8"
->
-  <defs>
+//   return (
+//     <header role="banner" className="border-b bg-background/80 supports-[backdrop-filter]:backdrop-blur">
+//       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+//         <Link
+//   to="/"
+//   className="flex items-center gap-2 font-semibold tracking-tight"
+//   aria-label="Go to home"
+// >
+//   {/* Neon Paw SVG */}
+//   <svg
+//   xmlns="http://www.w3.org/2000/svg"
+//   viewBox="0 0 200 200"
+//   className="h-8 w-8"
+// >
+//   <defs>
  
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="6" result="blur1" />
-      <feMerge>
-        <feMergeNode in="blur1" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
+//     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+//       <feGaussianBlur stdDeviation="6" result="blur1" />
+//       <feMerge>
+//         <feMergeNode in="blur1" />
+//         <feMergeNode in="SourceGraphic" />
+//       </feMerge>
+//     </filter>
 
 
-    <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stopColor="#3a0ca3" /> 
-      <stop offset="40%" stopColor="#7209b7" />
-      <stop offset="75%" stopColor="#4361ee" /> 
-      <stop offset="100%" stopColor="#4cc9f0" /> 
-    </radialGradient>
-  </defs>
+//     <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
+//       <stop offset="0%" stopColor="#3a0ca3" /> 
+//       <stop offset="40%" stopColor="#7209b7" />
+//       <stop offset="75%" stopColor="#4361ee" /> 
+//       <stop offset="100%" stopColor="#4cc9f0" /> 
+//     </radialGradient>
+//   </defs>
 
 
-  <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth={3}>
-    <ellipse cx="100" cy="130" rx="40" ry="35" />
-    <circle cx="60" cy="70" r="20" />
-    <circle cx="100" cy="50" r="20" />
-    <circle cx="140" cy="70" r="20" />
-  </g>
-</svg>
+//   <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth={3}>
+//     <ellipse cx="100" cy="130" rx="40" ry="35" />
+//     <circle cx="60" cy="70" r="20" />
+//     <circle cx="100" cy="50" r="20" />
+//     <circle cx="140" cy="70" r="20" />
+//   </g>
+// </svg>
 
 
   
-</Link>
+// </Link>
 
         
-        <button
-          className="sm:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md border hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          aria-expanded={open}
-          aria-controls="primary-nav"
-          onClick={() => setOpen((v) => !v)}
-        >
-          Menu
-        </button>
-        <nav id="primary-nav" aria-label="Primary" className="hidden sm:flex items-center gap-6">
-          {navItems.map((n) => (
-            <NavLink
-              key={n.to}
-              to={n.to}
-              className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              {n.label}
-            </NavLink>
-          ))}
-          <CalendlyEmbed
-            buttonText="Book a Consultation"  
-            buttonSize="sm"
-            className="bg-gradient-primary hover:scale-105 transition-all duration-200"
-          />
-        </nav>
-      </div>
-      {open && (
-        <div className="sm:hidden border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-          <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
-            {navItems.map((n) => (
-              <NavLink 
-                key={n.to} 
-                to={n.to} 
-                onClick={() => setOpen(false)} 
-                className={({ isActive }) => `py-2 px-3 rounded-md font-medium transition-colors ${isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}
-              >
-                {n.label}
-              </NavLink>
-            ))}
-            <div className="pt-2 border-t">
-              <CalendlyEmbed
-                buttonText="Book a Consultation"
-                className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-//   return (
-//   <header
-//     role="banner"
-//     className="sticky top-0 z-50 border-b border-white/10 bg-gray-950/70 supports-[backdrop-filter]:bg-gray-950/55 supports-[backdrop-filter]:backdrop-blur-md"
-//   >
-//     <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between text-white">
-//       <Link
-//         to="/"
-//         className="flex items-center gap-2 font-semibold tracking-tight text-white"
-//         aria-label="Go to home"
-//       >
-//         {/* Neon Paw SVG */}
-//         <svg
-//           xmlns="http://www.w3.org/2000/svg"
-//           viewBox="0 0 200 200"
-//           className="h-8 w-8"
+//         <button
+//           className="sm:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md border hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+//           aria-expanded={open}
+//           aria-controls="primary-nav"
+//           onClick={() => setOpen((v) => !v)}
 //         >
-//           <defs>
-//             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-//               <feGaussianBlur stdDeviation="6" result="blur1" />
-//               <feMerge>
-//                 <feMergeNode in="blur1" />
-//                 <feMergeNode in="SourceGraphic" />
-//               </feMerge>
-//             </filter>
-
-//             <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
-//               <stop offset="0%" stopColor="#3a0ca3" />
-//               <stop offset="40%" stopColor="#7209b7" />
-//               <stop offset="75%" stopColor="#4361ee" />
-//               <stop offset="100%" stopColor="#4cc9f0" />
-//             </radialGradient>
-//           </defs>
-
-//           <g
-//             filter="url(#glow)"
-//             fill="url(#nebularNight)"
-//             stroke="#4cc9f0"
-//             strokeWidth={3}
-//           >
-//             <ellipse cx="100" cy="130" rx="40" ry="35" />
-//             <circle cx="60" cy="70" r="20" />
-//             <circle cx="100" cy="50" r="20" />
-//             <circle cx="140" cy="70" r="20" />
-//           </g>
-//         </svg>
-//       </Link>
-
-//       <button
-//         className="sm:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md border border-white/20 text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-//         aria-expanded={open}
-//         aria-controls="primary-nav"
-//         onClick={() => setOpen((v) => !v)}
-//       >
-//         Menu
-//       </button>
-
-//       <nav
-//         id="primary-nav"
-//         aria-label="Primary"
-//         className="hidden sm:flex items-center gap-6"
-//       >
-//         {navItems.map((n) => (
-//           <NavLink
-//             key={n.to}
-//             to={n.to}
-//             className={({ isActive }) =>
-//               `text-sm font-medium transition-colors ${
-//                 isActive
-//                   ? "text-white"
-//                   : "text-white/80 hover:text-white"
-//               }`
-//             }
-//           >
-//             {n.label}
-//           </NavLink>
-//         ))}
-//         <CalendlyEmbed
-//           buttonText="Book a Consultation"
-//           buttonSize="sm"
-//           className="bg-gradient-primary hover:scale-105 transition-all duration-200"
-//         />
-//       </nav>
-//     </div>
-
-//     {open && (
-//       <div className="sm:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md">
-//         <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
+//           Menu
+//         </button>
+//         <nav id="primary-nav" aria-label="Primary" className="hidden sm:flex items-center gap-6">
 //           {navItems.map((n) => (
 //             <NavLink
 //               key={n.to}
 //               to={n.to}
-//               onClick={() => setOpen(false)}
-//               className={({ isActive }) =>
-//                 `py-2 px-3 rounded-md font-medium transition-colors ${
-//                   isActive
-//                     ? "text-white bg-white/10"
-//                     : "text-white/90 hover:text-white hover:bg-white/10"
-//                 }`
-//               }
+//               className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
 //             >
 //               {n.label}
 //             </NavLink>
 //           ))}
-//           <div className="pt-2 border-t border-white/10">
-//             <CalendlyEmbed
-//               buttonText="Book a Consultation"
-//               className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200"
-//             />
+//           <CalendlyEmbed
+//             buttonText="Book a Consultation"  
+//             buttonSize="sm"
+//             className="bg-gradient-primary hover:scale-105 transition-all duration-200"
+//           />
+//         </nav>
+//       </div>
+//       {open && (
+//         <div className="sm:hidden border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+//           <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
+//             {navItems.map((n) => (
+//               <NavLink 
+//                 key={n.to} 
+//                 to={n.to} 
+//                 onClick={() => setOpen(false)} 
+//                 className={({ isActive }) => `py-2 px-3 rounded-md font-medium transition-colors ${isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}
+//               >
+//                 {n.label}
+//               </NavLink>
+//             ))}
+//             <div className="pt-2 border-t">
+//               <CalendlyEmbed
+//                 buttonText="Book a Consultation"
+//                 className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200"
+//               />
+//             </div>
 //           </div>
 //         </div>
-//       </div>
-//     )}
-//   </header>
-// );
+//       )}
+//     </header>
+//   );
+  return (
+  <header
+    role="banner"
+    className="sticky top-0 z-50 bg-transparent"
+  >
+    <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <Link
+        to="/"
+        className="flex items-center gap-2 font-semibold tracking-tight text-white"
+        aria-label="Go to home"
+      >
+        {/* Neon Paw SVG */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="h-8 w-8">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur1" />
+              <feMerge>
+                <feMergeNode in="blur1" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#3a0ca3" />
+              <stop offset="40%" stopColor="#7209b7" />
+              <stop offset="75%" stopColor="#4361ee" />
+              <stop offset="100%" stopColor="#4cc9f0" />
+            </radialGradient>
+          </defs>
+          <g filter="url(#glow)" fill="url(#nebularNight)" stroke="#4cc9f0" strokeWidth={3}>
+            <ellipse cx="100" cy="130" rx="40" ry="35" />
+            <circle cx="60" cy="70" r="20" />
+            <circle cx="100" cy="50" r="20" />
+            <circle cx="140" cy="70" r="20" />
+          </g>
+        </svg>
+      </Link>
+
+      <button
+        className="sm:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md border border-white/25 text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+        aria-expanded={open}
+        aria-controls="primary-nav"
+        onClick={() => setOpen((v) => !v)}
+      >
+        Menu
+      </button>
+
+      <nav id="primary-nav" aria-label="Primary" className="hidden sm:flex items-center gap-6">
+        {navItems.map((n) => (
+          <NavLink
+            key={n.to}
+            to={n.to}
+            className={({ isActive }) =>
+              [
+                "text-sm font-medium transition-all duration-150",
+                // default = white
+                "text-white",
+                // hover/focus = same gradient as CTA
+                "hover:text-transparent hover:bg-clip-text hover:bg-gradient-primary",
+                "focus-visible:text-transparent focus-visible:bg-clip-text focus-visible:bg-gradient-primary",
+                isActive && "opacity-100"
+              ]
+                .filter(Boolean)
+                .join(" ")
+            }
+          >
+            {n.label}
+          </NavLink>
+        ))}
+
+        <CalendlyEmbed
+          buttonText="Book a Consultation"
+          buttonSize="sm"
+          className="bg-gradient-primary text-white hover:scale-105 transition-all duration-200"
+        />
+      </nav>
+    </div>
+
+    {open && (
+      // Keep mobile readable with a solid backdrop
+      <div className="sm:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-4 py-4 flex flex-col gap-3">
+          {navItems.map((n) => (
+            <NavLink
+              key={n.to}
+              to={n.to}
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `py-2 px-3 rounded-md font-medium transition-colors ${
+                  isActive
+                    ? "text-white bg-white/10"
+                    : "text-white/90 hover:text-transparent hover:bg-clip-text hover:bg-gradient-primary"
+                }`
+              }
+            >
+              {n.label}
+            </NavLink>
+          ))}
+          <div className="pt-2 border-t border-white/10">
+            <CalendlyEmbed
+              buttonText="Book a Consultation"
+              className="w-full bg-gradient-primary text-white hover:scale-105 transition-all duration-200"
+            />
+          </div>
+        </div>
+      </div>
+    )}
+  </header>
+);
+
 
 }
