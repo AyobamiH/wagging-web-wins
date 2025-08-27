@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -201,17 +201,54 @@ export default function BlogPostSupabase() {
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
-          {/* CTA Section */}
-          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50 text-center">
-            <h3 className="text-xl font-semibold mb-4">Ready to implement these strategies?</h3>
-            <p className="text-muted-foreground mb-6">
-              Get personalized guidance tailored to your pet business goals.
+        {/* Calendly Embed after second H2 */}
+        <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">Get Personalized Help</h3>
+            <p className="text-muted-foreground mb-4">
+              Ready to implement these strategies? Book a free consultation to discuss your specific needs.
             </p>
-            <CalendlyEmbed
-              buttonText="Book Free Strategy Call"
-              className="bg-gradient-primary hover:scale-105 transition-all duration-200"
+            <CalendlyEmbed 
+              buttonText="Book Free Consultation"
+              buttonSize="lg"
+              ariaLabel="Book a free consultation to discuss blog topic"
+              trackingLocation={`blog_post_${slug}`}
             />
           </div>
+        </div>
+
+        {/* Internal Links */}
+        {post.pillarTag === 'Pillar 1' && (
+          <div className="my-8 p-6 bg-muted/50 rounded-lg">
+            <h3 className="font-semibold mb-4">More from Pillar 1: Booking & Reliability</h3>
+            <div className="grid gap-3 md:grid-cols-2">
+              <Link to="/blog/pillar/booking-and-reliability" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                <Calendar className="w-4 h-4" />
+                <span className="text-sm">View All Pillar 1 Articles</span>
+              </Link>
+              {slug !== 'calendly-vs-built-in-booking-for-pet-sitters' && (
+                <Link to="/blog/calendly-vs-built-in-booking-for-pet-sitters" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  → Calendly vs Built-In Booking
+                </Link>
+              )}
+              {slug !== 'reduce-no-shows-pet-grooming-pet-sitting' && (
+                <Link to="/blog/reduce-no-shows-pet-grooming-pet-sitting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  → No-Show Prevention Strategies
+                </Link>
+              )}
+              {slug !== 'automating-pet-sitter-care-updates-whatsapp-email-client-portal' && (
+                <Link to="/blog/automating-pet-sitter-care-updates-whatsapp-email-client-portal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  → Automating Care Updates
+                </Link>
+              )}
+              {slug !== 'route-optimization-dog-walking-schedule-uk' && (
+                <Link to="/blog/route-optimization-dog-walking-schedule-uk" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  → Route Optimization
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
 
           {/* FAQ Section */}
           {post.faq && post.faq.length > 0 && (

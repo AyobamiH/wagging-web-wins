@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Calendar, TrendingUp } from "lucide-react";
 import Seo from "@/components/Seo";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 
@@ -71,11 +72,40 @@ export default function BlogSupabase() {
 
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Blog</h1>
-            <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Insights, tips and guides for pet business owners on web design, local SEO, marketing automation and growing your business online.
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold mb-4">Pet Business Insights</h1>
+            <p className="text-lg text-muted-foreground">
+              Practical strategies and tools to grow your pet service business
             </p>
+            
+            {/* Pillar Navigation */}
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <Link 
+                to="/blog/pillar/booking-and-reliability"
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg hover:shadow-md transition-all duration-200 group"
+              >
+                <div className="bg-primary/20 rounded-full p-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold group-hover:text-primary transition-colors">Pillar 1: Booking & Reliability</h3>
+                  <p className="text-sm text-muted-foreground">Master booking systems, reduce no-shows, and optimize scheduling</p>
+                </div>
+              </Link>
+              
+              <Link 
+                to="/blog/pillar/offers-pricing-partnerships"
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20 rounded-lg hover:shadow-md transition-all duration-200 group"
+              >
+                <div className="bg-accent/20 rounded-full p-2">
+                  <TrendingUp className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <h3 className="font-semibold group-hover:text-accent transition-colors">Pillar 6: Offers & Partnerships</h3>
+                  <p className="text-sm text-muted-foreground">Strategic pricing, partnerships, and business growth</p>
+                </div>
+              </Link>
+            </div>
           </div>
 
           {/* Pillar Filters */}
@@ -91,6 +121,16 @@ export default function BlogSupabase() {
               All Posts
             </button>
             <button
+              onClick={() => handlePillarFilter('Pillar 1')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                pillarFilter === 'Pillar 1' 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Pillar 1: Booking & Reliability
+            </button>
+            <button
               onClick={() => handlePillarFilter('pillar-6')}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 pillarFilter === 'pillar-6' 
@@ -102,26 +142,51 @@ export default function BlogSupabase() {
             </button>
           </div>
 
-          {/* Featured Pillar 6 Hub */}
+          {/* Featured Pillar Hubs */}
           {!pillarFilter && (
-            <div className="mb-12 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50">
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                <div className="flex-1">
-                  <Badge variant="secondary" className="mb-3">Featured Collection</Badge>
-                  <h2 className="text-2xl font-semibold mb-3">Offers, Pricing & Partnerships</h2>
-                  <p className="text-muted-foreground mb-4">
-                    Master pricing strategies, partnership playbooks, and referral systems that drive sustainable growth.
-                  </p>
-                  <Link 
-                    to="/blog/pillar/offers-pricing-partnerships"
-                    className="inline-flex items-center text-primary hover:underline font-medium"
-                  >
-                    Explore Pillar 6 →
-                  </Link>
+            <div className="mb-12 grid gap-6 md:grid-cols-2">
+              {/* Pillar 1 Hub */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                    <span className="text-sm font-bold text-white">P1</span>
+                  </div>
+                  <div>
+                    <Badge variant="secondary" className="mb-2">New Collection</Badge>
+                    <h2 className="text-xl font-semibold">Booking & Reliability</h2>
+                  </div>
                 </div>
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">P6</span>
+                <p className="text-muted-foreground mb-4">
+                  Master booking systems, reduce no-shows, automate updates, and optimize scheduling to build a reliable foundation.
+                </p>
+                <Link 
+                  to="/blog/pillar/booking-and-reliability"
+                  className="inline-flex items-center text-primary hover:underline font-medium"
+                >
+                  Explore Pillar 1 →
+                </Link>
+              </div>
+
+              {/* Pillar 6 Hub */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent/70 flex items-center justify-center">
+                    <span className="text-sm font-bold text-white">P6</span>
+                  </div>
+                  <div>
+                    <Badge variant="secondary" className="mb-2">Featured Collection</Badge>
+                    <h2 className="text-xl font-semibold">Offers & Partnerships</h2>
+                  </div>
                 </div>
+                <p className="text-muted-foreground mb-4">
+                  Strategic pricing, partnership playbooks, and referral systems that drive sustainable growth.
+                </p>
+                <Link 
+                  to="/blog/pillar/offers-pricing-partnerships"
+                  className="inline-flex items-center text-accent hover:underline font-medium"
+                >
+                  Explore Pillar 6 →
+                </Link>
               </div>
             </div>
           )}

@@ -125,4 +125,9 @@ export class SupabaseSettingsRepository implements SettingsRepository {
 
     return data.review_count as unknown as ReviewCount;
   }
+
+  async getCalendlyUrl(): Promise<string> {
+    // Return hardcoded URL since column doesn't exist yet
+    return 'https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call';
+  }
 }
