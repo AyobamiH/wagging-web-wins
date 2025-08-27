@@ -40,4 +40,5 @@ export interface PostRepository {
 
 export interface SettingsRepository {
   getReviewCount(): Promise<ReviewCount>;
+  getCalendlyUrl(): Promise<string>;
 }
