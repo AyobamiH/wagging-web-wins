@@ -79,7 +79,7 @@ export default function BlogSupabase() {
             </p>
             
             {/* Pillar Navigation */}
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
               <Link 
                 to="/blog/pillar/booking-and-reliability"
                 className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg hover:shadow-md transition-all duration-200 group"
@@ -90,6 +90,19 @@ export default function BlogSupabase() {
                 <div>
                   <h3 className="font-semibold group-hover:text-primary transition-colors">Pillar 1: Booking & Reliability</h3>
                   <p className="text-sm text-muted-foreground">Master booking systems, reduce no-shows, and optimize scheduling</p>
+                </div>
+              </Link>
+              
+              <Link 
+                to="/blog/pillar/social-story-email-growth"
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-secondary/10 to-secondary/5 border border-secondary/20 rounded-lg hover:shadow-md transition-all duration-200 group"
+              >
+                <div className="bg-secondary/20 rounded-full p-2">
+                  <TrendingUp className="w-5 h-5 text-secondary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold group-hover:text-secondary transition-colors">Pillar 5: Social & Email Growth</h3>
+                  <p className="text-sm text-muted-foreground">Master social content, storytelling, and email marketing</p>
                 </div>
               </Link>
               
@@ -129,6 +142,16 @@ export default function BlogSupabase() {
               }`}
             >
               Pillar 1: Booking & Reliability
+            </button>
+            <button
+              onClick={() => handlePillarFilter('pillar-5')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                pillarFilter === 'pillar-5' 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Pillar 5: Social & Email
             </button>
             <button
               onClick={() => handlePillarFilter('pillar-6')}

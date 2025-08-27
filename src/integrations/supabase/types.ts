@@ -77,6 +77,7 @@ export type Database = {
           cover_alt: string | null
           created_at: string
           excerpt: string
+          extras: Json | null
           faq: Json | null
           id: string
           meta_description: string
@@ -94,6 +95,7 @@ export type Database = {
           cover_alt?: string | null
           created_at?: string
           excerpt: string
+          extras?: Json | null
           faq?: Json | null
           id?: string
           meta_description: string
@@ -111,6 +113,7 @@ export type Database = {
           cover_alt?: string | null
           created_at?: string
           excerpt?: string
+          extras?: Json | null
           faq?: Json | null
           id?: string
           meta_description?: string
