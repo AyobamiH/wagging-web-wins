@@ -92,15 +92,17 @@ export default function BlogPillar6() {
                   className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50"
                 >
                   <Link to={`/blog/${post.slug}`}>
-                    {post.ogImageUrl && (
-                      <div className="aspect-video overflow-hidden">
-                        <img
-                          src={post.ogImageUrl}
-                          alt={post.coverAlt || `${post.title} cover image`}
-                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={post.ogImageUrl || "/og/blog.jpg"}
+                        alt={post.coverAlt || `${post.title} cover image`}
+                        width={400}
+                        height={225}
+                        loading="lazy"
+                        decoding="async"
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
                     <CardHeader>
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="secondary" className="text-xs">

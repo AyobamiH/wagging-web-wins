@@ -79,8 +79,9 @@ export default function BlogPostSupabase() {
 
   const readingTime = Math.ceil(post.content.replace(/<[^>]*>/g, '').split(' ').length / 200);
 
-  // Convert markdown-style content to HTML (basic conversion)
-  const htmlContent = post.content
+  // Handle content - if it's already HTML, use it directly; otherwise convert markdown
+  const isHtml = post.content.trim().startsWith('<');
+  const htmlContent = isHtml ? post.content : post.content
     .replace(/^# (.*$)/gim, '<h1>$1</h1>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -89,7 +90,7 @@ export default function BlogPostSupabase() {
     .replace(/> (.*$)/gim, '<blockquote>$1</blockquote>')
     .replace(/^\* (.*$)/gim, '<li>$1</li>')
     .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\n/g, '<br>');
+    .split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g, '<br>')}</p>` : '').join('');
 
   return (
     <>
@@ -154,15 +155,17 @@ export default function BlogPostSupabase() {
             </Link>
           </div>
 
-          {post.ogImageUrl && (
-            <div className="aspect-video overflow-hidden rounded-2xl mb-8">
-              <img
-                src={post.ogImageUrl}
-                alt={post.coverAlt || `${post.title} cover image`}
-                className="object-cover w-full h-full"
-              />
-            </div>
-          )}
+          <div className="aspect-video overflow-hidden rounded-2xl mb-8">
+            <img
+              src={post.ogImageUrl || "/og/blog.jpg"}
+              alt={post.coverAlt || `${post.title} cover image`}
+              width={1200}
+              height={630}
+              loading="lazy"
+              decoding="async"
+              className="object-cover w-full h-full"
+            />
+          </div>
 
           <header className="mb-8">
             {post.pillarTag && (
@@ -194,7 +197,7 @@ export default function BlogPostSupabase() {
           </header>
 
           <div 
-            className="prose prose-gray max-w-none prose-headings:scroll-mt-20 prose-a:text-primary prose-a:no-underline hover:prose-a:underline mb-12"
+            className="prose prose-neutral dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:marker:text-muted-foreground prose-blockquote:border-l-primary/40 prose-blockquote:text-muted-foreground prose-a:text-primary hover:prose-a:underline prose-hr:border-border prose-headings:scroll-mt-20 mb-12"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
@@ -233,15 +236,17 @@ export default function BlogPostSupabase() {
                 {relatedPosts.filter(related => related.slug !== post.slug).slice(0, 3).map((relatedPost) => (
                   <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
                     <Link to={`/blog/${relatedPost.slug}`}>
-                      {relatedPost.ogImageUrl && (
-                        <div className="aspect-video overflow-hidden">
-                          <img
-                            src={relatedPost.ogImageUrl}
-                            alt={relatedPost.coverAlt || `${relatedPost.title} cover image`}
-                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={relatedPost.ogImageUrl || "/og/blog.jpg"}
+                          alt={relatedPost.coverAlt || `${relatedPost.title} cover image`}
+                          width={400}
+                          height={225}
+                          loading="lazy"
+                          decoding="async"
+                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                       <CardHeader>
                         {relatedPost.pillarTag && (
                           <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
