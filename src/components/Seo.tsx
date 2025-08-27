@@ -198,7 +198,7 @@ export function Seo({
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "5.0",
-          reviewCount: "50+"
+          reviewCount: "50"
         }
       },
       {
@@ -295,7 +295,7 @@ export function Seo({
             "@type": "ListItem",
             position: i + 1,
             name: b.name,
-            item: b.item.startsWith('http') ? b.item : origin + b.item,
+            item: origin + b.item,
           })),
         }]
       : [];
