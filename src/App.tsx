@@ -27,7 +27,7 @@ const WhyDogsGuideDetail = lazy(() => import("./pages/WhyDogsGuideDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const BlogSupabase = lazy(() => import("./pages/BlogSupabase"));
-const BlogPostSupabase = lazy(() => import("./pages/BlogPostSupabase"));
+
 const BlogPillarDynamic = lazy(() => import("./pages/BlogPillarDynamic"));
 const BlogPostDynamic = lazy(() => import("./pages/BlogPostDynamic"));
 const BlogLegacyPostRedirect = lazy(() => import("./pages/BlogLegacyPostRedirect"));
