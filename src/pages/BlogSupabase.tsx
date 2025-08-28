@@ -1,12 +1,14 @@
 
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ArrowLeft, Clock } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
@@ -27,6 +29,10 @@ export default function BlogSupabase() {
 
 // Blog post component for individual posts
 function BlogPost({ slug }: { slug: string }) {
+  // Scroll to top when component mounts or slug changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['supabase-post', slug],
     queryFn: () => postRepository.getBySlug(slug),
@@ -324,10 +330,20 @@ function BlogPost({ slug }: { slug: string }) {
 
 // Blog index component for listing all posts
 function BlogIndex() {
-  const { data: posts, isLoading, error } = useQuery({
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
+  
+  const { data: allPosts, isLoading, error } = useQuery({
     queryKey: ['all-posts'],
-    queryFn: () => postRepository.list({ limit: 50 }),
+    queryFn: () => postRepository.list({ limit: 100 }),
   });
+
+  // Calculate pagination
+  const totalPosts = allPosts?.length || 0;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const posts = allPosts?.slice(startIndex, endIndex) || [];
 
   if (isLoading) {
     return (
@@ -346,7 +362,7 @@ function BlogIndex() {
     );
   }
 
-  if (error || !posts) {
+  if (error || !allPosts) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-12 text-center">
         <h1 className="text-2xl font-semibold">Error loading posts</h1>
@@ -422,6 +438,54 @@ function BlogIndex() {
               </Card>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-12">
+              <Pagination>
+                <PaginationContent>
+                  {currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => {
+                          setCurrentPage(currentPage - 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="cursor-pointer"
+                      />
+                    </PaginationItem>
+                  )}
+                  
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        onClick={() => {
+                          setCurrentPage(page);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        isActive={page === currentPage}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => {
+                          setCurrentPage(currentPage + 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="cursor-pointer"
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </div>
     </>
