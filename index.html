@@ -59,13 +59,34 @@
   <!-- Preload hero image only if above the fold -->
   <!-- <link rel="preload" as="image" href="/hero-1200.jpg" imagesrcset="/hero-1200.jpg 1x, /hero-2400.jpg 2x" fetchpriority="high"> -->
 
-  <!-- Analytics (ensure the same ID in both places) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBQBZ0ZDWQ"></script>
+  <!-- Analytics - deferred loading for performance -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-VBQBZ0ZDWQ', { anonymize_ip: true });
+    
+    // Defer GA script loading to idle time
+    function loadGA() {
+      if (!document.querySelector('script[src*="googletagmanager"]')) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-VBQBZ0ZDWQ';
+        document.head.appendChild(script);
+      }
+    }
+    
+    // Load GA after idle or user interaction
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGA, { timeout: 3000 });
+    } else {
+      setTimeout(loadGA, 2000);
+    }
+    
+    // Also load on first user interaction
+    ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+      document.addEventListener(event, loadGA, { once: true, passive: true });
+    });
   </script>
 
   <!-- Structured Data -->
