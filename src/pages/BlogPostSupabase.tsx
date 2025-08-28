@@ -230,7 +230,7 @@ export default function BlogPostSupabase() {
           </header>
 
           <div 
-            className="prose prose-lg dark:prose-invert max-w-none mb-12"
+            className="prose prose-neutral dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:marker:text-muted-foreground prose-blockquote:border-l-primary/40 prose-blockquote:text-muted-foreground prose-a:text-primary hover:prose-a:underline prose-hr:border-border prose-headings:scroll-mt-20 mb-12"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
@@ -305,7 +305,7 @@ export default function BlogPostSupabase() {
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedPosts.filter(related => related.slug !== post.slug).slice(0, 3).map((relatedPost) => (
                   <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                    <Link to={`/blog/${relatedPost.slug}`}> {/* Legacy URL - will redirect */}
+                    <Link to={`/blog/${relatedPost.slug}`}>
                       <div className="aspect-video overflow-hidden">
                         <img
                           src={relatedPost.ogImageUrl || "/og/blog.jpg"}
