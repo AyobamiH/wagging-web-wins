@@ -28,12 +28,9 @@ const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const BlogSupabase = lazy(() => import("./pages/BlogSupabase"));
 const BlogPostSupabase = lazy(() => import("./pages/BlogPostSupabase"));
-const BlogPillar1 = lazy(() => import("./pages/BlogPillar1"));
-const BlogPillar2 = lazy(() => import("./pages/BlogPillar2"));
-const BlogPillar3 = lazy(() => import("./pages/BlogPillar3"));
-const BlogPillar4 = lazy(() => import("./pages/BlogPillar4"));
-const BlogPillar5 = lazy(() => import("./pages/BlogPillar5"));
-const BlogPillar6 = lazy(() => import("./pages/BlogPillar6"));
+const BlogPillarDynamic = lazy(() => import("./pages/BlogPillarDynamic"));
+const BlogPostDynamic = lazy(() => import("./pages/BlogPostDynamic"));
+const BlogLegacyPostRedirect = lazy(() => import("./pages/BlogLegacyPostRedirect"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
@@ -82,14 +79,9 @@ const App = () => (
               <Route path="/faq" element={<FAQ />} />
               <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
-        <Route path="/blog" element={<BlogSupabase />} />
-            <Route path="/blog/pillar-1" element={<BlogPillar1 />} />
-            <Route path="/blog/pillar-2" element={<BlogPillar2 />} />
-            <Route path="/blog/pillar-3" element={<BlogPillar3 />} />
-            <Route path="/blog/pillar-4" element={<BlogPillar4 />} />
-            <Route path="/blog/pillar-5" element={<BlogPillar5 />} />
-            <Route path="/blog/pillar-6" element={<BlogPillar6 />} />
-        <Route path="/blog/:slug" element={<BlogPostSupabase />} />
+              <Route path="/blog" element={<BlogSupabase />} />
+              <Route path="/blog/:pillarSlug/:postSlug" element={<BlogPostDynamic />} />
+              <Route path="/blog/:slug" element={<BlogLegacyPostRedirect />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />

@@ -40,42 +40,42 @@ export default function BlogSupabase() {
       id: "pillar-1",
       title: "Pet Business Foundations",
       description: "Master booking systems, reduce no-shows, automate updates, and optimize scheduling.",
-      href: "/blog/pillar-1",
+      href: "/blog/booking-and-reliability",
       count: posts.filter(p => p.pillarTag === "pillar-1").length
     },
     {
       id: "pillar-2", 
       title: "Website UX & Conversion",
       description: "Build websites that convert visitors into bookings with proven UX strategies.",
-      href: "/blog/pillar-2",
+      href: "/blog/website-ux-and-conversion",
       count: posts.filter(p => p.pillarTag === "pillar-2").length
     },
     {
       id: "pillar-3",
       title: "Local SEO & Google Business Profile", 
       description: "Master local search with Google Business Profile optimization and review strategies.",
-      href: "/blog/pillar-3",
+      href: "/blog/local-seo-and-gbp",
       count: posts.filter(p => p.pillarTag === "pillar-3").length
     },
     {
       id: "pillar-4",
       title: "Trust, Safety & Compliance",
       description: "Build client trust with proper safety standards, forms, and GDPR compliance.",
-      href: "/blog/pillar-4", 
+      href: "/blog/trust-safety-and-compliance", 
       count: posts.filter(p => p.pillarTag === "pillar-4").length
     },
     {
       id: "pillar-5",
       title: "Client Experience & Retention",
       description: "Reduce cancellations and increase bookings with proven welcome sequences.",
-      href: "/blog/pillar-5",
+      href: "/blog/client-experience-and-retention",
       count: posts.filter(p => p.pillarTag === "pillar-5").length
     },
     {
       id: "pillar-6",
       title: "Content & Social Media",
       description: "Create engaging content that builds authority and attracts ideal clients.",
-      href: "/blog/pillar-6",
+      href: "/blog/content-and-social-media",
       count: posts.filter(p => p.pillarTag === "pillar-6").length
     }
   ];
@@ -222,7 +222,7 @@ export default function BlogSupabase() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <Card key={post.id} className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                <Link to={`/blog/${post.slug}`}>
+                <Link to={`/blog/${post.slug}`}> {/* Legacy URL - will redirect */}
                   <div className="aspect-video overflow-hidden">
                     <img
                       src={post.ogImageUrl || "/og/blog.jpg"}

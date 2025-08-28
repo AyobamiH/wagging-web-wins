@@ -108,6 +108,180 @@ export default {
 					'accordion-up': 'accordion-up 0.2s ease-out'
 				}
 			}
+		},
+		typography: {
+			DEFAULT: {
+				css: {
+					// Base text styling with proper contrast
+					color: 'hsl(var(--foreground))',
+					'line-height': '1.75',
+					
+					// Paragraph styling - ensure high contrast
+					p: {
+						color: 'hsl(var(--foreground) / 0.92)',
+						'font-size': '1.0625rem',
+						'line-height': '1.75',
+						'margin-top': '1.25rem',
+						'margin-bottom': '1.25rem',
+					},
+					
+					// Headings
+					'h1, h2, h3, h4, h5, h6': {
+						color: 'hsl(var(--foreground))',
+						'font-weight': '700',
+						'line-height': '1.25',
+					},
+					
+					h1: {
+						'font-size': '2.25rem',
+						'margin-top': '0',
+						'margin-bottom': '2rem',
+					},
+					
+					h2: {
+						'font-size': '1.875rem',
+						'margin-top': '2.5rem',
+						'margin-bottom': '1.5rem',
+					},
+					
+					h3: {
+						'font-size': '1.5rem',
+						'margin-top': '2rem',
+						'margin-bottom': '1rem',
+					},
+					
+					// Links
+					a: {
+						color: 'hsl(var(--primary))',
+						'text-decoration': 'underline',
+						'text-underline-offset': '3px',
+						'&:hover': {
+							color: 'hsl(var(--primary) / 0.8)',
+						},
+					},
+					
+					// Lists
+					'ul, ol': {
+						'margin-top': '1.25rem',
+						'margin-bottom': '1.25rem',
+					},
+					
+					li: {
+						'margin-top': '0.5rem',
+						'margin-bottom': '0.5rem',
+					},
+					
+					'li::marker': {
+						color: 'hsl(var(--muted-foreground))',
+					},
+					
+					// Blockquotes
+					blockquote: {
+						'border-left': '4px solid hsl(var(--primary) / 0.4)',
+						'padding-left': '1.5rem',
+						'font-style': 'italic',
+						color: 'hsl(var(--muted-foreground))',
+						'margin-top': '1.5rem',
+						'margin-bottom': '1.5rem',
+					},
+					
+					// Code
+					code: {
+						color: 'hsl(var(--foreground))',
+						'background-color': 'hsl(var(--muted) / 0.4)',
+						'padding': '0.125rem 0.25rem',
+						'border-radius': '0.25rem',
+						'font-size': '0.875rem',
+					},
+					
+					'code::before': {
+						content: '""',
+					},
+					
+					'code::after': {
+						content: '""',
+					},
+					
+					// Pre blocks
+					pre: {
+						'background-color': 'hsl(var(--muted))',
+						color: 'hsl(var(--foreground))',
+						'padding': '1rem',
+						'border-radius': '0.5rem',
+						'overflow-x': 'auto',
+					},
+					
+					// Images
+					img: {
+						'border-radius': '0.5rem',
+						'margin-top': '1.5rem',
+						'margin-bottom': '1.5rem',
+					},
+					
+					// Tables
+					table: {
+						'border-collapse': 'collapse',
+						width: '100%',
+					},
+					
+					th: {
+						'border': '1px solid hsl(var(--border))',
+						'padding': '0.75rem',
+						'background-color': 'hsl(var(--muted) / 0.5)',
+						'font-weight': '600',
+					},
+					
+					td: {
+						'border': '1px solid hsl(var(--border))',
+						'padding': '0.75rem',
+					},
+					
+					// Horizontal rules
+					hr: {
+						'border-color': 'hsl(var(--border))',
+						'margin-top': '2rem',
+						'margin-bottom': '2rem',
+					},
+					
+					// Strong and emphasis
+					strong: {
+						color: 'hsl(var(--foreground))',
+						'font-weight': '700',
+					},
+					
+					em: {
+						'font-style': 'italic',
+					},
+				},
+			},
+			
+			// Dark mode overrides
+			invert: {
+				css: {
+					// Ensure paragraphs are properly readable in dark mode
+					p: {
+						color: 'hsl(var(--foreground) / 0.9)',
+					},
+					
+					// Adjust other elements for dark mode
+					'h1, h2, h3, h4, h5, h6': {
+						color: 'hsl(var(--foreground))',
+					},
+					
+					strong: {
+						color: 'hsl(var(--foreground))',
+					},
+					
+					code: {
+						'background-color': 'hsl(var(--muted) / 0.6)',
+					},
+					
+					blockquote: {
+						color: 'hsl(var(--muted-foreground) / 0.9)',
+					},
+				},
+			},
+		},
 	},
 	plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

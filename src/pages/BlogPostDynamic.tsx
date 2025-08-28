@@ -1,5 +1,5 @@
+import { useParams, Link, Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,28 +8,48 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
+import { 
+  pillarSlugToTag, 
+  pillarTagToSlug, 
+  getPillarTitle,
+  getPostCanonicalUrl,
+  getPillarHubUrl,
+  type PillarTag 
+} from "@/lib/pillarSlugs";
 
 const postRepository = new SupabasePostRepository();
 
-export default function BlogPostSupabase() {
-  const { slug } = useParams<{ slug: string }>();
+export default function BlogPostDynamic() {
+  const { pillarSlug, postSlug } = useParams<{ pillarSlug: string; postSlug: string }>();
+  const pillarTag = pillarSlug ? pillarSlugToTag(pillarSlug) : null;
+
+  // Redirect if invalid pillar slug
+  if (!pillarTag) {
+    return <Navigate to="/blog" replace />;
+  }
 
   const { data: post, isLoading, error } = useQuery({
-    queryKey: ['supabase-post', slug],
-    queryFn: () => postRepository.getBySlug(slug!),
-    enabled: !!slug,
+    queryKey: ['supabase-post-nested', postSlug],
+    queryFn: () => postRepository.getBySlug(postSlug!),
+    enabled: !!postSlug,
   });
 
   const { data: relatedPosts } = useQuery({
-    queryKey: ['related-posts', post?.pillarTag],
+    queryKey: ['related-posts-nested', pillarTag],
     queryFn: () => postRepository.list({ 
-      pillar: post?.pillarTag, 
+      pillar: pillarTag, 
       limit: 3 
     }),
-    enabled: !!post?.pillarTag,
+    enabled: !!pillarTag,
   });
 
-  if (error) {
+  // If post is found but doesn't match the pillar, redirect to correct URL
+  if (post && post.pillarTag && post.pillarTag !== pillarTag) {
+    const correctPillarSlug = pillarTagToSlug(post.pillarTag as PillarTag);
+    return <Navigate to={`/blog/${correctPillarSlug}/${postSlug}`} replace />;
+  }
+
+  if (error || (post && !post.pillarTag)) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-12 text-center">
         <h1 className="text-2xl font-semibold">Post not found</h1>
@@ -78,6 +98,8 @@ export default function BlogPostSupabase() {
   }
 
   const readingTime = Math.ceil(post.content.replace(/<[^>]*>/g, '').split(' ').length / 200);
+  const pillarTitle = getPillarTitle(pillarTag);
+  const pillarHubUrl = getPillarHubUrl(pillarTag);
 
   // Handle content - if it's already HTML, use it directly; otherwise convert markdown
   const isHtml = post.content.trim().startsWith('<');
@@ -97,20 +119,21 @@ export default function BlogPostSupabase() {
       <Seo
         title={post.metaTitle}
         description={post.metaDescription}
-        path={`/blog/${post.slug}`}
+        path={`/blog/${pillarSlug}/${post.slug}`}
         type="article"
         imageUrl={post.ogImageUrl || "https://tailwaggingwebdesign.com/og/blog.jpg"}
         imageAlt={post.coverAlt || `${post.title} cover image`}
         breadcrumbs={[
           { name: "Home", item: "/" },
           { name: "Blog", item: "/blog" },
-          { name: post.title, item: `/blog/${post.slug}` }
+          { name: pillarTitle, item: pillarHubUrl },
+          { name: post.title, item: `/blog/${pillarSlug}/${post.slug}` }
         ]}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
+            "@id": `https://tailwaggingwebdesign.com/blog/${pillarSlug}/${post.slug}`,
             "headline": post.title,
             "description": post.metaDescription,
             "datePublished": post.publishedAt,
@@ -119,7 +142,7 @@ export default function BlogPostSupabase() {
             "articleBody": post.excerpt,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`
+              "@id": `https://tailwaggingwebdesign.com/blog/${pillarSlug}/${post.slug}`
             },
             "author": {
               "@type": "Organization",
@@ -144,7 +167,7 @@ export default function BlogPostSupabase() {
               "height": 630,
               "caption": post.coverAlt || `${post.title} cover image`
             },
-            "url": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
+            "url": `https://tailwaggingwebdesign.com/blog/${pillarSlug}/${post.slug}`,
             "isPartOf": {
               "@type": "Blog",
               "name": "Tail Wagging Web Design Blog",
@@ -179,11 +202,11 @@ export default function BlogPostSupabase() {
         <article className="mx-auto max-w-4xl px-4 py-8">
           <div className="mb-6">
             <Link 
-              to="/blog" 
+              to={pillarHubUrl}
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to blog
+              Back to {pillarTitle}
             </Link>
           </div>
 
@@ -201,13 +224,11 @@ export default function BlogPostSupabase() {
           </div>
 
           <header className="mb-8">
-            {post.pillarTag && (
-              <div className="mb-4">
-                <Badge variant="secondary" className="capitalize">
-                  {post.pillarTag.replace('-', ' ')}
-                </Badge>
-              </div>
-            )}
+            <div className="mb-4">
+              <Badge variant="secondary" className="capitalize">
+                {pillarTitle}
+              </Badge>
+            </div>
             
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               {post.title}
@@ -230,58 +251,48 @@ export default function BlogPostSupabase() {
           </header>
 
           <div 
-            className="prose prose-lg dark:prose-invert max-w-none mb-12"
+            className="prose prose-lg prose-neutral dark:prose-invert max-w-none mb-12"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
-        {/* Calendly Embed after second H2 */}
-        <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2">Get Personalized Help</h3>
-            <p className="text-muted-foreground mb-4">
-              Ready to implement these strategies? Book a free consultation to discuss your specific needs.
-            </p>
-            <CalendlyEmbed 
-              buttonText="Book Free Consultation"
-              buttonSize="lg"
-              ariaLabel="Book a free consultation to discuss blog topic"
-              trackingLocation={`blog_post_${slug}`}
-            />
-          </div>
-        </div>
-
-        {/* Internal Links */}
-        {post.pillarTag === 'pillar-1' && (
-          <div className="my-8 p-6 bg-muted/50 rounded-lg">
-            <h3 className="font-semibold mb-4">More from Pillar 1: Booking & Reliability</h3>
-            <div className="grid gap-3 md:grid-cols-2">
-              <Link to="/blog/pillar-1" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
-                <Calendar className="w-4 h-4" />
-                <span className="text-sm">View All Pillar 1 Articles</span>
-              </Link>
-              {slug !== 'calendly-vs-built-in-booking-for-pet-sitters' && (
-                <Link to="/blog/calendly-vs-built-in-booking-for-pet-sitters" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Calendly vs Built-In Booking
-                </Link>
-              )}
-              {slug !== 'reduce-no-shows-pet-grooming-pet-sitting' && (
-                <Link to="/blog/reduce-no-shows-pet-grooming-pet-sitting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → No-Show Prevention Strategies
-                </Link>
-              )}
-              {slug !== 'automating-pet-sitter-care-updates-whatsapp-email-client-portal' && (
-                <Link to="/blog/automating-pet-sitter-care-updates-whatsapp-email-client-portal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Automating Care Updates
-                </Link>
-              )}
-              {slug !== 'route-optimization-dog-walking-schedule-uk' && (
-                <Link to="/blog/route-optimization-dog-walking-schedule-uk" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Route Optimization
-                </Link>
-              )}
+          {/* Calendly Embed after content */}
+          <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold mb-2">Get Personalized Help</h3>
+              <p className="text-muted-foreground mb-4">
+                Ready to implement these strategies? Book a free consultation to discuss your specific needs.
+              </p>
+              <CalendlyEmbed 
+                buttonText="Book Free Consultation"
+                buttonSize="lg"
+                ariaLabel="Book a free consultation to discuss blog topic"
+                trackingLocation={`blog_post_${postSlug}`}
+              />
             </div>
           </div>
-        )}
+
+          {/* Internal Links for Pillar 1 */}
+          {pillarTag === 'pillar-1' && (
+            <div className="my-8 p-6 bg-muted/50 rounded-lg">
+              <h3 className="font-semibold mb-4">More from {pillarTitle}</h3>
+              <div className="grid gap-3 md:grid-cols-2">
+                <Link to={pillarHubUrl} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                  <Calendar className="w-4 h-4" />
+                  <span className="text-sm">View All {pillarTitle} Articles</span>
+                </Link>
+                {postSlug !== 'calendly-vs-built-in-booking-for-pet-sitters' && (
+                  <Link to="/blog/booking-and-reliability/calendly-vs-built-in-booking-for-pet-sitters" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    → Calendly vs Built-In Booking
+                  </Link>
+                )}
+                {postSlug !== 'reduce-no-shows-pet-grooming-pet-sitting' && (
+                  <Link to="/blog/booking-and-reliability/reduce-no-shows-pet-grooming-pet-sitting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    → No-Show Prevention Strategies
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* FAQ Section */}
           {post.faq && post.faq.length > 0 && (
@@ -305,7 +316,7 @@ export default function BlogPostSupabase() {
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedPosts.filter(related => related.slug !== post.slug).slice(0, 3).map((relatedPost) => (
                   <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                    <Link to={`/blog/${relatedPost.slug}`}> {/* Legacy URL - will redirect */}
+                    <Link to={getPostCanonicalUrl(relatedPost.slug, relatedPost.pillarTag as PillarTag)}>
                       <div className="aspect-video overflow-hidden">
                         <img
                           src={relatedPost.ogImageUrl || "/og/blog.jpg"}
@@ -320,7 +331,7 @@ export default function BlogPostSupabase() {
                       <CardHeader>
                         {relatedPost.pillarTag && (
                           <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                            {relatedPost.pillarTag.replace('-', ' ')}
+                            {getPillarTitle(relatedPost.pillarTag as PillarTag)}
                           </Badge>
                         )}
                         <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">

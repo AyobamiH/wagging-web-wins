@@ -1,15 +1,15 @@
 
-# Blog pillar redirects - old format to new format
-/blog/pillar/booking-and-reliability /blog/pillar-1 301
-/blog/pillar/offers-pricing-partnerships /blog/pillar-6 301
+# Blog pillar redirects - old format to new SEO-friendly format
+/blog/pillar-1 /blog/booking-and-reliability 301
+/blog/pillar-2 /blog/website-ux-and-conversion 301
+/blog/pillar-3 /blog/local-seo-and-gbp 301
+/blog/pillar-4 /blog/trust-safety-and-compliance 301
+/blog/pillar-5 /blog/client-experience-and-retention 301
+/blog/pillar-6 /blog/content-and-social-media 301
 
-# Legacy redirects
-/blog/pillar-1/* /blog/pillar-1 301
-/blog/pillar-2/* /blog/pillar-2 301
-/blog/pillar-3/* /blog/pillar-3 301
-/blog/pillar-4/* /blog/pillar-4 301
-/blog/pillar-5/* /blog/pillar-5 301
-/blog/pillar-6/* /blog/pillar-6 301
+# Legacy URL patterns
+/blog/pillar/booking-and-reliability /blog/booking-and-reliability 301
+/blog/pillar/offers-pricing-partnerships /blog/content-and-social-media 301
 
 # SPA fallback
 /* /index.html 200
