@@ -78,7 +78,7 @@ export default function ModernHeader() {
                 <circle cx="140" cy="70" r="20" />
               </g>
             </svg>
-            <span className="hidden sm:inline">Tail Wagging</span>
+            <span className="hidden sm:inline">Tail Wagging Websites Factory</span>
           </Link>
 
           {/* Desktop Navigation */}
