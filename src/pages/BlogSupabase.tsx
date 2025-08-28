@@ -10,7 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
-import { getPostCanonicalUrl, type PillarTag } from "@/lib/pillarSlugs";
 
 const postRepository = new SupabasePostRepository();
 
@@ -223,7 +222,7 @@ export default function BlogSupabase() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <Card key={post.id} className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                <Link to={getPostCanonicalUrl(post.slug, post.pillarTag as PillarTag)}>
+                <Link to={`/blog/${post.slug}`}> {/* Legacy URL - will redirect */}
                   <div className="aspect-video overflow-hidden">
                     <img
                       src={post.ogImageUrl || "/og/blog.jpg"}
