@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { format } from "date-fns";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +15,11 @@ const postRepository = new SupabasePostRepository();
 export default function BlogPostSupabase() {
   const { slug } = useParams<{ slug: string }>();
 
+  // Scroll to top when component mounts or slug changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
+
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['supabase-post', slug],
     queryFn: () => postRepository.getBySlug(slug!),
@@ -21,12 +27,12 @@ export default function BlogPostSupabase() {
   });
 
   const { data: relatedPosts } = useQuery({
-    queryKey: ['related-posts', post?.pillarTag],
-    queryFn: () => postRepository.list({ 
-      pillar: post?.pillarTag, 
-      limit: 3 
-    }),
-    enabled: !!post?.pillarTag,
+    queryKey: ['related-posts', slug],
+    queryFn: async () => {
+      const posts = await postRepository.list({ limit: 4 });
+      return posts.filter(p => p.slug !== slug);
+    },
+    enabled: !!slug,
   });
 
   if (error) {
@@ -201,13 +207,11 @@ export default function BlogPostSupabase() {
           </div>
 
           <header className="mb-8">
-            {post.pillarTag && (
-              <div className="mb-4">
-                <Badge variant="secondary" className="capitalize">
-                  {post.pillarTag.replace('-', ' ')}
-                </Badge>
-              </div>
-            )}
+            <div className="mb-4">
+              <Badge variant="secondary" className="capitalize">
+                {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+              </Badge>
+            </div>
             
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               {post.title}
@@ -230,7 +234,7 @@ export default function BlogPostSupabase() {
           </header>
 
           <div 
-            className="prose prose-neutral dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:marker:text-muted-foreground prose-blockquote:border-l-primary/40 prose-blockquote:text-muted-foreground prose-a:text-primary hover:prose-a:underline prose-hr:border-border prose-headings:scroll-mt-20 mb-12"
+            className="blog-content mb-12"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
@@ -250,38 +254,6 @@ export default function BlogPostSupabase() {
           </div>
         </div>
 
-        {/* Internal Links */}
-        {post.pillarTag === 'pillar-1' && (
-          <div className="my-8 p-6 bg-muted/50 rounded-lg">
-            <h3 className="font-semibold mb-4">More from Pillar 1: Booking & Reliability</h3>
-            <div className="grid gap-3 md:grid-cols-2">
-              <Link to="/blog/pillar-1" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
-                <Calendar className="w-4 h-4" />
-                <span className="text-sm">View All Pillar 1 Articles</span>
-              </Link>
-              {slug !== 'calendly-vs-built-in-booking-for-pet-sitters' && (
-                <Link to="/blog/calendly-vs-built-in-booking-for-pet-sitters" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Calendly vs Built-In Booking
-                </Link>
-              )}
-              {slug !== 'reduce-no-shows-pet-grooming-pet-sitting' && (
-                <Link to="/blog/reduce-no-shows-pet-grooming-pet-sitting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → No-Show Prevention Strategies
-                </Link>
-              )}
-              {slug !== 'automating-pet-sitter-care-updates-whatsapp-email-client-portal' && (
-                <Link to="/blog/automating-pet-sitter-care-updates-whatsapp-email-client-portal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Automating Care Updates
-                </Link>
-              )}
-              {slug !== 'route-optimization-dog-walking-schedule-uk' && (
-                <Link to="/blog/route-optimization-dog-walking-schedule-uk" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  → Route Optimization
-                </Link>
-              )}
-            </div>
-          </div>
-        )}
 
           {/* FAQ Section */}
           {post.faq && post.faq.length > 0 && (
@@ -317,12 +289,12 @@ export default function BlogPostSupabase() {
                           className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <CardHeader>
-                        {relatedPost.pillarTag && (
-                          <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                            {relatedPost.pillarTag.replace('-', ' ')}
-                          </Badge>
-                        )}
+                       <CardHeader>
+                         {relatedPost.pillarTag && (
+                           <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                             {relatedPost.pillarTag.replace('pillar-', 'Category ')}
+                           </Badge>
+                         )}
                         <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
                           {relatedPost.title}
                         </CardTitle>
