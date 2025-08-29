@@ -220,13 +220,11 @@ function BlogPost({ slug }: { slug: string }) {
           </div>
 
           <header className="mb-8">
-            {post.pillarTag && (
-              <div className="mb-4">
-                <Badge variant="secondary" className="capitalize">
-                  {post.pillarTag.replace('pillar-', 'Category ')}
-                </Badge>
-              </div>
-            )}
+            <div className="mb-4">
+              <Badge variant="secondary" className="capitalize">
+                {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+              </Badge>
+            </div>
             
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               {post.title}
@@ -304,11 +302,9 @@ function BlogPost({ slug }: { slug: string }) {
                         />
                       </div>
                       <CardHeader>
-                        {relatedPost.pillarTag && (
-                          <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                            {relatedPost.pillarTag.replace('pillar-', 'Category ')}
-                          </Badge>
-                        )}
+                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                          {relatedPost.pillarTag ? relatedPost.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+                        </Badge>
                         <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
                           {relatedPost.title}
                         </CardTitle>
@@ -335,7 +331,7 @@ function BlogIndex() {
   
   const { data: allPosts, isLoading, error } = useQuery({
     queryKey: ['all-posts'],
-    queryFn: () => postRepository.list({ limit: 100 }),
+    queryFn: () => postRepository.list({ limit: 100, featuredFirst: true }),
   });
 
   // Calculate pagination
@@ -419,11 +415,9 @@ function BlogIndex() {
                     />
                   </div>
                   <CardHeader>
-                    {post.pillarTag && (
-                      <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                        {post.pillarTag.replace('pillar-', 'Category ')}
-                      </Badge>
-                    )}
+                    <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                      {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+                    </Badge>
                     <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
                       {post.title}
                     </CardTitle>

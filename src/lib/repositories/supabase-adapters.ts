@@ -39,8 +39,14 @@ export class SupabasePostRepository implements PostRepository {
     let query = supabase
       .from('posts')
       .select('*')
-      .eq('published', true)
-      .order('published_at', { ascending: false });
+      .eq('published', true);
+
+    if (params.featuredFirst) {
+      // Prioritize posts marked as featured in extras JSONB
+      query = query.order('extras->>featured', { ascending: false, nullsFirst: false });
+    }
+
+    query = query.order('published_at', { ascending: false });
 
     if (params.pillar) {
       query = query.eq('pillar_tag', params.pillar);
