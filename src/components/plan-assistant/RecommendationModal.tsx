@@ -74,17 +74,27 @@ interface RecommendationModalProps {
 const RecommendationModal = ({ isOpen, onClose, recommendationData }: RecommendationModalProps) => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
-  // Mock recommendation based on the data (you can enhance this logic)
+  // Enhanced recommendation logic based on features and complexity
   const getRecommendedPlan = () => {
     if (!recommendationData) {
       return plans[1]; // Default to Professional
     }
     
-    // Simple logic to determine recommended plan
-    const featureCount = recommendationData.featureList.length;
-    if (featureCount <= 3) return plans[0]; // Basic
-    if (featureCount <= 6) return plans[1]; // Professional
-    return plans[2]; // Enterprise
+    const features = recommendationData.featureList;
+    const hasAdvancedFeatures = features.some(f => 
+      f.includes('E-commerce') || 
+      f.includes('Advanced Booking') || 
+      f.includes('Content Management') ||
+      f.includes('Local Search Enhancement')
+    );
+    
+    const hasBasicFeatures = features.length <= 4 && !hasAdvancedFeatures;
+    const hasEnterpriseFeatures = features.length > 7 || 
+      features.some(f => f.includes('Advanced') || f.includes('Enhanced'));
+    
+    if (hasBasicFeatures) return plans[0]; // Basic
+    if (hasEnterpriseFeatures) return plans[2]; // Enterprise
+    return plans[1]; // Professional (default for most cases)
   };
 
   const recommendedPlan = getRecommendedPlan();
@@ -156,7 +166,9 @@ const RecommendationModal = ({ isOpen, onClose, recommendationData }: Recommenda
                 <div
                   key={plan.id}
                   className={`relative bg-card border rounded-xl p-6 transition-all duration-300 hover:shadow-lg ${
-                    plan.id === recommendedPlan.id ? 'ring-2 ring-primary scale-105' : 'border-border'
+                    plan.id === recommendedPlan.id 
+                      ? 'ring-2 ring-primary scale-105 bg-primary/5 border-primary shadow-lg' 
+                      : 'border-border'
                   } ${
                     selectedPlan === plan.id ? 'ring-2 ring-accent' : ''
                   }`}
@@ -227,17 +239,27 @@ const RecommendationModal = ({ isOpen, onClose, recommendationData }: Recommenda
                       </div>
                     </div>
 
-                    <BuyPlanButton
-                      planName={plan.name}
-                      planPrice={plan.price}
-                      onboardingFee={plan.onboardingFee}
-                      variant={plan.id === recommendedPlan.id ? "default" : "outline"}
-                      className={`w-full font-semibold transition-all duration-300 ${
-                        plan.id === recommendedPlan.id
-                          ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg'
-                          : ''
-                      }`}
-                    />
+                    <div className="space-y-2">
+                      <BuyPlanButton
+                        planName={plan.name}
+                        planPrice={plan.price}
+                        onboardingFee={plan.onboardingFee}
+                        variant={plan.id === recommendedPlan.id ? "default" : "outline"}
+                        className={`w-full font-semibold transition-all duration-300 ${
+                          plan.id === recommendedPlan.id
+                            ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg text-base py-3 h-12'
+                            : 'text-base py-3 h-12'
+                        }`}
+                      />
+                      {plan.id === recommendedPlan.id && (
+                        <div className="text-center">
+                          <div className="inline-flex items-center gap-2 text-sm text-primary font-semibold bg-primary/10 px-3 py-1 rounded-full">
+                            <Zap className="w-3 h-3" />
+                            Best Match for Your Needs
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}

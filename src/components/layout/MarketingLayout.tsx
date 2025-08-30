@@ -15,28 +15,60 @@ export default function MarketingLayout() {
   const [isRecommendationOpen, setIsRecommendationOpen] = useState(false);
   const [recommendationData, setRecommendationData] = useState(null);
 
-  const handleQuestionnaireComplete = (recommendationId: string) => {
-    // Mock recommendation data - replace with actual API call
-    const mockRecommendationData = {
-      recommendedStyle: "Modern & Professional",
-      featureList: [
+  const handleQuestionnaireComplete = (recommendationId: string, questionnaire: Record<string, any>) => {
+    // Generate personalized recommendations based on questionnaire data
+    const generateRecommendations = (data: Record<string, any>) => {
+      const services = Array.isArray(data.servicesOffered) ? data.servicesOffered : [];
+      const features = Array.isArray(data.mustHaveFeatures) ? data.mustHaveFeatures : [];
+      const budget = data.budgetRange || '';
+      const websiteStyle = data.websiteStyle || 'Modern';
+      const primaryGoal = data.primaryWebsiteGoal || '';
+      
+      // Determine recommended style
+      let recommendedStyle = "Modern & Professional";
+      if (websiteStyle === 'Playful') recommendedStyle = "Playful & Engaging";
+      else if (websiteStyle === 'Elegant') recommendedStyle = "Elegant & Sophisticated";
+      else if (websiteStyle === 'Minimalist') recommendedStyle = "Clean & Minimalist";
+      else if (websiteStyle === 'Colorful') recommendedStyle = "Vibrant & Colorful";
+      
+      // Generate feature list based on services and goals
+      const recommendedFeatures = [
         "Responsive Design",
-        "Contact Forms", 
-        "SEO Optimization",
-        "Mobile-First Design",
-        "Social Media Integration"
-      ],
-      suggestedPackage: {
-        name: "Professional",
-        features: [
-          "Custom Design",
-          "Advanced SEO",
-          "Mobile Optimization"
-        ]
+        "Mobile Optimization",
+        "Professional Branding"
+      ];
+      
+      if (services.includes('Pet Booking') || features.includes('Online booking')) {
+        recommendedFeatures.push("Advanced Booking System");
       }
+      if (services.includes('Pet Grooming') || services.includes('Pet Boarding')) {
+        recommendedFeatures.push("Service Gallery & Portfolio");
+      }
+      if (primaryGoal === 'Attract new clients') {
+        recommendedFeatures.push("SEO Optimization", "Local Search Enhancement");
+      }
+      if (features.includes('Client testimonials')) {
+        recommendedFeatures.push("Customer Review Integration");
+      }
+      if (data.needEcommerce === 'Yes') {
+        recommendedFeatures.push("E-commerce Integration");
+      }
+      if (data.includeBlogOrNewsletter === 'Yes') {
+        recommendedFeatures.push("Content Management System");
+      }
+      
+      return {
+        recommendedStyle,
+        featureList: recommendedFeatures,
+        suggestedPackage: {
+          name: "Professional", // This will be determined by the modal logic
+          features: recommendedFeatures
+        }
+      };
     };
     
-    setRecommendationData(mockRecommendationData);
+    const recommendationData = generateRecommendations(questionnaire);
+    setRecommendationData(recommendationData);
     setIsRecommendationOpen(true);
   };
   
@@ -61,7 +93,7 @@ export default function MarketingLayout() {
       <QuestionnaireModal
         isOpen={isQuestionnaireOpen}
         onClose={() => setIsQuestionnaireOpen(false)}
-        onComplete={handleQuestionnaireComplete}
+        onComplete={(id, data) => handleQuestionnaireComplete(id, data)}
       />
       
       <RecommendationModal

@@ -348,7 +348,7 @@ const questionnaireData = {
 interface QuestionnaireModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onComplete: (recommendationId: string) => void;
+  onComplete: (recommendationId: string, questionnaireData: Record<string, any>) => void;
 }
 
 const QuestionnaireModal = ({ isOpen, onClose, onComplete }: QuestionnaireModalProps) => {
@@ -440,7 +440,7 @@ const QuestionnaireModal = ({ isOpen, onClose, onComplete }: QuestionnaireModalP
         description: "Generating your personalized recommendations...",
       });
       
-      onComplete(recommendationId);
+      onComplete(recommendationId, selectedAnswers);
       onClose();
       
     } catch (error) {
