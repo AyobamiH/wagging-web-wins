@@ -12,7 +12,7 @@ export const SERVICE_AREA = [
     { name: "Milton Keynes", slug: "milton-keynes" },
     { name: "Banbury", slug: "banbury" },
     { name: "Northamptonshire", slug: "northamptonshire" }
-  ]; as const;
+  ] as const;
 
 export const SLUGS = [
   "website-design",
