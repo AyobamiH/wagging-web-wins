@@ -13,12 +13,7 @@ const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
-const ServiceDetail =  lazy (() => import ("@/pages/ServiceDetail"))
-// const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
-// const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
-// const Automations = lazy(() => import("./pages/services/Automations"));
-// const CarePlans = lazy(() => import("./pages/services/CarePlans"));
-// const SpeedUXAudits = lazy(() => import("./pages/services/SpeedUXAudits"));
+const ServiceDetail =  lazy (() => import ("./pages/ServiceDetail"))
 const Pricing = lazy(() => import("./pages/Pricing"));
 const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
@@ -68,11 +63,6 @@ const App = () => (
               <Route path="/trades" element={<TradesLanding />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:slug" element={<ServiceDetail />} />
-              {/* <Route path="/services/website-design" element={<WebsiteDesign />} />
-              <Route path="/services/local-seo" element={<LocalSEO />} />
-              <Route path="/services/automations" element={<Automations />} />
-              <Route path="/services/care-plans" element={<CarePlans />} />
-              <Route path="/services/speed-ux-audits" element={<SpeedUXAudits />} /> */}
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/tools" element={<ToolsHub />} />
               <Route path="/tools/:slug" element={<ToolDetail />} />
@@ -80,8 +70,8 @@ const App = () => (
               <Route path="/faq" element={<FAQ />} />
               <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
               <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
-        <Route path="/blog" element={<BlogSupabase />} />
-        <Route path="/blog/:slug" element={<BlogPostSupabase />} />
+              <Route path="/blog" element={<BlogSupabase />} />
+              <Route path="/blog/:slug" element={<BlogPostSupabase />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
               <Route path="/locations/:slug" element={<Location />} />
