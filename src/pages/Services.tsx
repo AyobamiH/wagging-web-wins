@@ -4,8 +4,7 @@ import { CTAButtons } from "@/components/CTAButtons";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
-import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA} from "@/data/services";
-
+import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA } from "@/data/services";
 
 
 
