@@ -6,7 +6,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
 
 type ServiceCard = { href: string; title: string; desc: string };
-type ServiceDetail = { includes: string[]; outcomes: string[] };
 // type Slug = "website-design" | "local-seo" | "automations" | "care-plans" | "speed-ux-audits";
 type Slug =
   | "website-design"
@@ -15,8 +14,7 @@ type Slug =
   | "care-plans"
   | "speed-ux-audits";
 const toSlug = (href: string) => href.split("/").pop() as Slug;
-
-// --- Types + slug helper (optional) ---
+--- Types + slug helper (optional) ---
 
 
 type ServiceDetail = {
