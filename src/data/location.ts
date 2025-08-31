@@ -10,6 +10,7 @@ export type LocationInfo = {
   lng?: number;
 };
 
+
 export const LOCATIONS_BY_SLUG: Record<string, LocationInfo> = {
   "northampton": {
     slug: "northampton",
