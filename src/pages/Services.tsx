@@ -4,8 +4,8 @@ import { CTAButtons } from "@/components/CTAButtons";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
-import { SERVICES, SLUGS, SERVICE_AREA } from "@/data/services";
-import { BASE_URL, SERVICE_AREA } from "@/data/services"
+import { SERVICES, SLUGS } from "@/data/services";
+
 
 
 export default function Services() {
@@ -18,7 +18,18 @@ export default function Services() {
   // Use the central SERVICES map to power the grid and JSON-LD
   
 
-  
+  const serviceArea = [
+    { name: "Northampton", slug: "northampton" },
+    { name: "Wellingborough", slug: "wellingborough" },
+    { name: "Kettering", slug: "kettering" },
+    { name: "Daventry", slug: "daventry" },
+    { name: "Towcester", slug: "towcester" },
+    { name: "Rushden", slug: "rushden" },
+    { name: "Corby", slug: "corby" },
+    { name: "Milton Keynes", slug: "milton-keynes" },
+    { name: "Banbury", slug: "banbury" },
+    { name: "Northamptonshire", slug: "northamptonshire" }
+  ];
 
   // --- SEO: title, description, keywords, JSON-LD ---
   const keywords = [
@@ -51,17 +62,17 @@ export default function Services() {
     "northamptonshire pet website agency",
   ];
 
-  const BASE_URL = "https://tailwaggingwebdesign.com";
+  const baseUrl = "https://tailwaggingwebdesign.com";
 
   const jsonLd = [
     // Services catalog listing (main entity for this page)
     {
       "@context": "https://schema.org",
       "@type": "ServiceCatalog",
-      "@id": BASE_URL + "/services#catalog",
+      "@id": baseUrl + "/services#catalog",
       name: "Pet-Care Web Design Services",
       description: "Web design, local SEO, automations, care plans and audits for pet-care businesses in Northamptonshire.",
-      url: BASE_URL + "/services",
+      url: baseUrl + "/services",
       provider: { "@id": "https://tailwaggingwebdesign.com/#localbusiness" },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -69,25 +80,25 @@ export default function Services() {
         itemListElement: cards.map((card, index) => ({
           "@type": "Offer",
           position: index + 1,
-          "@id": BASE_URL + card.href + "#offer",
+          "@id": baseUrl + card.href + "#offer",
           name: card.title,
           description: card.desc,
           category: "Web Design Service",
-          url: BASE_URL + card.href,
+          url: baseUrl + card.href,
           audience: {
             "@type": "BusinessAudience",
             "name": "Pet Care Business Owners"
           },
           itemOffered: {
             "@type": "Service",
-            "@id": BASE_URL + card.href + "#service",
+            "@id": baseUrl + card.href + "#service",
             name: card.title,
             serviceType: card.title,
             serviceLocation: {
               "@type": "Place",
               "name": "Northampton, Northamptonshire"
             },
-            areaServed: SERVICE_AREA.map(area => area.name),
+            areaServed: serviceArea.map(area => area.name),
             provider: { "@id": "https://tailwaggingwebdesign.com/#localbusiness" }
           }
         }))
@@ -97,11 +108,11 @@ export default function Services() {
     {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      "@id": BASE_URL + "/services#list",
+      "@id": baseUrl + "/services#list",
       itemListElement: cards.map((card, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: BASE_URL + card.href,
+        url: baseUrl + card.href,
         name: card.title
       }))
     },
@@ -109,22 +120,22 @@ export default function Services() {
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "@id": BASE_URL + "/services#webpage",
-      url: BASE_URL + "/services",
+      "@id": baseUrl + "/services#webpage",
+      url: baseUrl + "/services",
       name: "Pet-Care Web Design Services in Northampton",
       description: "Professional pet-care web design, local SEO and automations for businesses in Northamptonshire",
       dateModified: new Date().toISOString(),
       primaryImageOfPage: {
         "@type": "ImageObject",
-        "url": BASE_URL + "/og.png"
+        "url": baseUrl + "/og.png"
       },
       about: { "@id": "https://tailwaggingwebdesign.com/#localbusiness" },
-      isPartOf: { "@id": BASE_URL + "/#website" },
+      isPartOf: { "@id": baseUrl + "/#website" },
       breadcrumb: {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL + "/" },
-          { "@type": "ListItem", position: 2, name: "Services", item: BASE_URL + "/services" }
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl + "/" },
+          { "@type": "ListItem", position: 2, name: "Services", item: baseUrl + "/services" }
         ]
       }
     },
@@ -132,7 +143,7 @@ export default function Services() {
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "@id": BASE_URL + "/services#faq",
+      "@id": baseUrl + "/services#faq",
       mainEntity: [
         {
           "@type": "Question",
@@ -346,7 +357,7 @@ export default function Services() {
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-6">Areas We Serve</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5 mb-6">
-            {SERVICE_AREA.map((area) => (
+            {serviceArea.map((area) => (
               <Link
                 key={area.slug}
                 to={`/locations/${area.slug}`}
