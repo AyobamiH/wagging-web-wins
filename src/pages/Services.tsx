@@ -14,7 +14,7 @@ type Slug =
   | "care-plans"
   | "speed-ux-audits";
 const toSlug = (href: string) => href.split("/").pop() as Slug;
---- Types + slug helper (optional) ---
+
 
 
 type ServiceDetail = {
