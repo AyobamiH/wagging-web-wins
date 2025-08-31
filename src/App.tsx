@@ -13,7 +13,7 @@ const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
-const ServiceDetail =  lazy (() => import ("@/pages/ServiceDetail"))
+const ServiceDetail =  lazy (() => import ("./pages/ServiceDetail"))
 // const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
 // const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
 // const Automations = lazy(() => import("./pages/services/Automations"));
