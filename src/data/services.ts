@@ -2,9 +2,17 @@
 export const BASE_URL = "https://tailwaggingwebdesign.com";
 
 export const SERVICE_AREA = [
-  "Northampton","Wellingborough","Kettering","Daventry","Towcester",
-  "Rushden","Corby","Milton Keynes","Banbury","Northamptonshire",
-] as const;
+    { name: "Northampton", slug: "northampton" },
+    { name: "Wellingborough", slug: "wellingborough" },
+    { name: "Kettering", slug: "kettering" },
+    { name: "Daventry", slug: "daventry" },
+    { name: "Towcester", slug: "towcester" },
+    { name: "Rushden", slug: "rushden" },
+    { name: "Corby", slug: "corby" },
+    { name: "Milton Keynes", slug: "milton-keynes" },
+    { name: "Banbury", slug: "banbury" },
+    { name: "Northamptonshire", slug: "northamptonshire" }
+  ] as const;
 
 export const SLUGS = [
   "website-design",
