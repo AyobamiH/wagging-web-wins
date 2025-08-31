@@ -1,18 +1,21 @@
 // src/data/services.ts
 export const BASE_URL = "https://tailwaggingwebdesign.com";
+// src/data/services.ts
+import { SERVICE_AREA, SERVICE_AREA_NAMES } from "./locations";
+export { SERVICE_AREA, SERVICE_AREA_NAMES } from "./locations";
 
-export const SERVICE_AREA = [
-    { name: "Northampton", slug: "northampton" },
-    { name: "Wellingborough", slug: "wellingborough" },
-    { name: "Kettering", slug: "kettering" },
-    { name: "Daventry", slug: "daventry" },
-    { name: "Towcester", slug: "towcester" },
-    { name: "Rushden", slug: "rushden" },
-    { name: "Corby", slug: "corby" },
-    { name: "Milton Keynes", slug: "milton-keynes" },
-    { name: "Banbury", slug: "banbury" },
-    { name: "Northamptonshire", slug: "northamptonshire" }
-  ] as const;
+// export const SERVICE_AREA = [
+//     { name: "Northampton", slug: "northampton" },
+//     { name: "Wellingborough", slug: "wellingborough" },
+//     { name: "Kettering", slug: "kettering" },
+//     { name: "Daventry", slug: "daventry" },
+//     { name: "Towcester", slug: "towcester" },
+//     { name: "Rushden", slug: "rushden" },
+//     { name: "Corby", slug: "corby" },
+//     { name: "Milton Keynes", slug: "milton-keynes" },
+//     { name: "Banbury", slug: "banbury" },
+//     { name: "Northamptonshire", slug: "northamptonshire" }
+//   ] as const;
 
 export const SLUGS = [
   "website-design",
