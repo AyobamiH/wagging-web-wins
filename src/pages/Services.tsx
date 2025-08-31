@@ -254,6 +254,20 @@ export default function Services() {
             We help dog walkers, groomers, pet sitters and vets across <strong>Northamptonshire</strong> get found,
             look professional and turn clicks into bookings.
           </p>
+          {/* NAP chip: keep UI local-only, keep full address in JSON-LD */}
+  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
+    <span className="inline-flex items-center gap-1 rounded-full border bg-card/60 px-2.5 py-1">
+      <MapPin className="h-3.5 w-3.5 text-primary" />
+      Northampton, Northamptonshire
+    </span>
+    <a
+      href="tel:+447402342694"
+      className="inline-flex items-center gap-1 rounded-full border bg-card/60 px-2.5 py-1 hover:bg-card"
+    >
+      <Phone className="h-3.5 w-3.5 text-primary" />
+      +44 7402 342694
+    </a>
+  </div>
         </header>
 
         {/* Trust Strip */}
