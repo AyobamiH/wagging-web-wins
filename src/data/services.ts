@@ -1,18 +1,25 @@
 // src/data/services.ts
 export const BASE_URL = "https://tailwaggingwebdesign.com";
 
-export const SERVICE_AREA = [
-    { name: "Northampton", slug: "northampton" },
-    { name: "Wellingborough", slug: "wellingborough" },
-    { name: "Kettering", slug: "kettering" },
-    { name: "Daventry", slug: "daventry" },
-    { name: "Towcester", slug: "towcester" },
-    { name: "Rushden", slug: "rushden" },
-    { name: "Corby", slug: "corby" },
-    { name: "Milton Keynes", slug: "milton-keynes" },
-    { name: "Banbury", slug: "banbury" },
-    { name: "Northamptonshire", slug: "northamptonshire" }
-  ] as const;
+
+// pull the area data from locations (avoid redefining)
+import { SERVICE_AREA, SERVICE_AREA_NAMES } from "./locations";
+
+// re-export so existing imports from services.ts keep working
+export { SERVICE_AREA, SERVICE_AREA_NAMES } from "./locations";
+
+// export const SERVICE_AREA = [
+//     { name: "Northampton", slug: "northampton" },
+//     { name: "Wellingborough", slug: "wellingborough" },
+//     { name: "Kettering", slug: "kettering" },
+//     { name: "Daventry", slug: "daventry" },
+//     { name: "Towcester", slug: "towcester" },
+//     { name: "Rushden", slug: "rushden" },
+//     { name: "Corby", slug: "corby" },
+//     { name: "Milton Keynes", slug: "milton-keynes" },
+//     { name: "Banbury", slug: "banbury" },
+//     { name: "Northamptonshire", slug: "northamptonshire" }
+//   ] as const;
 
 export const SLUGS = [
   "website-design",
