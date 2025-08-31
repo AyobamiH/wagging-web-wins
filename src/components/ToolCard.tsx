@@ -45,7 +45,7 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
             <StatusBadge status={tool.status} />
           </div>
           
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          {/* <div className="flex flex-wrap gap-1.5 mt-2">
             <Badge variant="secondary" className="text-xs">
               {tool.category}
             </Badge>
@@ -59,7 +59,7 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
                 +{tool.tags.length - 2}
               </Badge>
             )}
-          </div>
+          </div> */}
         </CardHeader>
 
         <CardContent className="flex-1 flex flex-col justify-between pt-0">
@@ -67,7 +67,10 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
             {tool.description}
           </p>
           <div className="flex flex-wrap gap-1.5 mt-2">
-          {tool.tags.slice(0, 2).map(tag => (
+            <Badge variant="secondary" className="text-xs">
+              {tool.category}
+            </Badge>
+            {tool.tags.slice(0, 2).map(tag => (
               <Badge key={tag} variant="outline" className="text-xs">
                 {tag}
               </Badge>
