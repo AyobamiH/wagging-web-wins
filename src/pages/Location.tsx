@@ -352,7 +352,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight, Phone } from "lucide-react";
 
 import { BASE_URL, SERVICES, SLUGS, type Slug } from "@/data/services";
-import { getLocation, SERVICE_AREA } from "@/data/locations";
+import { getLocation, SERVICE_AREA } from "@/data/location";
 
 export default function Location() {
   const { slug } = useParams<{ slug: string }>();
