@@ -339,12 +339,6 @@ export default function Services() {
             </details>
           </div>
         </div>
-
-        <section className="bg-muted/40 border-y">
-          <div className="mx-auto max-w-6xl px-4 py-8">
-            
-          </div>
-        </section>
       </section>
     </>
   );
