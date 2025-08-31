@@ -14,11 +14,11 @@ const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
 const ServiceDetail =  lazy (() => import ("@/pages/ServiceDetail"))
-const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
-const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
-const Automations = lazy(() => import("./pages/services/Automations"));
-const CarePlans = lazy(() => import("./pages/services/CarePlans"));
-const SpeedUXAudits = lazy(() => import("./pages/services/SpeedUXAudits"));
+// const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
+// const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
+// const Automations = lazy(() => import("./pages/services/Automations"));
+// const CarePlans = lazy(() => import("./pages/services/CarePlans"));
+// const SpeedUXAudits = lazy(() => import("./pages/services/SpeedUXAudits"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const ToolsHub = lazy(() => import("./pages/ToolsHub"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
