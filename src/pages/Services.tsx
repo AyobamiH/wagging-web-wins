@@ -6,8 +6,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA } from "@/data/services";
 
-// src/pages/Services.tsx
-import { SERVICES, SLUGS, SERVICE_AREA, SERVICE_AREA_NAMES } from "@/data/services";
 
 
 export default function Services() {
