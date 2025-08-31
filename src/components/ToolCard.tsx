@@ -66,6 +66,7 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
           <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
             {tool.description}
           </p>
+          
 
           <div className="flex gap-2">
             <Button 
