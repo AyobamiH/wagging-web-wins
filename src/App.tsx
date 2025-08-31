@@ -13,6 +13,7 @@ const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
+const ServiceDetail =  lazy (() => import ("@/pages/ServiceDetail"))
 const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
 const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
 const Automations = lazy(() => import("./pages/services/Automations"));
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
               <Route path="/trades" element={<TradesLanding />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/services/website-design" element={<WebsiteDesign />} />
               <Route path="/services/local-seo" element={<LocalSEO />} />
               <Route path="/services/automations" element={<Automations />} />
