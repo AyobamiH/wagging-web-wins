@@ -13,7 +13,7 @@ const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Services = lazy(() => import("./pages/Services"));
-const ServiceDetail =  lazy (() => import ("./pages/ServiceDetail"))
+const ServiceDetail =  lazy (() => import ("@/pages/ServiceDetail"))
 // const WebsiteDesign = lazy(() => import("./pages/services/WebsiteDesign"));
 // const LocalSEO = lazy(() => import("./pages/services/LocalSEO"));
 // const Automations = lazy(() => import("./pages/services/Automations"));
@@ -68,11 +68,11 @@ const App = () => (
               <Route path="/trades" element={<TradesLanding />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:slug" element={<ServiceDetail />} />
-              <Route path="/services/website-design" element={<WebsiteDesign />} />
+              {/* <Route path="/services/website-design" element={<WebsiteDesign />} />
               <Route path="/services/local-seo" element={<LocalSEO />} />
               <Route path="/services/automations" element={<Automations />} />
               <Route path="/services/care-plans" element={<CarePlans />} />
-              <Route path="/services/speed-ux-audits" element={<SpeedUXAudits />} />
+              <Route path="/services/speed-ux-audits" element={<SpeedUXAudits />} /> */}
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/tools" element={<ToolsHub />} />
               <Route path="/tools/:slug" element={<ToolDetail />} />
