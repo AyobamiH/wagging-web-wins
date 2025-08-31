@@ -66,16 +66,6 @@ export const ToolCard = ({ tool, index }: ToolCardProps) => {
           <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
             {tool.description}
           </p>
-          {tool.tags.slice(0, 2).map(tag => (
-              <Badge key={tag} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-            {tool.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
-                +{tool.tags.length - 2}
-              </Badge>
-            )}
 
           <div className="flex gap-2">
             <Button 
