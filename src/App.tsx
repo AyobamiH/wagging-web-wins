@@ -26,6 +26,7 @@ const WhyDoDogs = lazy(() => import("./pages/WhyDoDogs"));
 const WhyDogsGuideDetail = lazy(() => import("./pages/WhyDogsGuideDetail")); 
 const Contact = lazy(() => import("./pages/Contact"));
 const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
+const Location = lazy(() => import("./pages/Location"));
 const BlogSupabase = lazy(() => import("./pages/BlogSupabase"));
 const BlogPostSupabase =  lazy(()  => import("./pages/BlogPostSupabase"))
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
@@ -81,6 +82,7 @@ const App = () => (
         <Route path="/blog/:slug" element={<BlogPostSupabase />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/service-areas" element={<ServiceAreas />} />
+              <Route path="/locations/:slug" element={<Location />} />
               <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
               <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/payment-failed" element={<PaymentFailed />} />

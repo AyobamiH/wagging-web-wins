@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToolsRegistry, Tool } from "@/lib/useToolsRegistry";
 import { ExternalLink, Mail, Wrench } from "lucide-react";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import { Link } from "react-router-dom";
 
 export default function ToolsHub() {
   const { tools, loading, error } = useToolsRegistry();
@@ -210,7 +211,7 @@ export default function ToolsHub() {
             </h2>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               We build tailored solutions for pet-care professionals. 
-              Let's discuss your specific needs.
+              Let's discuss your specific needs or check our <Link to="/services" className="text-primary hover:underline">complete web design services</Link>.
             </p>
             <CalendlyEmbed
               buttonText="Schedule a Custom Tools Consultation"

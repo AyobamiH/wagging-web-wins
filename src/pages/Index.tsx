@@ -1,6 +1,7 @@
 import Seo from "@/components/Seo";
 import { CTAButtons, SecondaryCTAs } from "@/components/CTAButtons";
 import { CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
@@ -181,7 +182,8 @@ export default function Index() {
             Websites that turn pet parents into paying clients — automatically.
           </h1>
           <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl">
-            We build mobile-first websites and smart automations for dog walkers, groomers, pet sitters and trainers in Northampton — so you get more bookings while doing less admin work.
+            We build mobile-first websites and smart automations for dog walkers, groomers, pet sitters and trainers in Northampton — so you get more bookings while doing less admin work. 
+            <Link to="/services" className="text-primary hover:underline">Explore our pet-care web design services in Northampton</Link>.
           </p>
           <CTAButtons className="mt-6" />
         </div>

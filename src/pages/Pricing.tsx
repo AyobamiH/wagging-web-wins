@@ -76,7 +76,8 @@ export default function Pricing() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="text-3xl font-bold tracking-tight">Transparent pricing for pet care websites.</h1>
         <p className="mt-3 text-muted-foreground max-w-2xl">
-          No hidden costs or surprise fees. Choose the package that fits your business size and growth plans. Payment plans available.
+          No hidden costs or surprise fees. Choose the package that fits your business size and growth plans. Payment plans available. 
+          Not sure which plan? See our <Link to="/services" className="text-primary hover:underline">pet-care web design services</Link> for more details.
         </p>
         
         {/* Trust Badges */}

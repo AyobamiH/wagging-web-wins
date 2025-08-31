@@ -243,7 +243,9 @@ export default function BlogPostSupabase() {
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-2">Get Personalized Help</h3>
             <p className="text-muted-foreground mb-4">
-              Ready to implement these strategies? Book a free consultation to discuss your specific needs.
+              Ready to implement these strategies? Book a free consultation to discuss your specific needs, or explore our 
+              <Link to="/services" className="text-primary hover:underline mx-1">complete pet-care web design services</Link>
+              for comprehensive solutions.
             </p>
             <CalendlyEmbed 
               buttonText="Book Free Consultation"

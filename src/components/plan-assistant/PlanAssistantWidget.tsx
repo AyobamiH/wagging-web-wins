@@ -13,21 +13,16 @@ const PlanAssistantWidget = ({ onOpenQuestionnaire }: PlanAssistantWidgetProps) 
   const [hasInteracted, setHasInteracted] = useState(false);
   const location = useLocation();
 
+  // Removed auto-open behavior - widget only opens when user clicks
   useEffect(() => {
-    // Auto-open on pricing page after a delay
-    if (location.pathname === '/pricing' && !hasInteracted) {
-      const timer = setTimeout(() => {
-        handleOpenQuestionnaire();
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    // No auto-open functionality
   }, [location.pathname, hasInteracted]);
 
   const handleOpenQuestionnaire = () => {
     setHasInteracted(true);
     trackEvent('plan_assistant_opened', {
       location: location.pathname,
-      trigger: location.pathname === '/pricing' ? 'auto' : 'manual'
+      trigger: 'manual'
     });
     onOpenQuestionnaire();
   };
