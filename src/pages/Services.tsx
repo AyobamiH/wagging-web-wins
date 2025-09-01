@@ -4,8 +4,9 @@ import { CTAButtons } from "@/components/CTAButtons";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
 
 export default function Services() {
@@ -222,6 +223,70 @@ export default function Services() {
 
   const PAGE_LOC = "services_hub";
 
+  // --- Modern section UX state/refs + tracking ---
+  const SECTION_ORDER: Slug[] = ["website-design", "local-seo", "automations", "care-plans", "speed-ux-audits"];
+
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const toggleExpanded = (slug: Slug, next?: boolean) => {
+    const val = next ?? !expanded[slug];
+    setExpanded((m) => ({ ...m, [slug]: val }));
+    trackEvent(val ? "service_section_expand" : "service_section_collapse", { slug, location: PAGE_LOC });
+  };
+
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const sectionHoverTimers = useRef<Record<string, number>>({});
+
+  const scrollToSection = (slug: Slug) => {
+    const el = typeof document !== "undefined" ? document.getElementById(slug) : null;
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      trackEvent("services_section_nav_click", { slug, location: PAGE_LOC });
+    }
+  };
+
+  useEffect(() => {
+    const seen = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target as HTMLElement;
+          const slug = el.id as Slug;
+          if (entry.isIntersecting && !seen.has(slug)) {
+            seen.add(slug);
+            trackEvent("service_section_impression", {
+              slug,
+              service_title: SERVICES[slug]?.title,
+              location: PAGE_LOC,
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    SECTION_ORDER.forEach((slug) => {
+      const el = sectionRefs.current[slug];
+      if (el) io.observe(el);
+    });
+
+    return () => io.disconnect();
+  }, []);
+
+  const onSectionEnter = (slug: Slug) => {
+    prefetchOnHover(slug);
+    sectionHoverTimers.current[slug] = window.setTimeout(() => {
+      trackEvent("service_section_hover_300ms", { slug, location: PAGE_LOC, dwell_ms: 300 });
+      delete sectionHoverTimers.current[slug];
+    }, 300);
+  };
+  const onSectionLeave = (slug: Slug) => {
+    const t = sectionHoverTimers.current[slug];
+    if (t) {
+      clearTimeout(t);
+      delete sectionHoverTimers.current[slug];
+    }
+  };
+
   // --- Hover dwell + keyboard activation (single, conflict-free implementation) ---
   const navigate = useNavigate();
   const hoverTimers = useRef<Record<string, number>>({});
@@ -409,58 +474,122 @@ export default function Services() {
         </div>
 
         {/* Detailed Service Sections */}
-        <div className="space-y-12 mb-12">
-          {(["website-design", "local-seo", "automations", "care-plans", "speed-ux-audits"] as Slug[]).map((slug) => {
-            const d = SERVICES[slug];
-            return (
-              <section key={slug} id={slug} className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold">{d.title}</h2>
-                <p className="mt-2 text-muted-foreground max-w-3xl">{d.intro}</p>
-
-                <div className="mt-4 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-lg border bg-card/50 p-4">
-                    <p className="font-medium">Includes</p>
-                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-                      {d.includes.map((item) => (
-                        <li key={item} className="flex gap-2">
-                          <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="rounded-lg border bg-card/50 p-4">
-                    <p className="font-medium">Outcomes</p>
-                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-                      {d.outcomes.map((item) => (
-                        <li key={item} className="flex gap-2">
-                          <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <Link
-                    to={`/services/${slug}`}
-                    className="text-sm underline underline-offset-4"
-                    aria-label={`See full details: ${d.title}`}
-                    onClick={() =>
-                      trackEvent("service_details_link_click", {
-                        slug,
-                        service_title: d.title,
-                        location: PAGE_LOC,
-                      })
-                    }
+        <div className="mb-12">
+          {/* Sticky jump nav */}
+          <div className="sticky top-16 z-10 -mx-4 px-4 py-2 bg-gradient-to-b from-background/80 via-background/60 to-transparent backdrop-blur supports-[backdrop-filter]:backdrop-blur-md border-b border-border/40">
+            <div className="flex gap-2 overflow-x-auto" role="tablist" aria-label="Jump to service">
+              {SECTION_ORDER.map((slug) => {
+                const s = SERVICES[slug];
+                return (
+                  <button
+                    key={slug}
+                    role="tab"
+                    aria-controls={slug}
+                    onClick={() => scrollToSection(slug)}
+                    className="shrink-0 rounded-full border bg-card/60 px-3 py-1.5 text-sm hover:border-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   >
-                    See full details →
-                  </Link>
-                </div>
-              </section>
-            );
-          })}
+                    {s.title}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-10">
+            {SECTION_ORDER.map((slug, idx) => {
+              const d = SERVICES[slug];
+              const showAll = !!expanded[slug];
+              const inc = showAll ? d.includes : d.includes.slice(0, 6);
+              const out = showAll ? d.outcomes : d.outcomes.slice(0, 6);
+              return (
+                <motion.section
+                  key={slug}
+                  id={slug}
+                  ref={(el) => (sectionRefs.current[slug] = el)}
+                  className="scroll-mt-24 group rounded-2xl border bg-card/50 p-6 transition hover:bg-card/70"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  onMouseEnter={() => onSectionEnter(slug)}
+                  onMouseLeave={() => onSectionLeave(slug)}
+                >
+                  <div className="grid gap-6 lg:grid-cols-[1.1fr,1fr] items-start">
+                    {/* Left: summary + actions */}
+                    <div>
+                      <h2 className="text-2xl font-semibold tracking-tight">{d.title}</h2>
+                      <p className="mt-2 text-muted-foreground max-w-3xl">{d.intro}</p>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <Button
+                          asChild
+                          onClick={() =>
+                            trackEvent("service_section_cta", { slug, action: "view_details", location: PAGE_LOC })
+                          }
+                        >
+                          <Link to={`/services/${slug}`}>View full details</Link>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          asChild
+                          onClick={() => trackCTAClick("get_quote_section", slug)}
+                        >
+                          <Link to="/contact">Get quote</Link>
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Right: interactive includes/outcomes */}
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="rounded-xl border bg-background/60 p-4">
+                        <p className="font-medium mb-2">Includes</p>
+                        <ul className="grid gap-2">
+                          {inc.map((item) => (
+                            <motion.li
+                              key={item}
+                              className="rounded-lg border bg-card/50 px-3 py-2 text-sm text-muted-foreground flex items-start gap-2"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
+                              <span>{item}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="rounded-xl border bg-background/60 p-4">
+                        <p className="font-medium mb-2">Outcomes</p>
+                        <ul className="grid gap-2">
+                          {out.map((item) => (
+                            <motion.li
+                              key={item}
+                              className="rounded-lg border bg-card/50 px-3 py-2 text-sm text-muted-foreground flex items-start gap-2"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
+                              <span>{item}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {(d.includes.length > 6 || d.outcomes.length > 6) && (
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(slug)}
+                        className="text-sm font-medium underline underline-offset-4 hover:text-primary"
+                      >
+                        {showAll ? "Show less" : "Show more"}
+                      </button>
+                    </div>
+                  )}
+                </motion.section>
+              );
+            })}
+          </div>
         </div>
 
         {/* Service area for local SEO */}
