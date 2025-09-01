@@ -3,12 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { ArrowLeft, Clock } from "lucide-react";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Clock, Filter, Star } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
@@ -327,6 +328,7 @@ function BlogPost({ slug }: { slug: string }) {
 // Blog index component for listing all posts
 function BlogIndex() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const postsPerPage = 6;
   
   const { data: allPosts, isLoading, error } = useQuery({
@@ -334,12 +336,34 @@ function BlogIndex() {
     queryFn: () => postRepository.list({ limit: 100, featuredFirst: true }),
   });
 
-  // Calculate pagination
-  const totalPosts = allPosts?.length || 0;
+  // Get unique categories from posts
+  const categories = allPosts ? 
+    Array.from(new Set(allPosts.map(post => post.pillarTag).filter(Boolean)))
+      .sort()
+    : [];
+
+  // Filter posts by selected category
+  const filteredPosts = allPosts ? 
+    selectedCategory === "all" 
+      ? allPosts 
+      : allPosts.filter(post => post.pillarTag === selectedCategory)
+    : [];
+
+  // Featured posts (first 3 posts from filtered results)
+  const featuredPosts = filteredPosts.slice(0, 3);
+  const remainingPosts = filteredPosts.slice(3);
+
+  // Calculate pagination for remaining posts
+  const totalPosts = remainingPosts.length;
   const totalPages = Math.ceil(totalPosts / postsPerPage);
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
-  const posts = allPosts?.slice(startIndex, endIndex) || [];
+  const posts = remainingPosts.slice(startIndex, endIndex);
+
+  // Reset page when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
 
   if (isLoading) {
     return (
@@ -399,39 +423,173 @@ function BlogIndex() {
             </p>
           </header>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                <Link to={`/blog/${post.slug}`}>
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={post.ogImageUrl || "/og/blog.jpg"}
-                      alt={post.coverAlt || `${post.title} cover image`}
-                      width={400}
-                      height={225}
-                      loading="lazy"
-                      decoding="async"
-                      className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardHeader>
-                    <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                      {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
-                    </Badge>
-                    <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
-                      {post.title}
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-                      {post.excerpt}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {format(new Date(post.publishedAt), 'MMM d, yyyy')}
-                    </p>
-                  </CardHeader>
-                </Link>
-              </Card>
-            ))}
+          {/* Category Navigation */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-2 justify-center mb-4 md:hidden">
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-48">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Filter by category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category.replace('pillar-', 'Category ').replace(/^\w/, c => c.toUpperCase())}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="hidden md:flex flex-wrap gap-2 justify-center">
+              <Button
+                variant={selectedCategory === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory("all")}
+                className="transition-all duration-200"
+              >
+                All Categories
+              </Button>
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(category)}
+                  className="transition-all duration-200 capitalize"
+                >
+                  {category.replace('pillar-', '').replace(/-/g, ' ')}
+                </Button>
+              ))}
+            </div>
           </div>
+
+          {/* Featured Posts Section */}
+          {featuredPosts.length > 0 && (
+            <section className="mb-12">
+              <div className="flex items-center gap-2 mb-6">
+                <Star className="h-5 w-5 text-primary" />
+                <h2 className="text-2xl font-semibold">Featured Posts</h2>
+              </div>
+              
+              <div className="grid gap-6 lg:grid-cols-3">
+                {/* Large featured post */}
+                {featuredPosts[0] && (
+                  <Card className="lg:col-span-2 overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                    <Link to={`/blog/${featuredPosts[0].slug}`}>
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={featuredPosts[0].ogImageUrl || "/og/blog.jpg"}
+                          alt={featuredPosts[0].coverAlt || `${featuredPosts[0].title} cover image`}
+                          width={800}
+                          height={450}
+                          loading="lazy"
+                          decoding="async"
+                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <CardContent className="p-6">
+                        <Badge variant="outline" className="mb-3 capitalize">
+                          {featuredPosts[0].pillarTag ? featuredPosts[0].pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                        </Badge>
+                        <h3 className="text-2xl font-bold line-clamp-2 hover:text-primary transition-colors mb-3">
+                          {featuredPosts[0].title}
+                        </h3>
+                        <p className="text-muted-foreground line-clamp-3 mb-3">
+                          {featuredPosts[0].excerpt}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {format(new Date(featuredPosts[0].publishedAt), 'MMM d, yyyy')}
+                        </p>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                )}
+                
+                {/* Smaller featured posts */}
+                <div className="space-y-6">
+                  {featuredPosts.slice(1, 3).map((post) => (
+                    <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                      <Link to={`/blog/${post.slug}`}>
+                        <div className="aspect-video overflow-hidden">
+                          <img
+                            src={post.ogImageUrl || "/og/blog.jpg"}
+                            alt={post.coverAlt || `${post.title} cover image`}
+                            width={400}
+                            height={225}
+                            loading="lazy"
+                            decoding="async"
+                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <CardContent className="p-4">
+                          <Badge variant="outline" className="mb-2 capitalize text-xs">
+                            {post.pillarTag ? post.pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                          </Badge>
+                          <h3 className="text-lg font-semibold line-clamp-2 hover:text-primary transition-colors mb-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            {format(new Date(post.publishedAt), 'MMM d, yyyy')}
+                          </p>
+                        </CardContent>
+                      </Link>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* More Posts Section */}
+          {posts.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-semibold mb-6">
+                {selectedCategory === "all" ? "More Posts" : `More ${selectedCategory.replace('pillar-', '').replace(/-/g, ' ')} Posts`}
+              </h2>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {posts.map((post) => (
+                  <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                    <Link to={`/blog/${post.slug}`}>
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={post.ogImageUrl || "/og/blog.jpg"}
+                          alt={post.coverAlt || `${post.title} cover image`}
+                          width={400}
+                          height={225}
+                          loading="lazy"
+                          decoding="async"
+                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <CardHeader>
+                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                          {post.pillarTag ? post.pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                        </Badge>
+                        <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
+                          {post.title}
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                          {post.excerpt}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {format(new Date(post.publishedAt), 'MMM d, yyyy')}
+                        </p>
+                      </CardHeader>
+                    </Link>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Show message when no posts in category */}
+          {filteredPosts.length === 0 && !isLoading && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No posts found in this category.</p>
+            </div>
+          )}
 
           {/* Pagination */}
           {totalPages > 1 && (
