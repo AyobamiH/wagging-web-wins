@@ -391,39 +391,38 @@ const onFaqToggle =
         
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-          {cards.map((c, idx) => {
-                const slug = SLUGS[idx] as Slug;
-                return (
-                  <article
-                    key={c.href}
-                    ref={(el) => (cardRefs.current[idx] = el)}
-                    data-index={idx}
-                    onMouseEnter={() => onCardMouseEnter(idx, slug)}
-                    onMouseLeave={() => onCardMouseLeave(idx)}
-                    onClick={() => onCardClick(idx, slug)} // purely for analytics; no nav change
-                    className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
-                  >
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-                    <Button asChild variant="default" size="sm">
-                      <Link
-                        to={c.href}
-                        aria-label={`Learn more about ${c.title}`}
-                        onClick={() =>
-                          trackEvent("service_card_cta_click", {
-                            slug,
-                            service_title: SERVICES[slug].title,
-                            position: idx + 1,
-                            location: PAGE_LOC,
-                          })
-                        }
-                      >
-                        Learn More
-                      </Link>
-                    </Button>
-                  </article>
-                );
-              })}
+          {SLUGS.map((slug, i) => {
+            const c = SERVICES[slug];
+            return (
+              <article
+                key={slug}
+                role="link"
+                tabIndex={0}
+                aria-label={`Learn more: ${c.title}`}
+                onClick={() => activateCard(slug, i)}
+                onKeyDown={(e) => onCardKeyDown(e, slug, i)}
+                onMouseEnter={() => onCardEnter(slug, i)}
+                onMouseLeave={() => onCardLeave(slug)}
+                className="
+                  group relative cursor-pointer rounded-lg border border-surface bg-glass p-5
+                  transition
+                  hover:bg-glass-hover hover:shadow-md hover:border-primary/40
+                  active:scale-[0.99]
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                  focus-visible:ring-offset-2 focus-visible:ring-offset-background
+                "
+              >
+                <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
+        
+                {/* visual CTA; the whole card is the actionable link */}
+                <div className="inline-flex items-center gap-1 text-sm font-medium">
+                  <span className="underline underline-offset-4">Learn More</span>
+                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                </div>
+              </article>
+            );
+          })}
 
         </div> 
 
@@ -495,8 +494,9 @@ const onFaqToggle =
                       <Link
                         to={`/services/${slug}`}
                         className="text-sm underline underline-offset-4"
+                         aria-label={`See full details: ${d.title}`}
                         onClick={() =>
-                          trackEvent("service_section_link_click", {
+                          trackEvent("service_details_link_click", {
                             slug,
                             service_title: d.title,
                             location: PAGE_LOC,
@@ -534,7 +534,7 @@ const onFaqToggle =
           {/* Mid-page CTA */}
           <div
             className="p-6 bg-muted/30 rounded-lg border text-center"
-            onClick={() => trackCTAClick("midpage_cta_block", PAGE_LOC)}
+            onClick={() => trackCTAClick("midpage_cta_block", "consultation_service_page")}
           >
             <h3 className="text-lg font-semibold mb-2">Ready to get started?</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -552,7 +552,7 @@ const onFaqToggle =
             <Button variant="default" size="sm" asChild>
               <a
                 href="tel:+447402342694"
-                onClick={() => trackCTAClick("call", PAGE_LOC)}
+                onClick={() => trackCTAClick("call", "services_page_call")}
               >
                 Call +44 7402 342694
               </a>
