@@ -462,7 +462,12 @@ export default function Services() {
         <div className="mb-12">
           {/* Sticky jump nav */}
           <div className="sticky top-16 z-10 -mx-4 px-4 py-2 bg-gradient-to-b from-background/80 via-background/60 to-transparent backdrop-blur supports-[backdrop-filter]:backdrop-blur-md border-b border-border/40">
-            <div className="flex gap-2 overflow-x-auto" role="tablist" aria-label="Jump to service">
+            {/* BEFORE: <div className="flex gap-2 overflow-x-auto" role="tablist" ...> */}
+            <div
+              className="flex flex-wrap gap-2 md:flex-nowrap md:overflow-x-auto"
+              role="tablist"
+              aria-label="Jump to service"
+            >
               {SECTION_ORDER.map((slug) => {
                 const s = SERVICES[slug];
                 return (
@@ -471,14 +476,22 @@ export default function Services() {
                     role="tab"
                     aria-controls={slug}
                     onClick={() => scrollToSection(slug)}
-                    className="shrink-0 rounded-full border bg-card/60 px-3 py-1.5 text-sm hover:border-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    // BEFORE: className="shrink-0 rounded-full ..."
+                    className="
+                      w-full sm:w-auto md:shrink-0
+                      rounded-full border bg-card/60 px-3 py-1.5 text-sm
+                      text-left leading-tight whitespace-normal
+                      hover:border-primary hover:bg-primary/10
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                    "
                   >
                     {s.title}
                   </button>
                 );
               })}
             </div>
-          </div>
+
+            
 
           <div className="space-y-10">
             {SECTION_ORDER.map((slug, idx) => {
