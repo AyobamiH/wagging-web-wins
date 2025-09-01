@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
 import { useRef, useEffect, useState } from "react";
 import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
+import { ChevronRight } from "lucide-react";
 
 export default function Services() {
   // --- Service cards (UI + used in JSON-LD) ---
@@ -387,13 +388,26 @@ export default function Services() {
                   focus-visible:ring-offset-2 focus-visible:ring-offset-background
                 "
               >
+                <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition
+                      group-hover:opacity-100 bg-background/70 backdrop-blur-sm border">
+                      <div className="absolute inset-x-0 bottom-0 p-4">
+                        <ul className="space-y-1 text-xs text-muted-foreground">
+                          {SERVICES[slug].includes.slice(0,3).map(b => (
+                            <li key={b} className="flex gap-2">
+                              <CheckCircle className="h-3.5 w-3.5 text-primary" />
+                              <span className="line-clamp-1">{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
 
                 {/* visual CTA; the whole card is the actionable link */}
                 <div className="inline-flex items-center gap-1 text-sm font-medium">
-                  <span className="underline underline-offset-4">Learn More</span>
-                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                  <span className="underline underline-offset-4">Learn more</span>
+                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </article>
             );
