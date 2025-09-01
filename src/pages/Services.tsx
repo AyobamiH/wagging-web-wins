@@ -397,7 +397,12 @@ export default function Services() {
                     role="presentation"
                   >
                     {/* Scrim: strong bottom gradient + blur when supported */}
-                    <div className="absolute inset-0 rounded-lg ring-1 ring-border bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm" />
+                    <div className="
+                          absolute inset-0 rounded-lg ring-1 ring-border
+                          bg-gradient-to-t from-background/95 via-background/80 to-background/20
+                          supports-[backdrop-filter]:backdrop-blur-sm
+                        "
+                      />
 
                     {/* Content: bottom stack of 2–3 bullets */}
                     <div className="absolute inset-x-0 bottom-0 p-4">
