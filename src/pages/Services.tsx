@@ -7,7 +7,7 @@ import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
 import { useEffect, useRef } from "react";
 import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Services() {
   // --- Service cards (UI + used in JSON-LD) ---
@@ -194,6 +194,39 @@ export default function Services() {
       ]
     }
   ];
+
+  const navigate = useNavigate();
+    const hoverTimers = useRef<Record<string, number>>({});
+    
+    // very defensive: works with GA4 (gtag) or GTM (dataLayer); no-op if absent
+    const track = (event: string, props?: Record<string, any>) => {
+      if (typeof window === "undefined") return;
+      (window as any).gtag?.("event", event, props);
+      (window as any).dataLayer?.push?.({ event, ...props });
+    };
+    
+    const onCardEnter = (slug: Slug, index: number) => {
+      hoverTimers.current[slug] = window.setTimeout(() => {
+        track("service_card_hover_200ms", { slug, index, page: "services" });
+      }, 200);
+    };
+    
+    const onCardLeave = (slug: Slug) => {
+      const t = hoverTimers.current[slug];
+      if (t) { clearTimeout(t); delete hoverTimers.current[slug]; }
+    };
+    
+    const activateCard = (slug: Slug, index: number) => {
+      track("service_card_click", { slug, index, page: "services" });
+      navigate(`/services/${slug}`);
+    };
+    
+    const onCardKeyDown = (e: React.KeyboardEvent, slug: Slug, index: number) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activateCard(slug, index);
+      }
+    };
 
   return (
     <>
