@@ -80,6 +80,18 @@ export default function Services() {
     },
   ];
 
+  // Unified page meta used across SEO + JSON-LD so content stays in sync
+  const pageTitle = "Pet-Care Web Design Services in Northampton";
+  const pageDescription =
+    "Web design, local SEO, automations, care plans & audits for dog walkers, groomers, sitters and vets in Northamptonshire. Book a free consultation.";
+
+  // Build FAQ JSON-LD directly from the same rendered array
+  const faqJsonLd = faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  }));
+
   const jsonLd = [
     // Services catalog listing (main entity for this page)
     {
@@ -139,7 +151,8 @@ export default function Services() {
       "@id": BASE_URL + "/services#webpage",
       url: BASE_URL + "/services",
       name: "Pet-Care Web Design Services in Northampton",
-      description: "Professional pet-care web design, local SEO and automations for businesses in Northamptonshire",
+      description: pageDescription,
+      inLanguage: "en-GB",
       dateModified: new Date().toISOString(),
       primaryImageOfPage: {
         "@type": "ImageObject",
@@ -160,64 +173,7 @@ export default function Services() {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "@id": BASE_URL + "/services#faq",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "Which pet-care businesses do you build websites for?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Dog walkers, dog groomers, pet sitters, pet daycares and veterinary practices across Northamptonshire.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Do you offer local SEO for 'near me' searches?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Yes. We optimise Google Business Profile, service pages and location content to rank for 'near me' and town-specific queries in Northampton, Kettering, Milton Keynes and surrounding areas.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Can you automate bookings and client follow-ups?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Yes. We integrate forms, calendars and CRMs to send confirmations, reminders and updates automatically.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What's included in your pricing packages?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Our packages range from £750-£3,500 and include website design, SEO setup, Google Business Profile optimization, contact forms, and mobile responsiveness. Higher packages add automations, content marketing, and conversion optimization.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How long does a website project typically take?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Most pet care websites take 2-4 weeks from start to launch. This includes design, content creation, SEO setup, and testing. We provide regular updates throughout the process.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Do you help migrate existing websites?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Yes, we handle complete website migrations including content transfer, SEO preservation, and redirect setup to maintain your search rankings and ensure no downtime.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Which areas of Northamptonshire do you cover?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "We serve all of Northamptonshire including Northampton, Kettering, Wellingborough, Daventry, Corby, Rushden, Towcester, plus Milton Keynes and Banbury.",
-          },
-        },
-      ],
+      mainEntity: faqJsonLd,
     },
   ];
 
