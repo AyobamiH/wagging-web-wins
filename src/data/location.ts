@@ -161,5 +161,5 @@ export const LOCATIONS = LOCATION_SLUGS.map((s) => LOCATIONS_BY_SLUG[s]);
 export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[slug] ?? null : null);
 
 // (Optional) If you want to keep SERVICE_AREA in one place for other imports:
-export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug })) as const;
+export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
 export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];

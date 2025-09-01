@@ -362,7 +362,7 @@ export default function Location() {
     return <Navigate to="/service-areas" replace />;
   }
 
-  const services = (SLUGS as Slug[]).map((s) => ({
+  const services = [...SLUGS].map((s) => ({
     title: SERVICES[s].title,
     href: `/services/${s}`,
   }));
