@@ -464,10 +464,13 @@ export default function Services() {
           <div className="sticky top-16 z-10 -mx-4 px-4 py-2 bg-gradient-to-b from-background/80 via-background/60 to-transparent backdrop-blur supports-[backdrop-filter]:backdrop-blur-md border-b border-border/40">
             
             <div
-              className="flex flex-wrap gap-2 md:flex-nowrap md:overflow-x-auto"
-              role="tablist"
-              aria-label="Jump to service"
-            >
+  className="
+    grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2
+    xl:flex xl:flex-nowrap xl:overflow-x-auto
+  "
+  role="tablist"
+  aria-label="Jump to service"
+>
               {SECTION_ORDER.map((slug) => {
                 const s = SERVICES[slug];
                 return (
