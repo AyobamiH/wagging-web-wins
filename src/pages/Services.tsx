@@ -239,35 +239,86 @@ const onFaqToggle =
   const navigate = useNavigate();
     const hoverTimers = useRef<Record<string, number>>({});
     
-    // very defensive: works with GA4 (gtag) or GTM (dataLayer); no-op if absent
-    const track = (event: string, props?: Record<string, any>) => {
-      if (typeof window === "undefined") return;
-      (window as any).gtag?.("event", event, props);
-      (window as any).dataLayer?.push?.({ event, ...props });
-    };
+         acceptedAnswer: {
+            "@type": "Answer",
+            text: "We serve all of Northamptonshire including Northampton, Kettering, Wellingborough, Daventry, Corby, Rushden, Towcester, plus Milton Keynes and Banbury."
+          }
+        }
+      ]
+    }
+  ];
+
+  const PAGE_LOC = "services_hub";
+
+    // refs for impressions + hover dwell
+    const cardRefs = useRef<(HTMLElement | null)[]>([]);
+    const hoverTimers = useRef<Record<number, number | undefined>>({});
     
-    const onCardEnter = (slug: Slug, index: number) => {
-      hoverTimers.current[slug] = window.setTimeout(() => {
-        track("service_card_hover_200ms", { slug, index, page: "services" });
+    // IMRESSIONS: fire once when ≥50% of a card is visible
+    useEffect(() => {
+      const seen = new Set<number>();
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const idxAttr = (entry.target as HTMLElement).dataset.index;
+            if (!idxAttr) return;
+            const idx = Number(idxAttr);
+            if (entry.isIntersecting && !seen.has(idx)) {
+              seen.add(idx);
+              const slug = SLUGS[idx] as Slug;
+              trackEvent("service_card_impression", {
+                slug,
+                service_title: SERVICES[slug].title,
+                position: idx + 1,
+                location: PAGE_LOC,
+              });
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+    
+      cardRefs.current.forEach((el) => el && io.observe(el));
+      return () => io.disconnect();
+    }, []);
+    
+    // HOVER (dwell ≥200ms)
+    const onCardMouseEnter = (idx: number, slug: Slug) => {
+      hoverTimers.current[idx] = window.setTimeout(() => {
+        trackEvent("service_card_hover", {
+          slug,
+          service_title: SERVICES[slug].title,
+          position: idx + 1,
+          dwell_ms: 200,
+          location: PAGE_LOC,
+        });
+        hoverTimers.current[idx] = undefined;
       }, 200);
     };
-    
-    const onCardLeave = (slug: Slug) => {
-      const t = hoverTimers.current[slug];
-      if (t) { clearTimeout(t); delete hoverTimers.current[slug]; }
-    };
-    
-    const activateCard = (slug: Slug, index: number) => {
-      track("service_card_click", { slug, index, page: "services" });
-      navigate(`/services/${slug}`);
-    };
-    
-    const onCardKeyDown = (e: React.KeyboardEvent, slug: Slug, index: number) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        activateCard(slug, index);
+    const onCardMouseLeave = (idx: number) => {
+      if (hoverTimers.current[idx]) {
+        window.clearTimeout(hoverTimers.current[idx]);
+        hoverTimers.current[idx] = undefined;
       }
     };
+    
+    // CLICK
+    const onCardClick = (idx: number, slug: Slug) => {
+      trackEvent("service_card_click", {
+        slug,
+        service_title: SERVICES[slug].title,
+        position: idx + 1,
+        location: PAGE_LOC,
+      });
+    };
+    
+    // FAQ
+    const onFaqToggle =
+      (question: string) =>
+      (e: React.SyntheticEvent<HTMLDetailsElement>) => {
+        trackFAQToggle(question, "services_faq", e.currentTarget.open ? "open" : "close");
+      };
+
 
   return (
     <>
