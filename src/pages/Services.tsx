@@ -388,19 +388,29 @@ export default function Services() {
                   focus-visible:ring-offset-2 focus-visible:ring-offset-background
                 "
               >
-                <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition
-                      group-hover:opacity-100 bg-background/70 backdrop-blur-sm border">
-                      <div className="absolute inset-x-0 bottom-0 p-4">
-                        <ul className="space-y-1 text-xs text-muted-foreground">
-                          {SERVICES[slug].includes.slice(0,3).map(b => (
-                            <li key={b} className="flex gap-2">
-                              <CheckCircle className="h-3.5 w-3.5 text-primary" />
-                              <span className="line-clamp-1">{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                </div>
+                <div
+                    className="
+                      pointer-events-none absolute inset-0 z-10 rounded-lg opacity-0 transition
+                      group-hover:opacity-100
+                    "
+                    aria-hidden="true"
+                    role="presentation"
+                  >
+                    {/* Scrim: strong bottom gradient + blur when supported */}
+                    <div className="absolute inset-0 rounded-lg ring-1 ring-border bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm" />
+
+                    {/* Content: bottom stack of 2–3 bullets */}
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <ul className="space-y-1.5 text-[13px] text-foreground">
+                        {SERVICES[slug].includes.slice(0, 3).map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <CheckCircle className="h-3.5 w-3.5 text-primary flex-none mt-0.5" />
+                            <span className="line-clamp-1">{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
 
