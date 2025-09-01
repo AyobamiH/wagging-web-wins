@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
-import { useEffect, useRef } from "react";
-import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
+
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Services() {
@@ -195,6 +196,40 @@ export default function Services() {
     }
   ];
 
+    const navigate = useNavigate();
+    const hoverTimers = useRef<Record<string, number>>({});
+    
+    // very defensive: works with GA4 (gtag) or GTM (dataLayer); no-op if absent
+    const track = (event: string, props?: Record<string, any>) => {
+      if (typeof window === "undefined") return;
+      (window as any).gtag?.("event", event, props);
+      (window as any).dataLayer?.push?.({ event, ...props });
+    };
+    
+    const onCardEnter = (slug: Slug, index: number) => {
+      hoverTimers.current[slug] = window.setTimeout(() => {
+        track("service_card_hover_200ms", { slug, index, page: "services" });
+      }, 200);
+    };
+    
+    const onCardLeave = (slug: Slug) => {
+      const t = hoverTimers.current[slug];
+      if (t) { clearTimeout(t); delete hoverTimers.current[slug]; }
+    };
+    
+    const activateCard = (slug: Slug, index: number) => {
+      track("service_card_click", { slug, index, page: "services" });
+      navigate(`/services/${slug}`);
+    };
+    
+    const onCardKeyDown = (e: React.KeyboardEvent, slug: Slug, index: number) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activateCard(slug, index);
+      }
+    };
+
+
   return (
     <>
       <Seo
@@ -254,21 +289,40 @@ export default function Services() {
         
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-          {cards.map((c) => (
-            <article
-              key={c.href}
-              className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
-            >
-              <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-              <Button asChild variant="default" size="sm">
-                <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
-                  Learn More
-                </Link>
-              </Button>
-            </article>
-          ))}
-        </div> 
+          {SLUGS.map((slug, i) => {
+            const c = SERVICES[slug];
+            return (
+              <article
+                key={slug}
+                role="link"
+                tabIndex={0}
+                aria-label={`Learn more: ${c.title}`}
+                onClick={() => activateCard(slug, i)}
+                onKeyDown={(e) => onCardKeyDown(e, slug, i)}
+                onMouseEnter={() => onCardEnter(slug, i)}
+                onMouseLeave={() => onCardLeave(slug)}
+                className="
+                  group relative cursor-pointer rounded-lg border border-surface bg-glass p-5
+                  transition
+                  hover:bg-glass-hover hover:shadow-md hover:border-primary/40
+                  active:scale-[0.99]
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                  focus-visible:ring-offset-2 focus-visible:ring-offset-background
+                "
+              >
+                <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
+        
+                {/* visual CTA; the whole card is the actionable link */}
+                <div className="inline-flex items-center gap-1 text-sm font-medium">
+                  <span className="underline underline-offset-4">Learn More</span>
+                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+ 
 
         {/* Trust Strip */}
         <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-lg">
@@ -335,9 +389,15 @@ export default function Services() {
                     </div>
           
                     <div className="mt-4">
-                      <Link to={`/services/${slug}`} className="text-sm underline underline-offset-4">
+                      <Link
+                        to={`/services/${slug}`}
+                        className="text-sm underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                        aria-label={`See full details: ${d.title}`}
+                        onClick={() => track("service_details_link_click", { slug, page: "services" })}
+                      >
                         See full details →
                       </Link>
+
                     </div>
                   </section>
                 );
