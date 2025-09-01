@@ -229,75 +229,12 @@ const faqs: FAQItem[] = [
 
   const PAGE_LOC = "services_hub";
 
-// refs for impressions + hover dwell
-const cardRefs = useRef<(HTMLElement | null)[]>([]);
-const hoverTimers = useRef<Record<number, number | undefined>>({});
-
-// IMRESSIONS: fire once when ≥50% of a card is visible
-useEffect(() => {
-  const seen = new Set<number>();
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const idxAttr = (entry.target as HTMLElement).dataset.index;
-        if (!idxAttr) return;
-        const idx = Number(idxAttr);
-        if (entry.isIntersecting && !seen.has(idx)) {
-          seen.add(idx);
-          const slug = SLUGS[idx] as Slug;
-          trackEvent("service_card_impression", {
-            slug,
-            service_title: SERVICES[slug].title,
-            position: idx + 1,
-            location: PAGE_LOC,
-          });
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
-
-  cardRefs.current.forEach((el) => el && io.observe(el));
-  return () => io.disconnect();
-}, []);
-
-// HOVER (dwell ≥200ms)
-const onCardMouseEnter = (idx: number, slug: Slug) => {
-  hoverTimers.current[idx] = window.setTimeout(() => {
-    trackEvent("service_card_hover", {
-      slug,
-      service_title: SERVICES[slug].title,
-      position: idx + 1,
-      dwell_ms: 200,
-      location: PAGE_LOC,
-    });
-    hoverTimers.current[idx] = undefined;
-  }, 200);
-};
-const onCardMouseLeave = (idx: number) => {
-  if (hoverTimers.current[idx]) {
-    window.clearTimeout(hoverTimers.current[idx]);
-    hoverTimers.current[idx] = undefined;
-  }
-};
-
-// CLICK
-const onCardClick = (idx: number, slug: Slug) => {
-  trackEvent("service_card_click", {
-    slug,
-    service_title: SERVICES[slug].title,
-    position: idx + 1,
-    location: PAGE_LOC,
-  });
-};
-
 // FAQ
 const onFaqToggle =
   (question: string) =>
   (e: React.SyntheticEvent<HTMLDetailsElement>) => {
     trackFAQToggle(question, "services_faq", e.currentTarget.open ? "open" : "close");
   };
-
 
   const navigate = useNavigate();
     const hoverTimers = useRef<Record<string, number>>({});
