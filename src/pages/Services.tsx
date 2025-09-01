@@ -466,7 +466,7 @@ export default function Services() {
             <div
                 className="
                   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2
-                  xl:flex xl:flex-nowrap xl:overflow-x-auto
+                  
                 "
                 role="tablist"
                 aria-label="Jump to service"
