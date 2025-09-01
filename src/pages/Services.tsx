@@ -250,6 +250,25 @@ export default function Services() {
           </div>
         </header>
 
+        
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+          {cards.map((c) => (
+            <article
+              key={c.href}
+              className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
+            >
+              <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
+              <Button asChild variant="default" size="sm">
+                <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
+                  Learn More
+                </Link>
+              </Button>
+            </article>
+          ))}
+        </div> 
+
         {/* Trust Strip */}
         <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-lg">
           <h2 className="text-lg font-semibold mb-3 text-center">What locals say</h2>
@@ -277,23 +296,6 @@ export default function Services() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-          {cards.map((c) => (
-            <article
-              key={c.href}
-              className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
-            >
-              <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-              <Button asChild variant="default" size="sm">
-                <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
-                  Learn More
-                </Link>
-              </Button>
-            </article>
-          ))}
         </div>
 
         {/* Detailed Service Sections */}
