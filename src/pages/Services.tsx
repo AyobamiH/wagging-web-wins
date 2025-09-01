@@ -233,7 +233,26 @@ export default function Services() {
     (window as any).dataLayer?.push?.({ event, ...props });
   };
 
+  // --- Lightweight prefetch on hover (HTML + rel=prefetch). Adjust if you add route-level code splitting.
+  const addPrefetchLink = (href: string) => {
+    if (typeof document === "undefined") return;
+    const existing = document.querySelector(`link[rel="prefetch"][href="${href}"]`);
+    if (existing) return;
+    const l = document.createElement("link");
+    l.rel = "prefetch";
+    l.href = href;
+    document.head.appendChild(l);
+  };
+  const prefetchOnHover = (slug: Slug) => {
+    const href = `/services/${slug}`;
+    try { addPrefetchLink(href); } catch {}
+    try { fetch(href, { mode: "no-cors" }); } catch {}
+  };
+
   const onCardEnter = (slug: Slug, index: number) => {
+    // Warm up navigation target
+    prefetchOnHover(slug);
+
     hoverTimers.current[slug] = window.setTimeout(() => {
       track("service_card_hover_200ms", { slug, index, page: "services" });
       trackEvent("service_card_hover", {
@@ -474,6 +493,28 @@ export default function Services() {
         {/* CTA Section */}
         <div className="mt-8">
           <CTAButtons className="justify-center sm:justify-start" />
+
+          {/* Inline helper: Calendly + contact form */}
+          <div className="mt-3 text-center sm:text-left text-sm text-muted-foreground">
+            Need a hand choosing a package? 
+            <a
+              href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
+              className="font-medium underline ml-1"
+              onClick={() => trackCTAClick("calendly_inline_link", "services_page")}
+            >
+              Book a Calendly slot
+            </a>
+            
+            <span className="mx-2">•</span>
+            <Link
+              to="/contact"
+              className="font-medium underline"
+              onClick={() => trackCTAClick("contact_form_link", "services_page")}
+            >
+              Contact form
+            </Link>
+          </div>
+
           <div className="mt-4 text-center sm:text-left">
             <Button variant="default" size="sm" asChild>
               <a href="tel:+447402342694" onClick={() => trackCTAClick("call", "services_page_call")}>
