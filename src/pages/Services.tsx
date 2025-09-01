@@ -369,65 +369,44 @@ export default function Services() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
           {SLUGS.map((slug, i) => {
             const c = SERVICES[slug];
+            const titleId = `svc-${slug}-title`;
+            const descId  = `svc-${slug}-desc`;
             return (
               <article
                 key={slug}
                 role="link"
                 tabIndex={0}
-                aria-label={`Learn more: ${c.title}`}
+                aria-labelledby={titleId}
+                aria-describedby={descId}
                 onClick={() => activateCard(slug, i)}
                 onKeyDown={(e) => onCardKeyDown(e, slug, i)}
                 onMouseEnter={() => onCardEnter(slug, i)}
                 onMouseLeave={() => onCardLeave(slug)}
                 className="
                   group relative cursor-pointer rounded-lg border border-surface bg-glass p-5
-                  transition
-                  hover:bg-glass-hover hover:shadow-md hover:border-primary/40
+                  transition hover:bg-glass-hover hover:shadow-md hover:border-primary/40
                   active:scale-[0.99]
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
                   focus-visible:ring-offset-2 focus-visible:ring-offset-background
+                  motion-reduce:transition-none motion-reduce:transform-none
                 "
               >
-                <div
-                    className="
-                      pointer-events-none absolute inset-0 z-10 rounded-lg opacity-0 transition
-                      group-hover:opacity-100
-                    "
-                    aria-hidden="true"
-                    role="presentation"
-                  >
-                    {/* Scrim: strong bottom gradient + blur when supported */}
-                    <div className="
-                          absolute inset-0 rounded-lg ring-1 ring-border
-                          bg-gradient-to-t from-background/95 via-background/80 to-background/20
-                          supports-[backdrop-filter]:backdrop-blur-sm
-                        "
-                      />
-
-                    {/* Content: bottom stack of 2–3 bullets */}
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      <ul className="space-y-1.5 text-[13px] text-foreground">
-                        {SERVICES[slug].includes.slice(0, 3).map((b) => (
-                          <li key={b} className="flex gap-2">
-                            <CheckCircle className="h-3.5 w-3.5 text-primary flex-none mt-0.5" />
-                            <span className="line-clamp-1">{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-
-                {/* visual CTA; the whole card is the actionable link */}
+                <h3 id={titleId} className="text-lg font-semibold text-foreground mb-2">
+                  {c.title}
+                </h3>
+                <p id={descId} className="text-sm text-muted-foreground mb-4">
+                  {c.desc}
+                </p>
+        
                 <div className="inline-flex items-center gap-1 text-sm font-medium">
                   <span className="underline underline-offset-4">Learn more</span>
-                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
                 </div>
               </article>
             );
           })}
         </div>
+
 
         {/* Trust Strip */}
         <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-lg">
@@ -655,6 +634,41 @@ export default function Services() {
           </div>
         </section>
       </section>
+      {/* Spacer so sticky bar doesn't cover content on mobile */}
+      
+      <div className="h-20 md:hidden" />
+
+
+      {/* Mobile sticky CTA bar */}
+      <div
+        role="region"
+        aria-label="Contact and booking actions"
+        className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/95
+                   supports-[backdrop-filter]:backdrop-blur md:hidden"
+      >
+        <div className="mx-auto max-w-6xl px-4 py-3 flex gap-2">
+          <Button
+            asChild
+            className="flex-1"
+            onClick={() => trackCTAClick("sticky_consult", "services_page")}
+          >
+            <Link to="/contact">Book free consult</Link>
+          </Button>
+      
+          <Button
+            asChild
+            variant="outline"
+            className="flex-1"
+            onClick={() => trackCTAClick("sticky_pricing", "services_page")}
+          >
+            <Link to="/pricing">View pricing</Link>
+          </Button>
+        </div>
+        {/* Safe-area padding for iOS */}
+        <div className="pb-[env(safe-area-inset-bottom)]" />
+      </div>
+
+
     </>
   );
 }
