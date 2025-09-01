@@ -56,33 +56,45 @@ export default function ServiceDetail() {
 
       <section className="mx-auto max-w-4xl px-4 py-10">
         <nav className="mb-4 text-sm">
-          <Link to="/" className="underline underline-offset-4">Home</Link> ›{" "}
-          <Link to="/services" className="underline underline-offset-4">Services</Link> ›{" "}
+          <Link to="/" className="story-link hover:text-primary transition-colors duration-200">Home</Link> 
+          <span className="mx-2 text-muted-foreground">›</span>
+          <Link to="/services" className="story-link hover:text-primary transition-colors duration-200">Services</Link> 
+          <span className="mx-2 text-muted-foreground">›</span>
           <span className="text-muted-foreground">{service.title}</span>
         </nav>
 
-        <h1 className="text-3xl font-bold tracking-tight">{service.title}</h1>
-        <p className="mt-3 text-muted-foreground">{service.intro}</p>
+        <div className="animate-fade-in">
+          <h1 className="text-3xl font-bold tracking-tight">{service.title}</h1>
+          <p className="mt-3 text-muted-foreground">{service.intro}</p>
+        </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border bg-card/50 p-4">
-            <p className="font-medium">Includes</p>
+          <div className="group rounded-lg border bg-card/50 p-4 transition-all duration-300 hover:bg-card/80 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+            <p className="font-medium text-primary group-hover:text-primary/90 transition-colors">Includes</p>
             <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              {service.includes.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                  <span>{item}</span>
+              {service.includes.map((item, index) => (
+                <li 
+                  key={item} 
+                  className="flex gap-2 group-hover:text-foreground transition-colors duration-200"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CheckCircle className="mt-0.5 h-4 w-4 text-primary group-hover:scale-110 transition-transform duration-200" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-200">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-lg border bg-card/50 p-4">
-            <p className="font-medium">Outcomes</p>
+          <div className="group rounded-lg border bg-card/50 p-4 transition-all duration-300 hover:bg-card/80 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+            <p className="font-medium text-primary group-hover:text-primary/90 transition-colors">Outcomes</p>
             <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              {service.outcomes.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                  <span>{item}</span>
+              {service.outcomes.map((item, index) => (
+                <li 
+                  key={item} 
+                  className="flex gap-2 group-hover:text-foreground transition-colors duration-200"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CheckCircle className="mt-0.5 h-4 w-4 text-primary group-hover:scale-110 transition-transform duration-200" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-200">{item}</span>
                 </li>
               ))}
             </ul>
@@ -90,7 +102,12 @@ export default function ServiceDetail() {
         </div>
 
         <div className="mt-8 text-sm">
-          <Link to="/services" className="underline underline-offset-4">← Back to all services</Link>
+          <Link 
+            to="/services" 
+            className="inline-flex items-center gap-2 story-link hover:text-primary transition-all duration-200 hover:translate-x-[-4px]"
+          >
+            ← Back to all services
+          </Link>
         </div>
       </section>
     </>
