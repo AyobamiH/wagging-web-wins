@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
-
+import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
 
 
 export default function Services() {
@@ -17,6 +17,37 @@ export default function Services() {
   }));
   // Use the central SERVICES map to power the grid and JSON-LD
   
+type FAQItem = { q: string; a: string };
+const faqs: FAQItem[] = [
+  {
+    q: "Which pet-care businesses do you build websites for?",
+    a: "Dog walkers, dog groomers, pet sitters, pet daycares and veterinary practices across Northamptonshire.",
+  },
+  {
+    q: "Do you offer local SEO for 'near me' searches?",
+    a: "Yes. We optimise Google Business Profile, service pages and location content to rank for 'near me' and town-specific queries in Northampton, Kettering, Milton Keynes and surrounding areas.",
+  },
+  {
+    q: "Can you automate bookings and client follow-ups?",
+    a: "Absolutely. We connect forms, calendars and CRMs to send confirmations, reminders and updates automatically.",
+  },
+  {
+    q: "What's included in your pricing packages?",
+    a: "Our packages range from £750-£3,500 and include website design, SEO setup, Google Business Profile optimization, contact forms, and mobile responsiveness. Higher packages add automations, content marketing, and conversion optimization.",
+  },
+  {
+    q: "How long does a website project typically take?",
+    a: "Most pet care websites take 2-4 weeks from start to launch. This includes design, content creation, SEO setup, and testing. We provide regular updates throughout the process.",
+  },
+  {
+    q: "Do you help migrate existing websites?",
+    a: "Yes, we handle complete website migrations including content transfer, SEO preservation, and redirect setup to maintain your search rankings and ensure no downtime.",
+  },
+  {
+    q: "Which areas of Northamptonshire do you cover?",
+    a: "We serve all of Northamptonshire including Northampton, Kettering, Wellingborough, Daventry, Corby, Rushden, Towcester, plus Milton Keynes and Banbury.",
+  },
+];
 
   
 
@@ -194,6 +225,77 @@ export default function Services() {
     }
   ];
 
+          const PAGE_LOC = "services_hub";
+        
+        // refs for impressions + hover dwell
+        const cardRefs = useRef<(HTMLElement | null)[]>([]);
+        const hoverTimers = useRef<Record<number, number | undefined>>({});
+        
+        // IMRESSIONS: fire once when ≥50% of a card is visible
+        useEffect(() => {
+          const seen = new Set<number>();
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                const idxAttr = (entry.target as HTMLElement).dataset.index;
+                if (!idxAttr) return;
+                const idx = Number(idxAttr);
+                if (entry.isIntersecting && !seen.has(idx)) {
+                  seen.add(idx);
+                  const slug = SLUGS[idx] as Slug;
+                  trackEvent("service_card_impression", {
+                    slug,
+                    service_title: SERVICES[slug].title,
+                    position: idx + 1,
+                    location: PAGE_LOC,
+                  });
+                }
+              });
+            },
+            { threshold: 0.5 }
+          );
+        
+          cardRefs.current.forEach((el) => el && io.observe(el));
+          return () => io.disconnect();
+        }, []);
+        
+        // HOVER (dwell ≥200ms)
+        const onCardMouseEnter = (idx: number, slug: Slug) => {
+          hoverTimers.current[idx] = window.setTimeout(() => {
+            trackEvent("service_card_hover", {
+              slug,
+              service_title: SERVICES[slug].title,
+              position: idx + 1,
+              dwell_ms: 200,
+              location: PAGE_LOC,
+            });
+            hoverTimers.current[idx] = undefined;
+          }, 200);
+        };
+        const onCardMouseLeave = (idx: number) => {
+          if (hoverTimers.current[idx]) {
+            window.clearTimeout(hoverTimers.current[idx]);
+            hoverTimers.current[idx] = undefined;
+          }
+        };
+        
+        // CLICK
+        const onCardClick = (idx: number, slug: Slug) => {
+          trackEvent("service_card_click", {
+            slug,
+            service_title: SERVICES[slug].title,
+            position: idx + 1,
+            location: PAGE_LOC,
+          });
+        };
+        
+        // FAQ
+        const onFaqToggle =
+          (question: string) =>
+          (e: React.SyntheticEvent<HTMLDetailsElement>) => {
+            trackFAQToggle(question, "services_faq", e.currentTarget.open ? "open" : "close");
+          };
+
   return (
     <>
       <Seo
@@ -253,20 +355,40 @@ export default function Services() {
         
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-          {cards.map((c) => (
-            <article
-              key={c.href}
-              className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
-            >
-              <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-              <Button asChild variant="default" size="sm">
-                <Link to={c.href} aria-label={`Learn more about ${c.title}`}>
-                  Learn More
-                </Link>
-              </Button>
-            </article>
-          ))}
+          {cards.map((c, idx) => {
+  const slug = SLUGS[idx] as Slug;
+  return (
+    <article
+      key={c.href}
+      ref={(el) => (cardRefs.current[idx] = el)}
+      data-index={idx}
+      onMouseEnter={() => onCardMouseEnter(idx, slug)}
+      onMouseLeave={() => onCardMouseLeave(idx)}
+      onClick={() => onCardClick(idx, slug)} // purely for analytics; no nav change
+      className="rounded-lg border border-surface bg-glass p-5 hover:bg-glass-hover transition-all duration-200"
+    >
+      <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
+      <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
+      <Button asChild variant="default" size="sm">
+        <Link
+          to={c.href}
+          aria-label={`Learn more about ${c.title}`}
+          onClick={() =>
+            trackEvent("service_card_cta_click", {
+              slug,
+              service_title: SERVICES[slug].title,
+              position: idx + 1,
+              location: PAGE_LOC,
+            })
+          }
+        >
+          Learn More
+        </Link>
+      </Button>
+    </article>
+  );
+})}
+
         </div> 
 
         {/* Trust Strip */}
@@ -334,9 +456,20 @@ export default function Services() {
                     </div>
           
                     <div className="mt-4">
-                      <Link to={`/services/${slug}`} className="text-sm underline underline-offset-4">
-                        See full details →
+                      <Link
+                          to={`/services/${slug}`}
+                          className="text-sm underline underline-offset-4"
+                          onClick={() =>
+                            trackEvent("service_section_link_click", {
+                              slug,
+                              service_title: d.title,
+                              location: PAGE_LOC,
+                            })
+                          }
+                        >
+                          See full details →
                       </Link>
+
                     </div>
                   </section>
                 );
@@ -349,26 +482,32 @@ export default function Services() {
           <h2 className="text-2xl font-semibold mb-6">Areas We Serve</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5 mb-6">
             {SERVICE_AREA.map((area) => (
-              <Link
-                key={area.slug}
-                to={`/locations/${area.slug}`}
-                className="p-3 rounded-lg border bg-card/50 hover:bg-card transition-colors text-center group"
-              >
-                <span className="text-sm font-medium group-hover:text-primary transition-colors">
-                  {area.name}
-                </span>
-              </Link>
+                <Link
+                  key={area.slug}
+                  to={`/locations/${area.slug}`}
+                  className="p-3 rounded-lg border bg-card/50 hover:bg-card transition-colors text-center group"
+                  onClick={() => trackNavClick(area.name, `/locations/${area.slug}`, "services_areas_grid")}
+                >
+                  <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                    {area.name}
+                  </span>
+                </Link>
+
             ))}
           </div>
           
           {/* Mid-page CTA */}
-          <div className="p-6 bg-muted/30 rounded-lg border text-center">
-            <h3 className="text-lg font-semibold mb-2">Ready to get started?</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Book a free consultation to discuss your pet care business needs
-            </p>
-            <CTAButtons className="justify-center" />
-          </div>
+          <div
+              className="p-6 bg-muted/30 rounded-lg border text-center"
+              onClick={() => trackCTAClick("midpage_cta_block", PAGE_LOC)}
+            >
+              <h3 className="text-lg font-semibold mb-2">Ready to get started?</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Book a free consultation to discuss your pet care business needs
+              </p>
+              <CTAButtons className="justify-center" />
+            </div>
+
         </section>
 
         {/* CTA Section */}
@@ -376,8 +515,14 @@ export default function Services() {
           <CTAButtons className="justify-center sm:justify-start" />
           <div className="mt-4 text-center sm:text-left">
             <Button variant="default" size="sm" asChild>
-              <a href="tel:+447402342694">Call +44 7402 342694</a>
+              <a
+                href="tel:+447402342694"
+                onClick={() => trackCTAClick("call", PAGE_LOC)}
+              >
+                Call +44 7402 342694
+              </a>
             </Button>
+
           </div>
         </div>
 
@@ -385,68 +530,18 @@ export default function Services() {
         <section className="mt-12 max-w-3xl">
           <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
           <div className="space-y-4">
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                Which pet-care businesses do you build websites for?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Dog walkers, dog groomers, pet sitters, pet daycares and veterinary practices across Northamptonshire.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                Do you offer local SEO for 'near me' searches?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Yes. We optimise Google Business Profile, service pages and location content to rank for 'near me' and town-specific queries in Northampton, Kettering, Milton Keynes and surrounding areas.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                Can you automate bookings and client follow-ups?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Absolutely. We connect forms, calendars and CRMs to send confirmations, reminders and updates automatically.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                What's included in your pricing packages?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Our packages range from £750-£3,500 and include website design, SEO setup, Google Business Profile optimization, contact forms, and mobile responsiveness. Higher packages add automations, content marketing, and conversion optimization.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                How long does a website project typically take?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Most pet care websites take 2-4 weeks from start to launch. This includes design, content creation, SEO setup, and testing. We provide regular updates throughout the process.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                Do you help migrate existing websites?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Yes, we handle complete website migrations including content transfer, SEO preservation, and redirect setup to maintain your search rankings and ensure no downtime.
-              </p>
-            </details>
-            
-            <details className="rounded-lg border p-4 bg-card/50">
-              <summary className="cursor-pointer font-medium">
-                Which areas of Northamptonshire do you cover?
-              </summary>
-              <p className="mt-2 text-sm text-muted-foreground">
-                We serve all of Northamptonshire including Northampton, Kettering, Wellingborough, Daventry, Corby, Rushden, Towcester, plus Milton Keynes and Banbury.
-              </p>
-            </details>
+            {faqs.map((item) => (
+                <details
+                  key={item.q}
+                  className="rounded-lg border p-4 bg-card/50"
+                  onToggle={(e) =>
+                    trackFAQToggle(item.q, "services_faq", e.currentTarget.open ? "open" : "close")
+                  }
+                >
+                  <summary className="cursor-pointer font-medium">{item.q}</summary>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.a}</p>
+                </details>
+              ))}
           </div>
         </section>
       </section>
