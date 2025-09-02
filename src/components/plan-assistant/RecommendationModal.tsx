@@ -98,55 +98,58 @@ const RecommendationModal = ({ isOpen, onClose, recommendationData }: Recommenda
           )}
 
           {/* Packages (one-time pricing, shared structure) */}
-          <h3 className="text-2xl font-bold text-foreground text-center mb-6">
+          <h3 className="text-2xl font-bold text-center mb-6">
             Choose Your Perfect Package
           </h3>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {PACKAGES.map((pkg) => {
               const isRecommended = pkg.id === recommended.id;
               const isSelected = selectedId === pkg.id;
               return (
-                <div
+                <article 
                   key={pkg.id}
-                  className={`relative bg-card border rounded-xl p-6 transition-all duration-300 hover:shadow-lg ${
-                    isRecommended ? "ring-2 ring-primary bg-primary/5 border-primary shadow-lg" : "border-border"
-                  } ${isSelected ? "ring-2 ring-accent" : ""}`}
+                  className={`rounded-lg border p-6 relative ${
+                    pkg.popular ? 'border-primary shadow-glow' : 'border-border'
+                  } ${isRecommended ? 'ring-2 ring-accent border-accent' : ''} ${
+                    isSelected ? 'ring-2 ring-primary' : ''
+                  }`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
                         Most Popular
-                      </div>
+                      </span>
                     </div>
                   )}
 
                   {isRecommended && (
                     <div className="absolute -top-3 right-4">
-                      <div className="bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                      <div className="bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
                         <Star className="w-3 h-3" />
                         Recommended
                       </div>
                     </div>
                   )}
-
-                  <div className="text-center mb-6">
-                    <h4 className="text-2xl font-bold text-foreground mb-2">{pkg.name}</h4>
-                    <p className="text-muted-foreground mb-4">{pkg.desc}</p>
-                    <div>
-                      <span className="text-3xl font-bold text-foreground">{pkg.price}</span>
+                  
+                  <div className="text-center mb-4">
+                    <h2 className="text-xl font-bold">{pkg.name}</h2>
+                    <div className="mt-2">
+                      <span className="text-3xl font-bold">{pkg.price}</span>
                       <span className="text-muted-foreground ml-1">one-time</span>
                     </div>
                   </div>
-
-                  <div className="space-y-3 mb-6">
-                    {pkg.features.map((feature, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-muted-foreground">{feature}</span>
-                      </div>
+                  
+                  <p className="text-sm text-muted-foreground mb-4">{pkg.desc}</p>
+                  
+                  <ul className="space-y-2 mb-6">
+                    {pkg.features.map((feature, index) => (
+                      <li key={index} className="text-sm flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        {feature}
+                      </li>
                     ))}
-                  </div>
+                  </ul>
 
                   <div className="space-y-2">
                     <Button
@@ -156,29 +159,24 @@ const RecommendationModal = ({ isOpen, onClose, recommendationData }: Recommenda
                     >
                       Select {pkg.name}
                     </Button>
-
+                  
                     <BuyPlanButton
                       planName={pkg.name}
                       planPrice={pkg.priceValue}
                       onboardingFee={0}
                       variant={isRecommended ? "default" : "outline"}
-                      className={`w-full font-semibold transition-all duration-300 ${
-                        isRecommended
-                          ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg text-base py-3 h-12"
-                          : "text-base py-3 h-12"
-                      }`}
                     />
 
                     {isRecommended && (
-                      <div className="text-center">
-                        <div className="inline-flex items-center gap-2 text-sm text-primary font-semibold bg-primary/10 px-3 py-1 rounded-full">
+                      <div className="text-center mt-2">
+                        <div className="inline-flex items-center gap-2 text-xs text-primary font-medium bg-primary/10 px-2 py-1 rounded-full">
                           <Zap className="w-3 h-3" />
-                          Best Match for Your Needs
+                          Best Match
                         </div>
                       </div>
                     )}
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
