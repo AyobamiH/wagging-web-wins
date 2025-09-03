@@ -75,9 +75,11 @@ export function Seo({
     ensureMeta('meta[name="viewport"]', { name: "viewport", content: "width=device-width, initial-scale=1" });
     
     // Set robots meta (noindex if specified, otherwise default)
-    const robotsContent = noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+   
     // in Seo.tsx, inside useEffect where robotsContent is set
-
+const robotsContent = noIndex
+  ? "noindex, follow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
     ensureMeta('meta[name="robots"]', { name: "robots", content: robotsContent });
     
     // Keywords if provided
