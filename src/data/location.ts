@@ -156,18 +156,20 @@ export const LOCATIONS_BY_SLUG: Record<string, LocationInfo> = {
   },
 };
 
+export const LOCATION_SLUGS = Object.keys(LOCATIONS_BY_SLUG) as Array<keyof typeof LOCATIONS_BY_SLUG>;
+export const LOCATIONS = LOCATION_SLUGS.map((s) => LOCATIONS_BY_SLUG[s]);
+export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[slug] ?? null : null);
 
+// (Optional) If you want to keep SERVICE_AREA in one place for other imports:
+export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
+export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];
 
-// ----- Service Areas hub data (cards) -----
+/* --------------------------------------------------------------------------------
+   Service-area summary data (your local list) + normalized export for UI pages
+---------------------------------------------------------------------------------*/
 
-type RawServiceArea = {
-  area: string;
-  description: string;
-  postcodes: string[];
-};
-
-// Your provided data (unchanged)
-const RAW_SERVICE_AREAS: RawServiceArea[] = [
+// Your original list (left intact)
+const serviceAreas = [
   {
     area: "Northampton",
     description:
@@ -224,48 +226,42 @@ const RAW_SERVICE_AREAS: RawServiceArea[] = [
   },
 ];
 
-// Helper: turn "Milton Keynes" → "milton-keynes"
-function slugifyName(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+// Map display names to your canonical slugs
+const NAME_TO_SLUG: Record<string, keyof typeof LOCATIONS_BY_SLUG> = {
+  Northampton: "northampton",
+  Wellingborough: "wellingborough",
+  Kettering: "kettering",
+  Daventry: "daventry",
+  Towcester: "towcester",
+  Rushden: "rushden",
+  Corby: "corby",
+  "Milton Keynes": "milton-keynes",
+  Banbury: "banbury",
+};
 
 export type ServiceAreaSummary = {
   slug: string;
   name: string;
   county?: string;
-  description?: string;
-  postcodes?: string[];
+  description: string;
+  postcodes: string[];
 };
 
-// Build hub-ready cards from RAW + your canonical LOCATIONS
-export const SERVICE_AREAS_SUMMARY: ServiceAreaSummary[] = RAW_SERVICE_AREAS.map(
-  ({ area, description, postcodes }) => {
-    const slug = slugifyName(area); // e.g. "Milton Keynes" -> "milton-keynes"
+// Normalized + enriched summary the UI can rely on
+export const SERVICE_AREAS_SUMMARY: ServiceAreaSummary[] = serviceAreas
+  .map((a) => {
+    const slug = NAME_TO_SLUG[a.area];
     const base = LOCATIONS_BY_SLUG[slug];
+
+    if (!base) return null;
 
     return {
       slug,
-      name: base?.name ?? area, // prefer canonical name if present
-      county: base?.county,
-      description,
-      postcodes,
+      name: base.name, // ensure capitalization matches your canonical data
+      county: base.county,
+      // prefer the local summary description you provided; fallback to base
+      description: a.description || base.description,
+      postcodes: a.postcodes || [],
     };
-  }
-);
-
-// Optional alias (use either name in imports without refactors)
-export const SERVICE_AREA_SUMMARY = SERVICE_AREAS_SUMMARY;
-
-export const LOCATION_SLUGS = Object.keys(LOCATIONS_BY_SLUG) as Array<keyof typeof LOCATIONS_BY_SLUG>;
-export const LOCATIONS = LOCATION_SLUGS.map((s) => LOCATIONS_BY_SLUG[s]);
-export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[slug] ?? null : null);
-
-// (Optional) If you want to keep SERVICE_AREA in one place for other imports:
-export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
-export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];
-
+  })
+  .filter((v): v is ServiceAreaSummary => Boolean(v));
