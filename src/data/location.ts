@@ -242,7 +242,7 @@ const NAME_TO_SLUG: Record<string, keyof typeof LOCATIONS_BY_SLUG> = {
 export type ServiceAreaSummary = {
   slug: string;
   name: string;
-  county?: string;
+  county: string;
   description: string;
   postcodes: string[];
 };
@@ -265,3 +265,5 @@ export const SERVICE_AREAS_SUMMARY: ServiceAreaSummary[] = serviceAreas
     };
   })
   .filter((v): v is ServiceAreaSummary => Boolean(v));
+
+export const SERVICE_AREAS = SERVICE_AREAS_SUMMARY;
