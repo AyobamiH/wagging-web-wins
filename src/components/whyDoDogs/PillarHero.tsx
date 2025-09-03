@@ -45,7 +45,7 @@ export default function PillarHero({ title, subtitle }: Props) {
             className="
               text-balance text-center
               text-3xl md:text-5xl font-extrabold tracking-tight
-              bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent
+              bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent/90
               mt-4
             "
           >
