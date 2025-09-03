@@ -3,11 +3,14 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReviewsProvider } from "@/contexts/ReviewsContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
 import MarketingLayout from "@/components/layout/MarketingLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { AdminGuard } from "@/components/admin/AdminGuard";
+
 // Lazy load components to reduce initial bundle size
 const Index = lazy(() => import("./pages/Index"));
 const TradesLanding = lazy(() => import("./pages/TradesLanding"));
@@ -28,6 +31,9 @@ const BlogPostSupabase =  lazy(()  => import("./pages/BlogPostSupabase"))
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
+const AuthPage = lazy(() => import("./components/auth/AuthPage"));
+const BlogList = lazy(() => import("./components/admin/BlogList"));
+const BlogEditor = lazy(() => import("./components/admin/BlogEditor"));
 
 
 const queryClient = new QueryClient();
@@ -50,42 +56,55 @@ const PageViewTracker = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ReviewsProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-        <PageViewTracker />
-        <Suspense fallback={<LoadingSpinner />}>
-          <Routes>
-            <Route element={<MarketingLayout />}>
-              <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
-              <Route path="/trades" element={<TradesLanding />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/:slug" element={<ServiceDetail />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/tools" element={<ToolsHub />} />
-              <Route path="/tools/:slug" element={<ToolDetail />} />
-              <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
-              <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
-              <Route path="/blog" element={<BlogSupabase />} />
-              <Route path="/blog/:slug" element={<BlogPostSupabase />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/service-areas" element={<ServiceAreas />} />
-              <Route path="/locations/:slug" element={<Location />} />
-              <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
-              <Route path="/cancel" element={<PaymentCancel />} />
-              <Route path="/payment-failed" element={<PaymentFailed />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
-    </ReviewsProvider>
+    <AuthProvider>
+      <ReviewsProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+          <PageViewTracker />
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/admin/blog" element={
+                <AdminGuard>
+                  <BlogList />
+                </AdminGuard>
+              } />
+              <Route path="/admin/blog/:id" element={
+                <AdminGuard>
+                  <BlogEditor />
+                </AdminGuard>
+              } />
+              <Route element={<MarketingLayout />}>
+                <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
+                <Route path="/trades" element={<TradesLanding />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/services/:slug" element={<ServiceDetail />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/tools" element={<ToolsHub />} />
+                <Route path="/tools/:slug" element={<ToolDetail />} />
+                <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
+                <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
+                <Route path="/blog" element={<BlogSupabase />} />
+                <Route path="/blog/:slug" element={<BlogPostSupabase />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/service-areas" element={<ServiceAreas />} />
+                <Route path="/locations/:slug" element={<Location />} />
+                <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
+                <Route path="/cancel" element={<PaymentCancel />} />
+                <Route path="/payment-failed" element={<PaymentFailed />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+      </ReviewsProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

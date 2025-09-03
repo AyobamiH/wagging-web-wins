@@ -105,6 +105,130 @@ export class SupabasePostRepository implements PostRepository {
       throw new Error('Failed to seed posts');
     }
   }
+
+  async create(post: PostSeed): Promise<Post> {
+    const { data, error } = await supabase
+      .from('posts')
+      .insert({
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        meta_title: post.metaTitle,
+        meta_description: post.metaDescription,
+        content: post.content,
+        faq: post.faq,
+        pillar_tag: post.pillarTag,
+        og_image_url: post.ogImageUrl,
+        cover_alt: post.coverAlt,
+        published_at: post.publishedAt || new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating post:', error);
+      throw new Error('Failed to create post');
+    }
+
+    return {
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
+      excerpt: data.excerpt,
+      metaTitle: data.meta_title,
+      metaDescription: data.meta_description,
+      content: data.content,
+      faq: data.faq ? (data.faq as Array<{ q: string; a: string }>) : undefined,
+      pillarTag: data.pillar_tag || undefined,
+      publishedAt: data.published_at,
+      ogImageUrl: data.og_image_url || undefined,
+      coverAlt: data.cover_alt || undefined,
+    };
+  }
+
+  async update(id: string, post: Partial<PostSeed>): Promise<Post> {
+    const updateData: any = {};
+    if (post.slug !== undefined) updateData.slug = post.slug;
+    if (post.title !== undefined) updateData.title = post.title;
+    if (post.excerpt !== undefined) updateData.excerpt = post.excerpt;
+    if (post.metaTitle !== undefined) updateData.meta_title = post.metaTitle;
+    if (post.metaDescription !== undefined) updateData.meta_description = post.metaDescription;
+    if (post.content !== undefined) updateData.content = post.content;
+    if (post.faq !== undefined) updateData.faq = post.faq;
+    if (post.pillarTag !== undefined) updateData.pillar_tag = post.pillarTag;
+    if (post.ogImageUrl !== undefined) updateData.og_image_url = post.ogImageUrl;
+    if (post.coverAlt !== undefined) updateData.cover_alt = post.coverAlt;
+    if (post.publishedAt !== undefined) updateData.published_at = post.publishedAt;
+
+    const { data, error } = await supabase
+      .from('posts')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating post:', error);
+      throw new Error('Failed to update post');
+    }
+
+    return {
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
+      excerpt: data.excerpt,
+      metaTitle: data.meta_title,
+      metaDescription: data.meta_description,
+      content: data.content,
+      faq: data.faq ? (data.faq as Array<{ q: string; a: string }>) : undefined,
+      pillarTag: data.pillar_tag || undefined,
+      publishedAt: data.published_at,
+      ogImageUrl: data.og_image_url || undefined,
+      coverAlt: data.cover_alt || undefined,
+    };
+  }
+
+  async delete(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting post:', error);
+      throw new Error('Failed to delete post');
+    }
+  }
+
+  async getById(id: string): Promise<Post | null> {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error fetching post by id:', error);
+      throw new Error('Failed to fetch post');
+    }
+
+    if (!data) return null;
+
+    return {
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
+      excerpt: data.excerpt,
+      metaTitle: data.meta_title,
+      metaDescription: data.meta_description,
+      content: data.content,
+      faq: data.faq ? (data.faq as Array<{ q: string; a: string }>) : undefined,
+      pillarTag: data.pillar_tag || undefined,
+      publishedAt: data.published_at,
+      ogImageUrl: data.og_image_url || undefined,
+      coverAlt: data.cover_alt || undefined,
+    };
+  }
 }
 
 export class SupabaseSettingsRepository implements SettingsRepository {

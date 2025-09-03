@@ -36,6 +36,10 @@ export interface PostRepository {
   getBySlug(slug: string): Promise<Post | null>;
   list(params?: PostListParams): Promise<Post[]>;
   seed(posts: PostSeed[]): Promise<void>;
+  create(post: PostSeed): Promise<Post>;
+  update(id: string, post: Partial<PostSeed>): Promise<Post>;
+  delete(id: string): Promise<void>;
+  getById(id: string): Promise<Post | null>;
 }
 
 export interface SettingsRepository {
