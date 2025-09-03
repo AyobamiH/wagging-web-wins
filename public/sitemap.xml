@@ -262,85 +262,92 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Why Do Dogs Guide -->
+ 
+    <!-- Why Do Dogs Hub + Guides -->
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-do-dogs</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
+
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-bark</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/lick-people/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-dig</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/lick-after-shower/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-drooling</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/licking-problem/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/eat-grass/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-eat-grass</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/eat-poop/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-eat-poop</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/drooling-or-nibbling/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/shake-or-shiver/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-follow-bathroom</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/scoot/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-howl</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/follow-to-bathroom/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/howl/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-hump</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/bark-at-nothing-or-postie/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-lick</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/pant-a-lot/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/dig/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-lick-after-shower</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/hump/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-licking-problem</loc>
+    <loc>https://tailwaggingwebdesign.com/why-do-dogs/stare/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-pant</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-scoot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-shake</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://tailwaggingwebdesign.com/why-dogs-stare</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
+
 </urlset>
