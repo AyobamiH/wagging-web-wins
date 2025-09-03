@@ -91,10 +91,10 @@ export default function Contact() {
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "@id": "https://tailwagginwebdesign.com/#org",
+      "@id": "https://tailwaggingwebdesign.com/#org",
       "name": "Tail Wagging Websites Factory Northampton",
-      "url": "https://tailwagginwebdesign.com/",
-      "logo": "https://tailwagginwebdesign.com/og.png",
+      "url": "https://tailwaggingwebdesign.com/",
+      "logo": "https://tailwaggingwebdesign.com/og.png",
       "telephone": "+447402342694",
       "areaServed": ["Northamptonshire", "Northampton", "Wellingborough", "Kettering", "Daventry", "Towcester", "Rushden", "Corby", "Milton Keynes", "Banbury"],
       "contactPoint": [{
@@ -114,13 +114,13 @@ export default function Contact() {
     {
       "@context": "https://schema.org",
       "@type": "ContactPage",
-      "@id": "https://tailwagginwebdesign.com/contact#contact",
-      "url": "https://tailwagginwebdesign.com/contact",
+      "@id": "https://tailwaggingwebdesign.com/contact#contact",
+      "url": "https://tailwaggingwebdesign.com/contact",
       "name": "Contact Pet Web Designer in Northampton",
       "inLanguage": "en-GB",
       "description": "Book a free pet website consultation or request a quote for dog walkers, groomers, sitters and vets across Northamptonshire.",
-      "about": { "@id": "https://tailwagginwebdesign.com/#org" },
-      "publisher": { "@id": "https://tailwagginwebdesign.com/#org" }
+      "about": { "@id": "https://tailwaggingwebdesign.com/#org" },
+      "publisher": { "@id": "https://tailwaggingwebdesign.com/#org" }
     },
     // Breadcrumbs
     {
@@ -135,7 +135,7 @@ export default function Contact() {
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "@id": "https://tailwagginwebdesign.com/contact#faq",
+      "@id": "https://tailwaggingwebdesign.com/contact#faq",
       "mainEntity": [
         {
           "@type": "Question",
