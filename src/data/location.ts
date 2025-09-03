@@ -163,3 +163,109 @@ export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[s
 // (Optional) If you want to keep SERVICE_AREA in one place for other imports:
 export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
 export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];
+
+
+
+// ----- Service Areas hub data (cards) -----
+
+type RawServiceArea = {
+  area: string;
+  description: string;
+  postcodes: string[];
+};
+
+// Your provided data (unchanged)
+const RAW_SERVICE_AREAS: RawServiceArea[] = [
+  {
+    area: "Northampton",
+    description:
+      "Our main base of operations, serving the town center and surrounding villages.",
+    postcodes: ["NN1", "NN2", "NN3", "NN4", "NN5"],
+  },
+  {
+    area: "Wellingborough",
+    description:
+      "Comprehensive pet website services for businesses in Wellingborough and nearby areas.",
+    postcodes: ["NN8", "NN9", "NN29"],
+  },
+  {
+    area: "Kettering",
+    description:
+      "Professional web design for pet care businesses across Kettering and surrounding villages.",
+    postcodes: ["NN14", "NN15", "NN16"],
+  },
+  {
+    area: "Daventry",
+    description:
+      "Expert website design and SEO services for pet businesses in Daventry area.",
+    postcodes: ["NN11"],
+  },
+  {
+    area: "Towcester",
+    description:
+      "Local web design expertise for pet care providers in Towcester and surrounding area.",
+    postcodes: ["NN12"],
+  },
+  {
+    area: "Rushden",
+    description:
+      "Specialized pet business websites for Rushden and the local community.",
+    postcodes: ["NN10"],
+  },
+  {
+    area: "Corby",
+    description:
+      "Professional web design services for pet care businesses throughout Corby.",
+    postcodes: ["NN17", "NN18"],
+  },
+  {
+    area: "Milton Keynes",
+    description:
+      "Extended service area covering Milton Keynes for larger pet care operations.",
+    postcodes: ["MK1-MK19"],
+  },
+  {
+    area: "Banbury",
+    description:
+      "Cross-county service extension to Banbury for established pet care businesses.",
+    postcodes: ["OX15", "OX16", "OX17"],
+  },
+];
+
+// Helper: turn "Milton Keynes" → "milton-keynes"
+function slugifyName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export type ServiceAreaSummary = {
+  slug: string;
+  name: string;
+  county?: string;
+  description?: string;
+  postcodes?: string[];
+};
+
+// Build hub-ready cards from RAW + your canonical LOCATIONS
+export const SERVICE_AREAS_SUMMARY: ServiceAreaSummary[] = RAW_SERVICE_AREAS.map(
+  ({ area, description, postcodes }) => {
+    const slug = slugifyName(area); // e.g. "Milton Keynes" -> "milton-keynes"
+    const base = LOCATIONS_BY_SLUG[slug];
+
+    return {
+      slug,
+      name: base?.name ?? area, // prefer canonical name if present
+      county: base?.county,
+      description,
+      postcodes,
+    };
+  }
+);
+
+// Optional alias (use either name in imports without refactors)
+export const SERVICE_AREA_SUMMARY = SERVICE_AREAS_SUMMARY;
+
