@@ -1,93 +1,60 @@
 // src/components/whyDoDogs/PillarHero.tsx
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 type Props = { title: string; subtitle: string };
 
 export default function PillarHero({ title, subtitle }: Props) {
-  const prefersReduced = useReducedMotion();
-
-  const fadeUp = (delay = 0) =>
-    prefersReduced
-      ? {}
-      : {
-          initial: { y: 12, opacity: 0 },
-          animate: { y: 0, opacity: 1 },
-          transition: { duration: 0.5, delay },
-        };
-
   return (
-    <section
-      className="
-        relative isolate overflow-hidden
-        bg-gradient-to-br from-primary/5 via-primary/10 to-transparent
-      "
-      aria-labelledby="pillar-hero-title"
-    >
-      {/* Ambient blobs & pattern (decorative) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-20 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-        <div className="absolute top-28 -right-16 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,theme(colors.primary/10),transparent_60%)]" />
-      </div>
+    <section className="relative isolate overflow-hidden">
+      {/* Deep brand background + soft spotlight behind the headline for contrast */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#0b1220,40%,#0e1b2e)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(900px_380px_at_50%_15%,rgba(255,255,255,.14),transparent)]" />
 
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        {/* Carded glass wrapper so it feels like the rest of the app */}
-        <div className="rounded-2xl border bg-card/60 backdrop-blur-md p-6 sm:p-10 shadow-sm">
-          <motion.div {...fadeUp(0)}>
-            <span className="inline-flex items-center gap-2 rounded-full border bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground">
-              Owner-friendly • Vet-safe pointers
-            </span>
-          </motion.div>
-
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        {/* Glass panel that aligns the content and gives consistent styling */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 sm:p-12 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,.25)]">
           <motion.h1
-            id="pillar-hero-title"
-            {...fadeUp(0.05)}
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             className="
-              text-balance text-center
-              text-3xl md:text-5xl font-extrabold tracking-tight
-              bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent/90
-              mt-4
+              text-center text-4xl md:text-6xl font-extrabold tracking-tight
+              bg-gradient-to-b from-white to-slate-200 bg-clip-text text-transparent
+              drop-shadow-[0_2px_6px_rgba(0,0,0,.4)]
             "
           >
             {title}
           </motion.h1>
 
           <motion.p
-            {...fadeUp(0.12)}
-            className="mx-auto mt-3 max-w-3xl text-center text-lg text-muted-foreground"
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-3xl text-center text-slate-200/90 leading-relaxed"
           >
             {subtitle}
           </motion.p>
 
-          {/* Chips */}
-          <motion.ul
-            {...fadeUp(0.18)}
-            className="mt-5 flex flex-wrap justify-center gap-2 text-xs text-muted-foreground"
-          >
+          {/* Feature chips – subtle, legible on dark */}
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
             {["Plain-English", "When to call your vet", "Quick next steps"].map((t) => (
-              <li
+              <span
                 key={t}
-                className="rounded-full border bg-background/60 px-3 py-1"
+                className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs text-slate-200/90"
               >
                 {t}
-              </li>
+              </span>
             ))}
-          </motion.ul>
+          </div>
 
-          {/* CTAs */}
-          <motion.div
-            {...fadeUp(0.24)}
-            className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3"
-          >
+          {/* Primary actions */}
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
               className="
-                inline-flex items-center justify-center rounded-2xl
-                bg-gradient-primary px-6 py-3 text-base font-semibold
-                text-primary-foreground shadow-glow
-                transition-transform duration-200
-                hover:scale-[1.02] active:scale-[0.99]
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-semibold
+                text-white shadow-md transition-all hover:scale-[1.015]
+                bg-gradient-to-r from-indigo-500 to-blue-500
               "
             >
               Book a consult
@@ -95,32 +62,19 @@ export default function PillarHero({ title, subtitle }: Props) {
             <a
               href="#clusters"
               className="
-                inline-flex items-center justify-center rounded-2xl
-                px-6 py-3 text-base font-semibold
-                border bg-background/60
-                hover:bg-primary/10
-                transition-colors
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                inline-flex items-center justify-center rounded-2xl border border-white/20
+                bg-white/5 px-6 py-3 text-base font-semibold text-white/90
+                hover:bg-white/10 transition-colors
               "
             >
               See all guides →
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Soft wave divider to transition into the content below */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 120"
-        className="absolute bottom-0 left-0 right-0 h-16 w-full text-primary/10"
-        preserveAspectRatio="none"
-      >
-        <path
-          fill="currentColor"
-          d="M0,64L48,53.3C96,43,192,21,288,21.3C384,21,480,43,576,53.3C672,64,768,64,864,69.3C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"
-        />
-      </svg>
+      {/* Soft divider at the bottom so the next section flows nicely */}
+      <div className="pointer-events-none absolute inset-x-0 -bottom-24 h-48 bg-[linear-gradient(to_top,rgba(0,0,0,.25),transparent)]" />
     </section>
   );
 }
