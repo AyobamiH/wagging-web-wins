@@ -45,7 +45,7 @@ export default function Index() {
                 "@id": "https://tailwagginwebdesign.com/#org",
                 "name": "Tail Wagging Websites Factory Northampton",
                 "url": "https://tailwagginwebdesign.com/",
-                "logo": "https://tailwagginwebdesign.com/og.png",
+                "logo": "https://tailwaggingwebdesign.com/og.png",
                 "telephone": "+447402342694",
                 "sameAs": [
                   "https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
@@ -63,18 +63,18 @@ export default function Index() {
               },
               {
                 "@type": "WebSite",
-                "@id": "https://tailwagginwebdesign.com/#website",
-                "url": "https://tailwagginwebdesign.com/",
+                "@id": "https://tailwaggingwebdesign.com/#website",
+                "url": "https://tailwaggingwebdesign.com/",
                 "name": "Tail Wagging Websites Factory Northampton",
-                "publisher": { "@id": "https://tailwagginwebdesign.com/#org" },
+                "publisher": { "@id": "https://tailwaggingwebdesign.com/#org" },
                 "inLanguage": "en-GB"
               },
               {
                 "@type": "ProfessionalService",
-                "@id": "https://tailwagginwebdesign.com/#local",
+                "@id": "https://tailwaggingwebdesign.com/#local",
                 "name": "Pet Web Design & Automations – Tail Wagging Websites Factory Northampton",
-                "url": "https://tailwagginwebdesign.com/",
-                "image": "https://tailwagginwebdesign.com/og.png",
+                "url": "https://tailwaggingwebdesign.com/",
+                "image": "https://tailwaggingwebdesign.com/og.png",
                 "telephone": "+447402342694",
                 "priceRange": "££",
                 "areaServed": [
@@ -123,7 +123,7 @@ export default function Index() {
                 "potentialAction": [
                   {
                     "@type": "ContactAction",
-                    "target": "https://tailwagginwebdesign.com/contact",
+                    "target": "https://tailwaggingwebdesign.com/contact",
                     "name": "Request a quote"
                   },
                   {
@@ -146,11 +146,11 @@ export default function Index() {
               },
               {
                 "@type": "WebPage",
-                "@id": "https://tailwagginwebdesign.com/#webpage",
-                "url": "https://tailwagginwebdesign.com/",
+                "@id": "https://tailwaggingwebdesign.com/#webpage",
+                "url": "https://tailwaggingwebdesign.com/",
                 "name": "Pet Website Design & Automations in Northampton",
                 "description": "Fast, mobile-first pet websites and automations for dog walkers, groomers, sitters, trainers & vets across Northamptonshire.",
-                "isPartOf": { "@id": "https://tailwagginwebdesign.com/#website" },
+                "isPartOf": { "@id": "https://tailwaggingwebdesign.com/#website" },
                 "inLanguage": "en-GB",
                 "breadcrumb": {
                   "@type": "BreadcrumbList",
@@ -161,7 +161,7 @@ export default function Index() {
               },
               {
                 "@type": "HowTo",
-                "@id": "https://tailwagginwebdesign.com/#how-it-works",
+                "@id": "https://tailwaggingwebdesign.com/#how-it-works",
                 "name": "How it works",
                 "description": "Three simple steps from discovery to launch.",
                 "step": [
