@@ -21,16 +21,17 @@ export default function ModernHeader() {
 
   const primaryNavItems = [
     { to: "/services", label: "Services" },
-    { to: "/tools", label: "Tools" },
+    { to: "/contact", label: "Contact" },
+    { to: "/faq", label: "FAQ" },
     { to: "/blog", label: "Blog" },
-    { to: "/pricing", label: "Pricing" },
+    
   ];
 
   const moreNavItems = [
     { to: "/why-do-dogs", label: "Why Do Dogs…?" },
+    { to: "/pricing", label: "Pricing" },
+    { to: "/tools", label: "Tools" },
     { to: "/service-areas", label: "Service Areas" },
-    { to: "/faq", label: "FAQ" },
-    { to: "/contact", label: "Contact" },
   ];
 
   return (
