@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Phone, ArrowRight } from "lucide-react";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import NorthamptonMap from "@/components/NorthamptonMap";
-import { SERVICE_AREAS_SUMMARY } from "@/data/locations";
+import { SERVICE_AREAS_SUMMARY } from "@/data/location";
 import { BASE_URL } from "@/data/services";
 
 export default function ServiceAreas() {
