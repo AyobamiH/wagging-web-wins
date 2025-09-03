@@ -156,14 +156,6 @@ export const LOCATIONS_BY_SLUG: Record<string, LocationInfo> = {
   },
 };
 
-export const LOCATION_SLUGS = Object.keys(LOCATIONS_BY_SLUG) as Array<keyof typeof LOCATIONS_BY_SLUG>;
-export const LOCATIONS = LOCATION_SLUGS.map((s) => LOCATIONS_BY_SLUG[s]);
-export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[slug] ?? null : null);
-
-// (Optional) If you want to keep SERVICE_AREA in one place for other imports:
-export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
-export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];
-
 
 
 // ----- Service Areas hub data (cards) -----
@@ -268,4 +260,12 @@ export const SERVICE_AREAS_SUMMARY: ServiceAreaSummary[] = RAW_SERVICE_AREAS.map
 
 // Optional alias (use either name in imports without refactors)
 export const SERVICE_AREA_SUMMARY = SERVICE_AREAS_SUMMARY;
+
+export const LOCATION_SLUGS = Object.keys(LOCATIONS_BY_SLUG) as Array<keyof typeof LOCATIONS_BY_SLUG>;
+export const LOCATIONS = LOCATION_SLUGS.map((s) => LOCATIONS_BY_SLUG[s]);
+export const getLocation = (slug?: string | null) => (slug ? LOCATIONS_BY_SLUG[slug] ?? null : null);
+
+// (Optional) If you want to keep SERVICE_AREA in one place for other imports:
+export const SERVICE_AREA = LOCATIONS.map((l) => ({ name: l.name, slug: l.slug }));
+export const SERVICE_AREA_NAMES = SERVICE_AREA.map((a) => a.name) as readonly string[];
 
