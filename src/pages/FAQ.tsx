@@ -621,7 +621,7 @@ export default function FAQ() {
         description="Get answers to common questions about pet care website design, SEO, pricing, and services for dog walkers, groomers, and pet businesses in Northampton."
         path="/faq"
         // SEO hardening
-        noIndex={robots}
+        robots={robots}
         canonical={canonicalUrl}
         jsonLd={[...faqJsonLd, webPageLd, breadcrumbsLd]}
         keywords={[
