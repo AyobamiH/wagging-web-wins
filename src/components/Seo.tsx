@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import pawprintOg from "@/assets/pawprint-og.png";
 import pawprintSquare from "@/assets/pawprint-square.png";
 
+
+const CANONICAL_ORIGIN = "https://tailwaggingwebdesign.com";
 export type Breadcrumb = { name: string; item: string };
 
 interface SeoProps {
@@ -52,8 +54,9 @@ export function Seo({
   hreflang = []
 }: SeoProps) {
   useEffect(() => {
-    const origin = window.location.origin;
-    const canonical = origin + path;
+    // Safety: make sure path begins with "/" so we don’t end up with double/missing slashes
+    const safePath = path.startsWith("/") ? path : `/${path}`;
+    const canonical = origin + safePath;
     const img = imageUrl || pawprintOg;
 
     document.title = title;
