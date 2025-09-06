@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import FPatternDiagram from "@/components/FPatternDiagram";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
 
 const postRepository = new SupabasePostRepository();
@@ -238,10 +239,38 @@ export default function BlogPostSupabase() {
 
           {isTechTheme ? (
             <div className="tech-container">
-              <div 
-                className="blog-content mb-12"
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
-              />
+              {/* Check if we need to inject F-Pattern diagram */}
+              {htmlContent.includes('F-Pattern Structure') ? (
+                <>
+                  <div 
+                    className="blog-content"
+                    dangerouslySetInnerHTML={{ 
+                      __html: htmlContent.split('<h2>F-Pattern Structure</h2>')[0] + '<h2>F-Pattern Structure</h2>' 
+                    }}
+                  />
+                  <FPatternDiagram sections={[
+                    "Hero (left-aligned heading, right support image)",
+                    "Service cards (3–6, one-line outcomes)", 
+                    "Social proof (top review + logos)",
+                    "Process (3 steps: Enquire → Confirm → Care)",
+                    "Pricing preview (from-prices + link to full pricing)",
+                    "Credibility row (safety & standards, insurance, training)",
+                    "FAQ (3–5 top objections)",
+                    "Final CTA band (sticky on mobile)"
+                  ]} />
+                  <div 
+                    className="blog-content mb-12"
+                    dangerouslySetInnerHTML={{ 
+                      __html: htmlContent.split('<h2>F-Pattern Structure</h2>')[1]?.replace(/<ol>.*?<\/ol>/s, '') || ''
+                    }}
+                  />
+                </>
+              ) : (
+                <div 
+                  className="blog-content mb-12"
+                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+                />
+              )}
             </div>
           ) : (
             <div 

@@ -293,9 +293,93 @@ All colors MUST be HSL.
     color: hsl(var(--foreground) / 0.9);
   }
   
+  /* Enhanced blockquote styling for information cards */
   .tech-theme .blog-content blockquote {
-    @apply bg-card/60 border-l-4 border-primary/60 pl-4 py-3 my-6 rounded-r-lg;
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.1);
+    @apply relative bg-gradient-to-r from-card/80 to-card/60 border border-primary/20 rounded-xl p-6 my-8;
+    background: 
+      linear-gradient(135deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7)),
+      linear-gradient(45deg, hsl(var(--primary) / 0.05) 0%, transparent 50%);
+    box-shadow: 
+      0 4px 20px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(var(--primary) / 0.2);
+    border-left: 4px solid hsl(var(--primary));
+  }
+  
+  .tech-theme .blog-content blockquote::before {
+    content: "💡";
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 8px;
+    border-radius: 50%;
+    font-size: 16px;
+    line-height: 1;
+    box-shadow: 0 2px 10px hsl(var(--primary) / 0.3);
+  }
+  
+  .tech-theme .blog-content blockquote p {
+    @apply mb-0 pl-4 font-medium;
+    color: hsl(var(--foreground) / 0.9);
+  }
+  
+  /* Layout diagram styling */
+  .tech-theme .layout-diagram {
+    @apply bg-gradient-to-br from-card/90 to-muted/50 border-2 border-dashed border-primary/30 rounded-2xl p-8 my-8;
+    background-image: 
+      radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.1) 0%, transparent 50%);
+  }
+  
+  .tech-theme .layout-section {
+    @apply bg-card/80 border border-primary/20 rounded-lg p-4 mb-4 relative;
+    box-shadow: 0 2px 10px hsl(var(--primary) / 0.05);
+  }
+  
+  .tech-theme .layout-section::before {
+    content: attr(data-section);
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .tech-theme .f-pattern-visual {
+    @apply grid grid-cols-3 gap-4 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border border-primary/20;
+    position: relative;
+  }
+  
+  .tech-theme .f-pattern-visual::after {
+    content: "F-Pattern Flow →";
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    color: hsl(var(--primary));
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  
+  .tech-theme .f-zone {
+    @apply bg-primary/10 border-2 border-dashed border-primary/30 rounded p-3 text-center;
+    transition: all 0.3s ease;
+  }
+  
+  .tech-theme .f-zone:hover {
+    @apply bg-primary/20 border-primary/50 scale-105;
+    box-shadow: 0 4px 15px hsl(var(--primary) / 0.2);
+  }
+  
+  .tech-theme .f-zone-number {
+    @apply inline-flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground rounded-full text-sm font-bold mb-2;
   }
   
   .tech-theme .blog-content ul, 
