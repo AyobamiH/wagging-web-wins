@@ -85,6 +85,9 @@ export default function BlogPostSupabase() {
 
   const readingTime = Math.ceil(post.content.replace(/<[^>]*>/g, '').split(' ').length / 200);
 
+  // Check if this should use the tech theme
+  const isTechTheme = slug === 'pet-care-homepage-f-pattern-conversion-teardown';
+
   // Handle content - if it's already HTML, use it directly; otherwise convert markdown
   const isHtml = post.content.trim().startsWith('<');
   const htmlContent = isHtml ? post.content : post.content
@@ -181,7 +184,7 @@ export default function BlogPostSupabase() {
         ]}
       />
 
-      <div className="min-h-screen bg-background">
+      <div className={`min-h-screen bg-background ${isTechTheme ? 'tech-theme' : ''}`}>
         <article className="mx-auto max-w-4xl px-4 py-8">
           <div className="mb-6">
             <Link 
@@ -233,10 +236,19 @@ export default function BlogPostSupabase() {
             </p>
           </header>
 
-          <div 
-            className="blog-content mb-12"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
+          {isTechTheme ? (
+            <div className="tech-container">
+              <div 
+                className="blog-content mb-12"
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+              />
+            </div>
+          ) : (
+            <div 
+              className="blog-content mb-12"
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
+          )}
 
         {/* Calendly Embed after second H2 */}
         <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">

@@ -134,6 +134,56 @@ All colors MUST be HSL.
   .bg-gradient-primary { background-image: var(--gradient-primary); }
 }
 
+/* High-tech theme variables */
+@layer base {
+  .tech-theme {
+    /* Enhanced tech colors */
+    --tech-primary: 180 100% 50%;
+    --tech-secondary: 300 100% 60%;
+    --tech-accent: 120 100% 45%;
+    --tech-grid: 180 100% 50% / 0.1;
+    --tech-glow: 180 100% 50% / 0.3;
+    --tech-surface: 210 30% 8% / 0.95;
+    
+    /* Tech gradients */
+    --tech-gradient-primary: linear-gradient(135deg, hsl(var(--tech-primary)), hsl(var(--tech-secondary)));
+    --tech-gradient-text: linear-gradient(90deg, hsl(var(--tech-primary)), hsl(var(--tech-secondary)));
+    --tech-grid-bg: 
+      linear-gradient(90deg, hsl(var(--tech-grid)) 1px, transparent 1px),
+      linear-gradient(hsl(var(--tech-grid)) 1px, transparent 1px);
+    
+    /* Tech shadows */
+    --tech-shadow-glow: 0 0 20px hsl(var(--tech-glow)), 0 0 40px hsl(var(--tech-glow)), 0 0 60px hsl(var(--tech-glow));
+    --tech-shadow-subtle: 0 4px 20px hsl(var(--tech-primary) / 0.2);
+  }
+}
+
+/* Tech theme utilities */
+@layer utilities {
+  .tech-grid-bg {
+    background-image: var(--tech-grid-bg);
+    background-size: 50px 50px, 50px 50px;
+    background-position: 0 0, 25px 25px;
+  }
+  
+  .tech-glow {
+    box-shadow: var(--tech-shadow-glow);
+  }
+  
+  .tech-gradient-text {
+    background: var(--tech-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .tech-surface {
+    background-color: hsla(var(--tech-surface));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+
 /* Blog content styling */
 @layer components {
 .blog-content {
@@ -244,5 +294,190 @@ All colors MUST be HSL.
   
   .blog-content th {
     @apply bg-muted font-semibold;
+  }
+
+  /* High-tech theme for specific articles */
+  .tech-theme .blog-content {
+    @apply relative;
+  }
+  
+  .tech-theme .blog-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100%;
+    z-index: -1;
+    background: 
+      radial-gradient(circle at 20% 20%, hsl(var(--tech-primary) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(var(--tech-secondary) / 0.1) 0%, transparent 50%),
+      var(--tech-grid-bg);
+    background-size: auto, auto, 40px 40px;
+    pointer-events: none;
+  }
+  
+  .tech-theme .tech-container {
+    @apply relative;
+    background: hsla(var(--tech-surface));
+    border: 1px solid hsl(var(--tech-primary) / 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 
+      0 0 40px hsl(var(--tech-primary) / 0.1),
+      inset 0 1px 0 hsl(var(--tech-primary) / 0.2);
+    animation: tech-fade-in 0.8s ease-out;
+  }
+  
+  .tech-theme .blog-content h1 {
+    background: var(--tech-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px hsl(var(--tech-primary) / 0.5);
+    animation: tech-glow-pulse 3s ease-in-out infinite alternate;
+  }
+  
+  .tech-theme .blog-content h2 {
+    @apply relative;
+    background: var(--tech-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    scroll-margin-top: 100px;
+  }
+  
+  .tech-theme .blog-content h2::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background: var(--tech-gradient-primary);
+    border-radius: 2px;
+    box-shadow: 0 0 10px hsl(var(--tech-primary) / 0.5);
+  }
+  
+  .tech-theme .blog-content h3,
+  .tech-theme .blog-content h4 {
+    color: hsl(var(--tech-primary));
+    text-shadow: 0 0 20px hsl(var(--tech-primary) / 0.3);
+  }
+  
+  .tech-theme .blog-content blockquote {
+    background: hsla(var(--tech-surface));
+    border-left: 3px solid hsl(var(--tech-accent));
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    position: relative;
+    box-shadow: 
+      0 0 20px hsl(var(--tech-accent) / 0.1),
+      inset 0 1px 0 hsl(var(--tech-accent) / 0.2);
+  }
+  
+  .tech-theme .blog-content blockquote::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    background: var(--tech-gradient-primary);
+    border-radius: 12px;
+    opacity: 0.1;
+    z-index: -1;
+  }
+  
+  .tech-theme .blog-content code {
+    background: hsl(210 30% 8% / 0.8);
+    color: hsl(var(--tech-accent));
+    border: 1px solid hsl(var(--tech-primary) / 0.3);
+    box-shadow: 0 0 10px hsl(var(--tech-primary) / 0.1);
+  }
+  
+  .tech-theme .blog-content pre {
+    background: hsl(210 30% 5% / 0.95);
+    border: 1px solid hsl(var(--tech-primary) / 0.3);
+    box-shadow: 
+      0 0 30px hsl(var(--tech-primary) / 0.2),
+      inset 0 1px 0 hsl(var(--tech-primary) / 0.1);
+  }
+  
+  .tech-theme .blog-content a {
+    color: hsl(var(--tech-primary));
+    text-shadow: 0 0 10px hsl(var(--tech-primary) / 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .tech-theme .blog-content a:hover {
+    color: hsl(var(--tech-secondary));
+    text-shadow: 0 0 15px hsl(var(--tech-secondary) / 0.5);
+  }
+  
+  .tech-theme .blog-content img {
+    border: 2px solid hsl(var(--tech-primary) / 0.3);
+    box-shadow: 
+      0 0 40px hsl(var(--tech-primary) / 0.2),
+      0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .tech-theme .blog-content img:hover {
+    transform: scale(1.02);
+    box-shadow: 
+      0 0 50px hsl(var(--tech-primary) / 0.4),
+      0 15px 40px rgba(0,0,0,0.4);
+  }
+  
+  .tech-theme .blog-content hr {
+    height: 2px;
+    background: var(--tech-gradient-primary);
+    border: none;
+    border-radius: 1px;
+    box-shadow: 0 0 20px hsl(var(--tech-primary) / 0.3);
+  }
+  
+  /* Tech animations */
+  @keyframes tech-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes tech-glow-pulse {
+    from {
+      text-shadow: 0 0 30px hsl(var(--tech-primary) / 0.5);
+    }
+    to {
+      text-shadow: 0 0 40px hsl(var(--tech-primary) / 0.8), 0 0 60px hsl(var(--tech-secondary) / 0.3);
+    }
+  }
+  
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .tech-theme .blog-content h1,
+    .tech-theme .tech-container {
+      animation: none;
+    }
+    
+    .tech-theme .blog-content img {
+      transition: none;
+    }
+    
+    .tech-theme .blog-content img:hover {
+      transform: none;
+    }
   }
 }
