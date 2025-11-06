@@ -27,7 +27,7 @@ const PaymentSuccess = () => {
       if (!sessionId) return;
       
       try {
-        const response = await fetch(`https://backend-c469.onrender.com/success/stripe/${sessionId}`);
+        const response = await fetch(`https://backend-zd10.onrender.com/success/stripe/${sessionId}`);
         if (response.ok) {
           const data = await response.json();
           setSessionData(data);

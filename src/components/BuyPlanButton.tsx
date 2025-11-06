@@ -31,7 +31,7 @@ const BuyPlanButton = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://backend-c469.onrender.com/create-buy-plan-session", {
+      const response = await fetch("https://backend-zd10.onrender.com/create-buy-plan-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
