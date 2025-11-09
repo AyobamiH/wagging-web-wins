@@ -3,6 +3,9 @@ project_id = "viwxxjnehceedyctevau"
 [functions.create-buy-plan-session]
 verify_jwt = false
 
+[functions.stripe-session-status]
+verify_jwt = false
+
 [functions.blog-sitemap]
 verify_jwt = false
 

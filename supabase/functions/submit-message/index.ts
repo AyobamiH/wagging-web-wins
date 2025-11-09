@@ -1,37 +1,50 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { getCorsHeaders } from "../_shared/cors.ts";
+import { rateLimit } from "../_shared/rateLimit.ts";
+import { contactSchema } from "../_shared/validation.ts";
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-interface MessageData {
-  name: string;
-  email: string;
-  phone?: string;
-  business?: string;
-  services?: string[];
-  postcode?: string;
-  message?: string;
-}
-
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req);
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Rate limiting
+  const allowed = await rateLimit(req, 'submit-message', { tokensPerSecond: 0.2, burstCapacity: 2 });
+  if (!allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again in a minute.' }),
+      { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
-    const messageData: MessageData = await req.json();
-    console.log('Received message data:', messageData);
+    const body = await req.json();
+    
+    // Validate input
+    const validation = contactSchema.safeParse(body);
+    if (!validation.success) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid form data', 
+          details: validation.error.issues.map(i => i.message) 
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const messageData = validation.data;
+    if (import.meta.env?.DEV) console.log('Received message data');
 
     // Send to webhook
-    const webhookUrl = 'https://n8n.srv920835.hstgr.cloud/webhook/messages';
+    const webhookUrl = Deno.env.get('N8N_MESSAGES_WEBHOOK_URL') || 'https://n8n.srv920835.hstgr.cloud/webhook/messages';
     
     const webhookResponse = await fetch(webhookUrl, {
       method: 'POST',
@@ -46,11 +59,11 @@ serve(async (req) => {
     });
 
     if (!webhookResponse.ok) {
-      console.error('Webhook response not ok:', webhookResponse.status, webhookResponse.statusText);
+      console.error('Webhook response not ok:', webhookResponse.status);
       throw new Error(`Webhook failed with status: ${webhookResponse.status}`);
-    } else {
-      console.log('Message sent to webhook successfully');
     }
+    
+    if (import.meta.env?.DEV) console.log('Message sent to webhook successfully');
 
     return new Response(JSON.stringify({ 
       success: true, 

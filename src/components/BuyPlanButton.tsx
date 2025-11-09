@@ -22,7 +22,6 @@ const BuyPlanButton = ({
   const { toast } = useToast();
 
   const handleCheckout = async () => {
-    console.log("Checkout Details:", { planName, planPrice, onboardingFee });
     trackEvent('payment_initiated', {
       plan_name: planName,
       plan_price: planPrice,
@@ -31,30 +30,30 @@ const BuyPlanButton = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://backend-zd10.onrender.com/create-buy-plan-session", {
+      const response = await fetch("https://viwxxjnehceedyctevau.supabase.co/functions/v1/create-buy-plan-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           planName,
-          planPrice: parseFloat(planPrice.toString()), // Ensure numeric value
-          onboardingFee: parseFloat(onboardingFee.toString()), // Ensure numeric value
+          planPrice: parseFloat(planPrice.toString()),
+          onboardingFee: parseFloat(onboardingFee.toString()),
         }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server Error Response:", errorText);
-        throw new Error("Failed to initiate checkout");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to initiate checkout");
       }
 
       const { url } = await response.json();
-      console.log("Redirecting to:", url);
-      window.location.href = url; // Redirect to Stripe Checkout
+      if (!url) throw new Error("No checkout URL returned");
+      
+      window.location.href = url;
     } catch (error) {
       console.error("Checkout error:", error);
       toast({
         title: "Payment Error",
-        description: "Unable to start checkout process. Please try again or contact support.",
+        description: error instanceof Error ? error.message : "Unable to start checkout process. Please try again or contact support.",
         variant: "destructive",
       });
     } finally {

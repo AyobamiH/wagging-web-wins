@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { SupabasePostRepository } from '@/lib/repositories/supabase-adapters';
+import { EnhancedSupabasePostRepository } from '@/lib/repositories/supabase-adapters.enhanced';
 import type { Post } from '@/lib/repositories/types';
 import { Plus, Edit, Trash2, Eye, Loader2 } from 'lucide-react';
 
@@ -16,7 +16,7 @@ const BlogList: React.FC = () => {
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const postRepo = new SupabasePostRepository();
+  const postRepo = new EnhancedSupabasePostRepository();
 
   const loadPosts = async () => {
     try {

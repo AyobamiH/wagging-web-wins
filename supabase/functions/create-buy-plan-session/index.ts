@@ -1,46 +1,50 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { getCorsHeaders } from "../_shared/cors.ts";
+import { rateLimit } from "../_shared/rateLimit.ts";
+import { checkoutSessionSchema } from "../_shared/validation.ts";
 
 serve(async (req) => {
-  // Handle CORS preflight requests
+  const corsHeaders = getCorsHeaders(req);
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  try {
-    console.log('Function started');
+  // Rate limiting
+  const allowed = await rateLimit(req, 'create-buy-plan-session');
+  if (!allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests' }),
+      { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
 
+  try {
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeKey) {
-      console.error('STRIPE_SECRET_KEY is not set');
       throw new Error('STRIPE_SECRET_KEY is not set');
     }
 
-    const { planName, planPrice, onboardingFee } = await req.json();
-    console.log('Request data:', { planName, planPrice, onboardingFee });
-
-    if (!planName || !planPrice) {
-      throw new Error('Missing required fields: planName or planPrice');
+    const body = await req.json();
+    
+    // Validate input
+    const validation = checkoutSessionSchema.safeParse(body);
+    if (!validation.success) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request data', details: validation.error.issues }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2023-10-16",
-    });
+    const { planName, planPrice, onboardingFee = 0, userId } = validation.data;
 
-    const originHeader = req.headers.get('origin');
-    const refererHeader = req.headers.get('referer');
-    const origin = originHeader || (refererHeader ? new URL(refererHeader).origin : undefined) || 'https://0801afb0-329c-472e-8684-c99935d7c2db.lovableproject.com';
-    
-    // Calculate total price (planPrice + onboardingFee)
-    const totalPrice = (parseFloat(planPrice) + (parseFloat(onboardingFee) || 0)) * 100; // Convert to pence
-    
-    // Create checkout session
-    const session = await stripe.checkout.sessions.create({
+    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+
+    const origin = req.headers.get('origin') || 'https://tailwaggingwebdesign.com';
+    const totalPrice = (planPrice + onboardingFee) * 100; // Convert to pence
+
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -50,7 +54,7 @@ serve(async (req) => {
               name: `${planName} Website Package`,
               description: `Professional pet care website - ${planName} package`,
             },
-            unit_amount: totalPrice, // Price in pence
+            unit_amount: totalPrice,
           },
           quantity: 1,
         },
@@ -59,32 +63,31 @@ serve(async (req) => {
       success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/payment-cancel`,
       metadata: {
-        planName: planName,
+        planName,
         planPrice: planPrice.toString(),
-        onboardingFee: (onboardingFee || 0).toString(),
+        onboardingFee: onboardingFee.toString(),
+        userId: userId || '',
       },
-    });
+    };
 
-    console.log('Checkout session created:', session.id);
+    if (userId) {
+      sessionParams.client_reference_id = userId;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+
+    if (import.meta.env?.DEV) console.log('Checkout session created:', session.id);
 
     return new Response(
-      JSON.stringify({ url: session.url }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
+      JSON.stringify({ url: session.url, sessionId: session.id }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in create-buy-plan-session:', error);
     return new Response(
-      JSON.stringify({ 
-        error: error.message || 'An error occurred while creating the checkout session' 
-      }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      }
+      JSON.stringify({ error: error.message || 'Failed to create checkout session' }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }
 });

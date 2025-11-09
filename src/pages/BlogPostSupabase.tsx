@@ -2,16 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { format } from "date-fns";
-import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import FPatternDiagram from "@/components/FPatternDiagram";
-import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
+import { EnhancedSupabasePostRepository } from "@/lib/repositories/supabase-adapters.enhanced";
+import DOMPurify from "dompurify";
 
-const postRepository = new SupabasePostRepository();
+const postRepository = new EnhancedSupabasePostRepository();
 
 export default function BlogPostSupabase() {
   const { slug } = useParams<{ slug: string }>();
@@ -203,7 +204,7 @@ export default function BlogPostSupabase() {
               alt={post.coverAlt || `${post.title} cover image`}
               width={1200}
               height={630}
-              loading="lazy"
+              loading="eager"
               fetchPriority="high"
               decoding="async"
               className="object-cover w-full h-full"
@@ -239,13 +240,14 @@ export default function BlogPostSupabase() {
 
           {isTechTheme ? (
             <div className="tech-container">
-              {/* Check if we need to inject F-Pattern diagram */}
               {htmlContent.includes('F-Pattern Structure') ? (
                 <>
                   <div 
                     className="blog-content"
                     dangerouslySetInnerHTML={{ 
-                      __html: htmlContent.split('<h2>F-Pattern Structure</h2>')[0] + '<h2>F-Pattern Structure</h2>' 
+                      __html: DOMPurify.sanitize(
+                        htmlContent.split('<h2>F-Pattern Structure</h2>')[0] + '<h2>F-Pattern Structure</h2>'
+                      )
                     }}
                   />
                   <FPatternDiagram sections={[
@@ -261,21 +263,23 @@ export default function BlogPostSupabase() {
                   <div 
                     className="blog-content mb-12"
                     dangerouslySetInnerHTML={{ 
-                      __html: htmlContent.split('<h2>F-Pattern Structure</h2>')[1]?.replace(/<ol>.*?<\/ol>/s, '') || ''
+                      __html: DOMPurify.sanitize(
+                        htmlContent.split('<h2>F-Pattern Structure</h2>')[1]?.replace(/<ol>.*?<\/ol>/s, '') || ''
+                      )
                     }}
                   />
                 </>
               ) : (
                 <div 
                   className="blog-content mb-12"
-                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }}
                 />
               )}
             </div>
           ) : (
             <div 
               className="blog-content mb-12"
-              dangerouslySetInnerHTML={{ __html: htmlContent }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }}
             />
           )}
 

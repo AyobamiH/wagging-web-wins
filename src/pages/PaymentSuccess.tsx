@@ -27,18 +27,28 @@ const PaymentSuccess = () => {
       if (!sessionId) return;
       
       try {
-        const response = await fetch(`https://backend-zd10.onrender.com/success/stripe/${sessionId}`);
+        const response = await fetch(
+          `https://viwxxjnehceedyctevau.supabase.co/functions/v1/stripe-session-status?session_id=${sessionId}`
+        );
+        
         if (response.ok) {
           const data = await response.json();
-          setSessionData(data);
-          
-          // Track successful purchase
-          trackPurchaseSuccess({
-            transactionId: data.id,
-            planName: data.planName,
-            amount: data.amountTotal,
+          setSessionData({
+            id: sessionId,
+            paymentStatus: data.status,
+            amountTotal: data.amount,
             currency: data.currency,
-            paymentStatus: data.paymentStatus,
+            planName: data.plan,
+            onboardingFee: '0',
+            firstInstallment: (data.amount / 100).toFixed(2),
+          });
+          
+          trackPurchaseSuccess({
+            transactionId: sessionId,
+            planName: data.plan,
+            amount: data.amount,
+            currency: data.currency,
+            paymentStatus: data.status,
           });
         }
       } catch (error) {
@@ -48,10 +58,7 @@ const PaymentSuccess = () => {
       }
     };
 
-    const timer = setTimeout(() => {
-      fetchSessionData();
-    }, 1500);
-
+    const timer = setTimeout(fetchSessionData, 2000);
     return () => clearTimeout(timer);
   }, [sessionId]);
 

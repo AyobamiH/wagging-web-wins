@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      customers: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string | null
+          stripe_customer_id: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string | null
+          stripe_customer_id: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string | null
+          stripe_customer_id?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       email_updates: {
         Row: {
           created_at: string
@@ -68,6 +98,66 @@ export type Database = {
           postcode?: string | null
           services?: string[] | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount_total: number | null
+          created_at: string | null
+          currency: string | null
+          current_period_end: string | null
+          id: string
+          price_id: string | null
+          raw_event: Json | null
+          session_id: string | null
+          status: string | null
+          stripe_customer_id: string | null
+          subscription_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_total?: number | null
+          created_at?: string | null
+          currency?: string | null
+          current_period_end?: string | null
+          id?: string
+          price_id?: string | null
+          raw_event?: Json | null
+          session_id?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_total?: number | null
+          created_at?: string | null
+          currency?: string | null
+          current_period_end?: string | null
+          id?: string
+          price_id?: string | null
+          raw_event?: Json | null
+          session_id?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      payments_events: {
+        Row: {
+          created_at: string | null
+          event_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string
         }
         Relationships: []
       }
@@ -128,6 +218,24 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          key: string
+          tokens: number
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          tokens: number
+          updated_at?: string
+        }
+        Update: {
+          key?: string
+          tokens?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           id: string
@@ -143,6 +251,45 @@ export type Database = {
           id?: string
           review_count?: Json
           updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          plan: string | null
+          price_id: string | null
+          status: string
+          stripe_subscription_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan?: string | null
+          price_id?: string | null
+          status: string
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan?: string | null
+          price_id?: string | null
+          status?: string
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }

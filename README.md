@@ -58,6 +58,54 @@ npm run dev
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run analyze` - Analyze bundle size (after build)
+
+## Post-Deploy Checklist
+
+### Required Environment Variables (Supabase Secrets)
+Set these in your Supabase dashboard under Settings → Edge Functions:
+
+```bash
+STRIPE_SECRET_KEY=sk_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+SUPABASE_URL=https://...supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+ALLOWED_ORIGINS=https://tailwaggingwebdesign.com,https://www.tailwaggingwebdesign.com
+N8N_MESSAGES_WEBHOOK_URL=https://...
+N8N_EMAIL_UPDATE_WEBHOOK_URL=https://...
+```
+
+### Supabase Auth Security Settings
+Go to Supabase Dashboard → Authentication → Settings:
+
+1. **OTP Expiry**: Set to 15 minutes (recommended)
+2. **Leaked Password Protection**: Enable this feature
+3. **Postgres Version**: Update to latest if available
+
+### Stripe Webhook Configuration
+1. Go to Stripe Dashboard → Developers → Webhooks
+2. Add endpoint: `https://viwxxjnehceedyctevau.supabase.co/functions/v1/stripe-webhook`
+3. Select events:
+   - `checkout.session.completed`
+   - `invoice.payment_succeeded`
+   - `invoice.payment_failed`
+   - `customer.subscription.updated`
+   - `customer.subscription.deleted`
+4. Copy webhook secret to `STRIPE_WEBHOOK_SECRET` env var
+
+### CDN/Hosting Configuration
+For optimal performance, configure your hosting platform:
+
+```nginx
+# Cache static assets immutably
+location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+  add_header Cache-Control "public, max-age=31536000, immutable";
+}
+```
+
+Or for Cloudflare:
+- Set Browser Cache TTL to "Respect Existing Headers"
+- Enable "Auto Minify" for JS, CSS, HTML
 
 ## Project Structure
 

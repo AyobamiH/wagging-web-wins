@@ -1,4 +1,5 @@
 import { FormEvent, useState, useRef } from "react";
+import { z } from "zod";
 import Seo from "@/components/Seo";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,16 @@ import { supabase } from "@/integrations/supabase/client";
 import NorthamptonMap from "@/components/NorthamptonMap";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { trackContactSubmit, trackFAQToggle } from "@/lib/analytics";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100, 'Name too long'),
+  email: z.string().trim().email('Invalid email address').max(255, 'Email too long'),
+  phone: z.string().max(20, 'Phone number too long').optional(),
+  business: z.string().max(100, 'Business name too long').optional(),
+  services: z.array(z.string()).optional(),
+  postcode: z.string().max(20, 'Postcode too long').optional(),
+  message: z.string().max(5000, 'Message too long').optional(),
+});
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,33 +27,47 @@ export default function Contact() {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    const services = formData.getAll('services') as string[];
-    
-    const messageData = {
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string || undefined,
-      business: formData.get('business') as string || undefined,
-      services: services.length > 0 ? services : undefined,
-      postcode: formData.get('postcode') as string || undefined,
-      message: formData.get('message') as string || undefined,
+    const rawData = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string || undefined,
+      business: formData.get("business") as string || undefined,
+      services: formData.getAll("services") as string[],
+      postcode: formData.get("postcode") as string || undefined,
+      message: formData.get("message") as string || undefined,
     };
 
+    // Validate on client side
+    const validation = contactSchema.safeParse(rawData);
+    if (!validation.success) {
+      toast.error("Validation Error", {
+        description: validation.error.issues[0].message,
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    trackContactSubmit('contact', 'contact_page');
+
     try {
-      const { data, error } = await supabase.functions.invoke('submit-message', {
-        body: messageData
+      const { error } = await supabase.functions.invoke("submit-message", {
+        body: validation.data,
       });
 
       if (error) throw error;
 
-      // Track successful form submission
-      trackContactSubmit('contact_page_form', 'contact_page');
-      
-      toast.success("Thanks — we'll reply within one business day.");
-      formRef.current?.reset();
+      toast.success("Message sent!", {
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      if (formRef.current) {
+        formRef.current.reset();
+      }
     } catch (error) {
-      console.error('Error submitting message:', error);
-      toast.error("Something went wrong. Please try again or contact us directly.");
+      console.error("Error submitting form:", error);
+      toast.error("Error", {
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+      });
     } finally {
       setIsSubmitting(false);
     }

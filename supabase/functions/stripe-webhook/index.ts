@@ -46,40 +46,134 @@ serve(async (req) => {
       );
     }
 
-    console.log('Webhook event type:', event.type);
+    if (import.meta.env?.DEV) console.log('Webhook event type:', event.type);
+
+    // Initialize Supabase client with service role key
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Supabase configuration missing');
+      return new Response(
+        JSON.stringify({ error: 'Server configuration error' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Idempotency check
+    const { data: existingEvent } = await supabase
+      .from('payments_events')
+      .select('event_id')
+      .eq('event_id', event.id)
+      .single();
+
+    if (existingEvent) {
+      if (import.meta.env?.DEV) console.log('Event already processed:', event.id);
+      return new Response(
+        JSON.stringify({ received: true, message: 'Already processed' }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Handle the checkout.session.completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
       
-      console.log('Payment successful for session:', session.id);
-      console.log('Customer email:', session.customer_details?.email);
-      console.log('Amount paid:', session.amount_total, session.currency);
-      console.log('Metadata:', session.metadata);
+      if (import.meta.env?.DEV) {
+        console.log('Payment successful for session:', session.id);
+        console.log('Customer email:', session.customer_details?.email);
+        console.log('Amount paid:', session.amount_total, session.currency);
+      }
 
-      // Initialize Supabase client with service role key
-      const supabaseUrl = Deno.env.get('SUPABASE_URL');
-      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+      const userId = session.client_reference_id || session.metadata?.userId;
+      const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+
+      // Fetch subscription if exists
+      let subscription = null;
+      if (session.subscription) {
+        subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+      }
+
+      // Upsert customer
+      if (session.customer && session.customer_details?.email) {
+        await supabase.from('customers').upsert({
+          user_id: userId || null,
+          stripe_customer_id: session.customer as string,
+          email: session.customer_details.email,
+          name: session.customer_details.name || null,
+        }, { onConflict: 'stripe_customer_id' });
+      }
+
+      // Insert payment record
+      await supabase.from('payments').insert({
+        user_id: userId || null,
+        stripe_customer_id: session.customer as string,
+        session_id: session.id,
+        subscription_id: subscription?.id || null,
+        price_id: subscription?.items.data[0]?.price.id || session.metadata?.priceId || null,
+        amount_total: session.amount_total,
+        currency: session.currency,
+        status: session.payment_status || 'paid',
+        current_period_end: subscription?.current_period_end 
+          ? new Date(subscription.current_period_end * 1000).toISOString() 
+          : null,
+        raw_event: event as any,
+      });
+
+      // Upsert subscription if exists
+      if (subscription && userId) {
+        await supabase.from('subscriptions').upsert({
+          user_id: userId,
+          stripe_subscription_id: subscription.id,
+          status: subscription.status,
+          plan: session.metadata?.planName || 'unknown',
+          price_id: subscription.items.data[0]?.price.id,
+          current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+        }, { onConflict: 'stripe_subscription_id' });
+      }
+
+      // TODO: Send confirmation email via Resend
+      // await sendConfirmationEmail(session.customer_details?.email, session);
       
-      if (!supabaseUrl || !supabaseKey) {
-        console.error('Supabase configuration missing');
-        // Don't fail the webhook, just log
-      } else {
-        const supabase = createClient(supabaseUrl, supabaseKey);
+      if (import.meta.env?.DEV) console.log('Fulfillment completed for session:', session.id);
+    }
 
-        // TODO: Implement your fulfillment logic here
-        // Example: Store payment record, send email, grant access, etc.
-        
-        console.log('Fulfillment completed for session:', session.id);
+    // Handle invoice events
+    if (event.type === 'invoice.payment_succeeded' || event.type === 'invoice.payment_failed') {
+      const invoice = event.data.object as any;
+      const status = event.type === 'invoice.payment_succeeded' ? 'paid' : 'failed';
+      
+      await supabase
+        .from('payments')
+        .update({ status })
+        .eq('subscription_id', invoice.subscription);
+    }
+
+    // Handle subscription updates
+    if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
+      const subscription = event.data.object as any;
+      
+      if (event.type === 'customer.subscription.deleted') {
+        await supabase
+          .from('subscriptions')
+          .update({ status: 'canceled' })
+          .eq('stripe_subscription_id', subscription.id);
+      } else {
+        await supabase
+          .from('subscriptions')
+          .update({
+            status: subscription.status,
+            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
       }
     }
 
-    // Handle other event types if needed
-    if (event.type === 'checkout.session.expired') {
-      const session = event.data.object as Stripe.Checkout.Session;
-      console.log('Checkout session expired:', session.id);
-      // TODO: Handle expired sessions if needed
-    }
+    // Record event as processed
+    await supabase.from('payments_events').insert({ event_id: event.id });
 
     // Return 200 to acknowledge receipt
     return new Response(
