@@ -2,15 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { format } from "date-fns";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
-import FPatternDiagram from "@/components/FPatternDiagram";
+import BlogPostLayout from "@/components/blog/BlogPostLayout";
 import { EnhancedSupabasePostRepository } from "@/lib/repositories/supabase-adapters.enhanced";
-import DOMPurify from "dompurify";
 
 const postRepository = new EnhancedSupabasePostRepository();
 
@@ -86,22 +85,6 @@ export default function BlogPostSupabase() {
   }
 
   const readingTime = Math.ceil(post.content.replace(/<[^>]*>/g, '').split(' ').length / 200);
-
-  // Check if this should use the tech theme
-  const isTechTheme = slug === 'pet-care-homepage-f-pattern-conversion-teardown';
-
-  // Handle content - if it's already HTML, use it directly; otherwise convert markdown
-  const isHtml = post.content.trim().startsWith('<');
-  const htmlContent = isHtml ? post.content : post.content
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/> (.*$)/gim, '<blockquote>$1</blockquote>')
-    .replace(/^\* (.*$)/gim, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g, '<br>')}</p>` : '').join('');
 
   return (
     <>
@@ -186,111 +169,24 @@ export default function BlogPostSupabase() {
         ]}
       />
 
-      <div className={`min-h-screen bg-background ${isTechTheme ? 'tech-theme' : ''}`}>
-        <article className="mx-auto max-w-4xl px-4 py-8">
-          <div className="mb-6">
-            <Link 
-              to="/blog" 
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to blog
-            </Link>
-          </div>
-
-          <div className="aspect-video overflow-hidden rounded-2xl mb-8">
-            <img
-              src={post.ogImageUrl || "/og/blog.jpg"}
-              alt={post.coverAlt || `${post.title} cover image`}
-              width={1200}
-              height={630}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="object-cover w-full h-full"
-            />
-          </div>
-
-          <header className="mb-8">
-            <div className="mb-4">
-              <Badge variant="secondary" className="capitalize">
-                {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
-              </Badge>
-            </div>
-            
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-              {post.title}
-            </h1>
-            
-            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-              <time dateTime={post.publishedAt}>
-                {format(new Date(post.publishedAt), 'MMMM d, yyyy')}
-              </time>
-              <span>•</span>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                {readingTime} min read
-              </div>
-            </div>
-
-            <p className="text-lg text-muted-foreground">
-              {post.excerpt}
-            </p>
-          </header>
-
-          {isTechTheme ? (
-            <div className="tech-container">
-              {htmlContent.includes('F-Pattern Structure') ? (
-                <>
-                  <div 
-                    className="blog-content"
-                    dangerouslySetInnerHTML={{ 
-                      __html: DOMPurify.sanitize(
-                        htmlContent.split('<h2>F-Pattern Structure</h2>')[0] + '<h2>F-Pattern Structure</h2>'
-                      )
-                    }}
-                  />
-                  <FPatternDiagram sections={[
-                    "Hero (left-aligned heading, right support image)",
-                    "Service cards (3–6, one-line outcomes)", 
-                    "Social proof (top review + logos)",
-                    "Process (3 steps: Enquire → Confirm → Care)",
-                    "Pricing preview (from-prices + link to full pricing)",
-                    "Credibility row (safety & standards, insurance, training)",
-                    "FAQ (3–5 top objections)",
-                    "Final CTA band (sticky on mobile)"
-                  ]} />
-                  <div 
-                    className="blog-content mb-12"
-                    dangerouslySetInnerHTML={{ 
-                      __html: DOMPurify.sanitize(
-                        htmlContent.split('<h2>F-Pattern Structure</h2>')[1]?.replace(/<ol>.*?<\/ol>/s, '') || ''
-                      )
-                    }}
-                  />
-                </>
-              ) : (
-                <div 
-                  className="blog-content mb-12"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }}
-                />
-              )}
-            </div>
-          ) : (
-            <div 
-              className="blog-content mb-12"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }}
-            />
-          )}
-
-        {/* Calendly Embed after second H2 */}
-        <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border">
+      <BlogPostLayout
+        title={post.title}
+        excerpt={post.excerpt}
+        publishedAt={post.publishedAt}
+        readingTime={readingTime}
+        pillarTag={post.pillarTag}
+        coverImage={post.ogImageUrl || "/og/blog.jpg"}
+        coverAlt={post.coverAlt}
+        content={post.content}
+      >
+        {/* Calendly Embed */}
+        <div className="my-8 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border border-border/50">
           <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2">Get Personalized Help</h3>
+            <h2 className="text-lg font-semibold mb-2">Get Personalized Help</h2>
             <p className="text-muted-foreground mb-4">
-              Ready to implement these strategies? Book a free consultation to discuss your specific needs, or explore our 
-              <Link to="/services" className="text-primary hover:underline mx-1">complete pet-care web design services</Link>
-              for comprehensive solutions.
+              Ready to implement these strategies? Book a free consultation to discuss your specific needs, or explore our{' '}
+              <Link to="/services" className="text-accent hover:underline">complete pet-care web design services</Link>
+              {' '}for comprehensive solutions.
             </p>
             <CalendlyEmbed 
               buttonText="Book Free Consultation"
@@ -301,62 +197,60 @@ export default function BlogPostSupabase() {
           </div>
         </div>
 
+        {/* FAQ Section */}
+        {post.faq && post.faq.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
+            <div className="space-y-4">
+              {post.faq.map((faqItem, index) => (
+                <div key={index} className="border border-border rounded-lg p-6 bg-card/50">
+                  <h3 className="font-semibold mb-2">{faqItem.q}</h3>
+                  <p className="text-muted-foreground">{faqItem.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-          {/* FAQ Section */}
-          {post.faq && post.faq.length > 0 && (
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-              <div className="space-y-4">
-                {post.faq.map((faqItem, index) => (
-                  <div key={index} className="border border-border rounded-lg p-6 bg-card/50">
-                    <h3 className="font-semibold mb-2">{faqItem.q}</h3>
-                    <p className="text-muted-foreground">{faqItem.a}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Related Posts */}
-          {relatedPosts && relatedPosts.length > 0 && (
-            <section className="pt-8 border-t border-border">
-              <h2 className="text-2xl font-semibold mb-6">Related posts</h2>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {relatedPosts.filter(related => related.slug !== post.slug).slice(0, 3).map((relatedPost) => (
-                  <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
-                    <Link to={`/blog/${relatedPost.slug}`}>
-                      <div className="aspect-video overflow-hidden">
-                        <img
-                          src={relatedPost.ogImageUrl || "/og/blog.jpg"}
-                          alt={relatedPost.coverAlt || `${relatedPost.title} cover image`}
-                          width={400}
-                          height={225}
-                          loading="lazy"
-                          decoding="async"
-                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                       <CardHeader>
-                         {relatedPost.pillarTag && (
-                           <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                             {relatedPost.pillarTag.replace('pillar-', 'Category ')}
-                           </Badge>
-                         )}
-                        <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
-                          {relatedPost.title}
-                        </CardTitle>
-                        <p className="text-xs text-muted-foreground">
-                          {format(new Date(relatedPost.publishedAt), 'MMM d, yyyy')}
-                        </p>
-                      </CardHeader>
-                    </Link>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
-        </article>
-      </div>
+        {/* Related Posts */}
+        {relatedPosts && relatedPosts.length > 0 && (
+          <section className="pt-8 border-t border-border">
+            <h2 className="text-2xl font-semibold mb-6">Related posts</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedPosts.filter(related => related.slug !== post.slug).slice(0, 3).map((relatedPost) => (
+                <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                  <Link to={`/blog/${relatedPost.slug}`}>
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={relatedPost.ogImageUrl || "/og/blog.jpg"}
+                        alt={relatedPost.coverAlt || `${relatedPost.title} cover image`}
+                        width={400}
+                        height={225}
+                        loading="lazy"
+                        decoding="async"
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <CardHeader>
+                      {relatedPost.pillarTag && (
+                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
+                          {relatedPost.pillarTag.replace('pillar-', 'Category ')}
+                        </Badge>
+                      )}
+                      <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
+                        {relatedPost.title}
+                      </CardTitle>
+                      <p className="text-xs text-muted-foreground">
+                        {format(new Date(relatedPost.publishedAt), 'MMM d, yyyy')}
+                      </p>
+                    </CardHeader>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+      </BlogPostLayout>
     </>
   );
 }

@@ -208,11 +208,21 @@ const BlogEditor: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="content">Content</Label>
+                  <Label htmlFor="content">Content (Markdown)</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Use Markdown formatting: ## Headings, **bold**, *italic*, bullet lists (- item), links [text](url), etc.
+                  </p>
                   <Textarea
                     id="content"
                     {...register('content')}
-                    placeholder="Write your blog post content here..."
+                    placeholder="## Introduction
+
+Start writing your blog post using Markdown...
+
+- Bullet point
+- Another point
+
+**Bold text** and *italic text* supported."
                     rows={20}
                     className="font-mono text-sm"
                   />
