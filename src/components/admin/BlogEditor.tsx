@@ -10,10 +10,12 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { SupabasePostRepository } from '@/lib/repositories/supabase-adapters';
 import type { Post, PostSeed } from '@/lib/repositories/types';
-import { ArrowLeft, Save, Eye } from 'lucide-react';
+import BlogPostLayout from '@/components/blog/BlogPostLayout';
+import { ArrowLeft, Save, Eye, Edit } from 'lucide-react';
 
 const postSchema = z.object({
   slug: z.string().min(1, 'Slug is required'),
@@ -51,6 +53,7 @@ const BlogEditor: React.FC = () => {
   });
 
   const watchTitle = watch('title');
+  const watchAllFields = watch();
 
   // Auto-generate slug from title
   useEffect(() => {
@@ -164,58 +167,71 @@ const BlogEditor: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Content</CardTitle>
-                <CardDescription>The main content of your blog post</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    {...register('title')}
-                    placeholder="Enter post title"
-                  />
-                  {errors.title && (
-                    <p className="text-sm text-destructive">{errors.title.message}</p>
-                  )}
-                </div>
+            <Tabs defaultValue="edit" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsTrigger value="edit" className="flex items-center gap-2">
+                  <Edit className="h-4 w-4" />
+                  Edit
+                </TabsTrigger>
+                <TabsTrigger value="preview" className="flex items-center gap-2">
+                  <Eye className="h-4 w-4" />
+                  Preview
+                </TabsTrigger>
+              </TabsList>
 
-                <div className="space-y-2">
-                  <Label htmlFor="slug">Slug</Label>
-                  <Input
-                    id="slug"
-                    {...register('slug')}
-                    placeholder="post-url-slug"
-                  />
-                  {errors.slug && (
-                    <p className="text-sm text-destructive">{errors.slug.message}</p>
-                  )}
-                </div>
+              <TabsContent value="edit">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Content</CardTitle>
+                    <CardDescription>The main content of your blog post</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title">Title</Label>
+                      <Input
+                        id="title"
+                        {...register('title')}
+                        placeholder="Enter post title"
+                      />
+                      {errors.title && (
+                        <p className="text-sm text-destructive">{errors.title.message}</p>
+                      )}
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="excerpt">Excerpt</Label>
-                  <Textarea
-                    id="excerpt"
-                    {...register('excerpt')}
-                    placeholder="Brief description of the post"
-                    rows={3}
-                  />
-                  {errors.excerpt && (
-                    <p className="text-sm text-destructive">{errors.excerpt.message}</p>
-                  )}
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="slug">Slug</Label>
+                      <Input
+                        id="slug"
+                        {...register('slug')}
+                        placeholder="post-url-slug"
+                      />
+                      {errors.slug && (
+                        <p className="text-sm text-destructive">{errors.slug.message}</p>
+                      )}
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="content">Content (Markdown)</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Use Markdown formatting: ## Headings, **bold**, *italic*, bullet lists (- item), links [text](url), etc.
-                  </p>
-                  <Textarea
-                    id="content"
-                    {...register('content')}
-                    placeholder="## Introduction
+                    <div className="space-y-2">
+                      <Label htmlFor="excerpt">Excerpt</Label>
+                      <Textarea
+                        id="excerpt"
+                        {...register('excerpt')}
+                        placeholder="Brief description of the post"
+                        rows={3}
+                      />
+                      {errors.excerpt && (
+                        <p className="text-sm text-destructive">{errors.excerpt.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="content">Content (Markdown)</Label>
+                      <p className="text-xs text-muted-foreground">
+                        Use Markdown formatting: ## Headings, **bold**, *italic*, bullet lists (- item), links [text](url), etc.
+                      </p>
+                      <Textarea
+                        id="content"
+                        {...register('content')}
+                        placeholder="## Introduction
 
 Start writing your blog post using Markdown...
 
@@ -223,15 +239,38 @@ Start writing your blog post using Markdown...
 - Another point
 
 **Bold text** and *italic text* supported."
-                    rows={20}
-                    className="font-mono text-sm"
-                  />
-                  {errors.content && (
-                    <p className="text-sm text-destructive">{errors.content.message}</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                        rows={20}
+                        className="font-mono text-sm"
+                      />
+                      {errors.content && (
+                        <p className="text-sm text-destructive">{errors.content.message}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="preview">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Live Preview</CardTitle>
+                    <CardDescription>See how your post will look when published</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <BlogPostLayout
+                      title={watchAllFields.title || 'Untitled Post'}
+                      excerpt={watchAllFields.excerpt || 'No excerpt provided.'}
+                      publishedAt={post?.publishedAt || new Date().toISOString()}
+                      readingTime={Math.ceil((watchAllFields.content || '').split(/\s+/).length / 200)}
+                      pillarTag={watchAllFields.pillarTag}
+                      coverImage={watchAllFields.ogImageUrl}
+                      coverAlt={watchAllFields.coverAlt}
+                      content={watchAllFields.content || '*No content yet...*'}
+                    />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
 
           <div className="space-y-6">
