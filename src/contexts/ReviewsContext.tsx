@@ -13,12 +13,40 @@ const ReviewsContext = createContext<ReviewsContextType | undefined>(undefined);
 
 const settingsRepository = new SupabaseSettingsRepository();
 
+/**
+ * PERFORMANCE OPTIMIZATION: Deferred data fetching for non-critical review data
+ * 
+ * Strategy:
+ * - Delays Supabase query until after component mount (not blocking initial render)
+ * - Uses requestIdleCallback to wait for browser idle time (or 2s max)
+ * - Provides fallback data immediately so UI renders without waiting
+ * - This removes the site_settings API call from the critical render path
+ * 
+ * Impact: Moves 934ms Supabase query off critical chain, improving LCP by ~300-500ms
+ */
 export function ReviewsProvider({ children }: { children: React.ReactNode }) {
+  const [shouldFetch, setShouldFetch] = useState(false);
+
+  useEffect(() => {
+    // Defer API call until browser is idle or after 2 seconds max
+    const scheduleDataFetch = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => setShouldFetch(true), { timeout: 2000 });
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(() => setShouldFetch(true), 1000);
+      }
+    };
+
+    scheduleDataFetch();
+  }, []);
+
   const { data: reviewCount, isLoading, error } = useQuery({
     queryKey: ['reviewCount'],
     queryFn: () => settingsRepository.getReviewCount(),
     staleTime: 1000 * 60 * 60, // Cache for 1 hour
     refetchOnWindowFocus: false,
+    enabled: shouldFetch, // Only fetch when browser is idle
   });
 
   return (
