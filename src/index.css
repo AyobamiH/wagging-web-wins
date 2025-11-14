@@ -97,77 +97,89 @@
     --accent-error: 16 70% 55%;
   }
 
-  /* Dark theme variant */
+  /* 
+   * DARK THEME — NATURE-INSPIRED PALETTE
+   * =====================================
+   * Warm, handcrafted aesthetic inspired by natural pet-care environments.
+   * Deep forest greens, burnt orange CTAs, and moss accents replace generic tech blues.
+   * NO gradient CTAs: all buttons use solid colors for a cleaner, more deliberate look.
+   */
   .dark {
-    --background: 220 49% 8%;
-    --foreground: 210 20% 96%;
+    /* Forest green base — calming, natural foundation */
+    --background: 145 20% 6%;
+    --foreground: 60 20% 90%;
 
-    --card: 220 49% 10%;
-    --card-foreground: 210 20% 96%;
+    /* Olive-toned cards — earthy panels */
+    --card: 120 10% 12%;
+    --card-foreground: 60 20% 90%;
 
-    --popover: 220 49% 10%;
-    --popover-foreground: 210 20% 96%;
+    --popover: 120 10% 12%;
+    --popover-foreground: 60 20% 90%;
 
-    /* Brand & accents */
-    --primary: 213 94% 66%;
-    --primary-foreground: 0 0% 100%;
+    /* Burnt orange primary — warm, inviting CTAs (NO gradients) */
+    --primary: 29 70% 50%;
+    --primary-foreground: 60 20% 96%;
 
-    --secondary: 220 13% 18%;
-    --secondary-foreground: 210 20% 96%;
+    /* Muted olive secondary */
+    --secondary: 120 8% 18%;
+    --secondary-foreground: 60 20% 90%;
 
-    --muted: 220 8% 22%;
-    --muted-foreground: 215 13% 65%;
+    --muted: 120 8% 20%;
+    --muted-foreground: 60 15% 65%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* Moss green accent — natural complement to orange */
+    --accent: 95 25% 45%;
+    --accent-foreground: 60 20% 96%;
 
-    --destructive: 350 88% 63%;
-    --destructive-foreground: 210 20% 96%;
+    /* Destructive in warm coral */
+    --destructive: 16 70% 55%;
+    --destructive-foreground: 60 20% 96%;
 
-    --border: 220 14% 20%;
-    --input: 220 14% 20%;
-    --ring: 258 92% 75%;
+    /* Subtle borders and inputs */
+    --border: 120 10% 20%;
+    --input: 120 10% 20%;
+    --ring: 29 70% 50%;
 
     --radius: 1rem;
 
-    /* Sidebar */
-    --sidebar-background: 220 49% 8%;
-    --sidebar-foreground: 210 20% 96%;
-    --sidebar-primary: 213 94% 66%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 13% 18%;
-    --sidebar-accent-foreground: 210 20% 96%;
-    --sidebar-border: 220 14% 20%;
-    --sidebar-ring: 258 92% 75%;
+    /* Sidebar inherits nature palette */
+    --sidebar-background: 145 20% 6%;
+    --sidebar-foreground: 60 20% 90%;
+    --sidebar-primary: 29 70% 50%;
+    --sidebar-primary-foreground: 60 20% 96%;
+    --sidebar-accent: 120 8% 18%;
+    --sidebar-accent-foreground: 60 20% 90%;
+    --sidebar-border: 120 10% 20%;
+    --sidebar-ring: 29 70% 50%;
 
-    /* Nebula Night extras */
-    --brand-gradient-from: 258 90% 66%;
-    --brand-gradient-to: 217 91% 60%;
-    --brand-gradient-from-hover: 262 83% 58%;
-    --brand-gradient-to-hover: 221 83% 56%;
+    /* Gradient variables (for hero backgrounds/cards ONLY, never CTAs) */
+    --brand-gradient-from: 29 70% 50%;
+    --brand-gradient-to: 95 25% 45%;
+    --brand-gradient-from-hover: 29 70% 45%;
+    --brand-gradient-to-hover: 95 25% 40%;
 
-    --bg-page: 220 49% 8%;
-    --glass: 220 39% 11% / 0.72;
-    --glass-hover: 220 39% 11% / 0.82;
-    --surface-border: 0 0% 100% / 0.08;
-    --surface-inner: 0 0% 100% / 0.04;
+    --bg-page: 145 20% 6%;
+    --glass: 120 10% 12% / 0.72;
+    --glass-hover: 120 10% 12% / 0.85;
+    --surface-border: 60 20% 90% / 0.08;
+    --surface-inner: 60 20% 90% / 0.04;
 
     --gradient-primary: linear-gradient(90deg, hsl(var(--brand-gradient-from)), hsl(var(--brand-gradient-to)));
     --gradient-primary-hover: linear-gradient(90deg, hsl(var(--brand-gradient-from-hover)), hsl(var(--brand-gradient-to-hover)));
 
-    /* Subtle nebula overlay for dark mode */
-    --bg-nebula: radial-gradient(1200px 600px at 10% -10%, hsl(258 90% 30% / 0.35), transparent 60%),
-      radial-gradient(1000px 500px at 110% 0%, hsl(217 91% 40% / 0.28), transparent 60%);
+    /* Warm earthy nebula overlay */
+    --bg-nebula: radial-gradient(1200px 600px at 10% -10%, hsl(29 70% 20% / 0.25), transparent 60%),
+      radial-gradient(1000px 500px at 110% 0%, hsl(95 25% 25% / 0.20), transparent 60%);
 
-    /* Shadows & motion */
-    --shadow-glow: 0 10px 30px -10px hsl(258 92% 75% / 0.25), 0 0 40px hsl(217 91% 60% / 0.20);
+    /* Warm glow shadows */
+    --shadow-glow: 0 10px 30px -10px hsl(29 70% 50% / 0.25), 0 0 40px hsl(95 25% 45% / 0.18);
     --transition-smooth: all 0.18s ease-out;
 
-    /* Accent aliases for Tailwind tokens */
-    --accent-info: 213 94% 66%;
+    /* Accent aliases */
+    --accent-info: 95 25% 45%;
     --accent-success: 142 72% 47%;
     --accent-warn: 36 93% 51%;
-    --accent-error: 350 88% 63%;
+    --accent-error: 16 70% 55%;
   }
 }
 
