@@ -7,6 +7,27 @@
  * ============================
  * All colors MUST be HSL format for consistency and theming.
  * 
+ * THEME CONSISTENCY UPDATES (Nov 2025):
+ * ======================================
+ * This project uses a dual-theme system with completely distinct color palettes:
+ * 
+ * 1. LIGHT MODE (Warm & Friendly):
+ *    - Cream backgrounds with warm amber/orange primary
+ *    - Teal secondary accent for balance
+ *    - No overlap with dark mode's forest/burnt orange palette
+ * 
+ * 2. DARK MODE (Nature-Inspired):
+ *    - Forest green backgrounds with burnt orange CTAs
+ *    - Moss green accents for secondary elements
+ *    - NO GRADIENTS on CTA buttons (solid colors only)
+ * 
+ * RECENT FIXES:
+ * - Navigation: Removed hardcoded blue borders/shadows, now uses semantic tokens
+ * - Theme Toggle: Removed yellow highlights, uses accent colors from palette
+ * - Why Do Dogs page: Replaced blue/purple gradients with semantic variables
+ * - All CTAs: Removed gradient backgrounds, now use solid --primary color
+ * - RedFlagCallout: Updated to use --destructive semantic color
+ * 
  * LIGHT MODE PALETTE (Warm & Friendly):
  * - Warm cream backgrounds (40 10% 98%) with subtle orange/peach undertones
  * - Charcoal text (222 12% 15%) for strong readability
@@ -16,8 +37,8 @@
  * - Brand gradient: Orange → Teal (creates warm-to-cool visual interest)
  * - No color overlap with dark mode's blue/purple palette
  * 
- * DARK MODE PALETTE (Unchanged):
- * - Retains existing navy blues, purples, and cool tones
+ * DARK MODE PALETTE (Nature-Inspired):
+ * - Forest green base with burnt orange CTAs (NO gradients)
  * - See .dark class below for full specifications
  * 
  * CONTRAST: All combinations meet WCAG AA standards (4.5:1 for text, 3:1 for UI)
