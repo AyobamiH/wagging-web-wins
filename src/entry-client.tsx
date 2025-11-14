@@ -21,9 +21,11 @@ ReactDOM.hydrateRoot(
   rootElement,
   <React.StrictMode>
     <HelmetProvider>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
+      <BrowserRouter>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>
 );
