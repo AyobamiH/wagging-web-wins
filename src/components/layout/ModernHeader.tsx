@@ -94,8 +94,8 @@ export default function ModernHeader() {
                         to={item.to}
                         className={({ isActive }) =>
                           cn(
-                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent/80 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
-                            isActive ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"
+                            "inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                            isActive ? "text-primary font-semibold" : "text-foreground/90 hover:text-foreground"
                           )
                         }
                       >
@@ -106,7 +106,7 @@ export default function ModernHeader() {
                 ))}
                 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-foreground/80 hover:text-foreground font-medium">
+                  <NavigationMenuTrigger className="text-foreground/90 hover:text-foreground hover:bg-muted font-medium">
                     More
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -117,8 +117,8 @@ export default function ModernHeader() {
                             to={item.to}
                             className={({ isActive }) =>
                               cn(
-                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                                isActive ? "text-primary bg-accent/50" : "text-muted-foreground"
+                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground",
+                                isActive ? "text-primary bg-muted font-semibold" : "text-foreground/80"
                               )
                             }
                           >
@@ -200,8 +200,8 @@ export default function ModernHeader() {
                               cn(
                                 "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
-                                  ? "text-primary bg-primary/20 shadow-sm"
-                                  : "text-foreground/80 hover:text-foreground hover:bg-accent/80 hover:shadow-sm"
+                                  ? "text-primary bg-muted font-semibold shadow-sm"
+                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm"
                               )
                             }
                           >
@@ -223,8 +223,8 @@ export default function ModernHeader() {
                               cn(
                                 "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
-                                  ? "text-primary bg-primary/20 shadow-sm"
-                                  : "text-foreground/80 hover:text-foreground hover:bg-accent/80 hover:shadow-sm"
+                                  ? "text-primary bg-muted font-semibold shadow-sm"
+                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm"
                               )
                             }
                           >
