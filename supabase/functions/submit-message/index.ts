@@ -4,6 +4,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { getCorsHeaders } from "../_shared/cors.ts";
 import { rateLimit } from "../_shared/rateLimit.ts";
 import { contactSchema } from "../_shared/validation.ts";
+import { generateSignature } from "../_shared/webhookSignature.ts";
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
@@ -26,6 +27,15 @@ serve(async (req) => {
   }
 
   try {
+    // SECURITY: Check payload size to prevent DoS attacks
+    const contentLength = parseInt(req.headers.get('content-length') || '0');
+    if (contentLength > 10000) {
+      return new Response(
+        JSON.stringify({ error: 'Payload too large' }),
+        { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const body = await req.json();
     
     // Validate input
@@ -43,19 +53,40 @@ serve(async (req) => {
     const messageData = validation.data;
     if (import.meta.env?.DEV) console.log('Received message data');
 
-    // Send to webhook
-    const webhookUrl = Deno.env.get('N8N_MESSAGES_WEBHOOK_URL') || 'https://n8n.srv920835.hstgr.cloud/webhook/messages';
+    // SECURITY: Send to webhook with signature verification
+    const webhookUrl = Deno.env.get('N8N_MESSAGES_WEBHOOK_URL');
+    const webhookSecret = Deno.env.get('N8N_WEBHOOK_SECRET');
+    
+    if (!webhookUrl) {
+      console.error('N8N_MESSAGES_WEBHOOK_URL not configured');
+      throw new Error('Webhook configuration missing');
+    }
+
+    const payload = JSON.stringify({
+      ...messageData,
+      timestamp: new Date().toISOString(),
+      source: 'contact_form'
+    });
+
+    // Generate HMAC signature for webhook security
+    const signature = webhookSecret 
+      ? await generateSignature(payload, webhookSecret)
+      : undefined;
+    
+    const webhookHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (signature) {
+      webhookHeaders['X-Webhook-Signature'] = signature;
+    } else {
+      console.warn('N8N_WEBHOOK_SECRET not set - webhook signature disabled');
+    }
     
     const webhookResponse = await fetch(webhookUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...messageData,
-        timestamp: new Date().toISOString(),
-        source: 'contact_form'
-      }),
+      headers: webhookHeaders,
+      body: payload,
     });
 
     if (!webhookResponse.ok) {

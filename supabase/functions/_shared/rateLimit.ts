@@ -61,8 +61,9 @@ export async function rateLimit(
 
     return true;
   } catch (error) {
-    if (import.meta.env?.DEV) console.error('Rate limit error:', error);
-    // Fail open (allow request) if rate limiting has issues
-    return true;
+    console.error('Rate limit error:', error);
+    // SECURITY: Fail closed (deny request) if rate limiting has issues
+    // This prevents abuse during system failures or attacks on the rate limit system
+    return false;
   }
 }

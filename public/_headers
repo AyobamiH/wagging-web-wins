@@ -1,17 +1,36 @@
 /**
  * PERFORMANCE OPTIMIZATION: Static Asset Caching Strategy
+ * SECURITY HARDENING: Security headers applied site-wide
  * 
  * Goals:
  * - Maximize cache lifetimes for versioned static assets (JS, CSS, images)
  * - Keep HTML documents fresh with short cache (enables quick updates)
  * - Reduce repeat load time by ~242 KiB (per PageSpeed Insights)
+ * - Apply defense-in-depth security headers to prevent common attacks
  * 
  * Strategy:
  * - Vite-generated assets (hashed filenames) → 1 year immutable cache
  * - Static images/fonts → 1 month cache with validation
  * - HTML → No cache (always fetch fresh for SPA routing)
  * - Service workers → No cache (must stay current)
+ * 
+ * Security hardening completed: 2025-01-14
+ * - XSS sanitisation in blog rendering
+ * - RLS policies updated for sensitive tables
+ * - Webhook signature verification implemented
+ * - Security headers applied (CSP, HSTS, X-Frame-Options, etc.)
+ * - Rate limiting configured to fail-closed
+ * - Audit logging infrastructure in place
  */
+
+# Global security headers for all routes
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://assets.calendly.com https://*.stripe.com https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.stripe.com https://assets.calendly.com; frame-src https://calendly.com https://assets.calendly.com https://*.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self';
 
 # Vite-generated JS bundles (hashed filenames: index-*.js, vendor-*.js, etc.)
 /assets/*.js
