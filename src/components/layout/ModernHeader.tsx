@@ -5,6 +5,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import CalendlyEmbed from "../CalendlyEmbed";
+import { ThemeToggle } from "../ThemeToggle";
 import { cn } from "@/lib/utils";
 
 export default function ModernHeader() {
@@ -131,11 +132,14 @@ export default function ModernHeader() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <CalendlyEmbed
-              buttonText="Book a Call"
-              buttonSize="sm"
-              className="bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"
-            />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <CalendlyEmbed
+                buttonText="Book a Call"
+                buttonSize="sm"
+                className="bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"
+              />
+            </div>
           </div>
 
           {/* Mobile Menu */}
@@ -231,7 +235,10 @@ export default function ModernHeader() {
                     </div>
                   </nav>
 
-                  <div className="pt-4 mt-2 border-t border-primary/20">
+                  <div className="pt-4 mt-2 border-t border-primary/20 space-y-3">
+                    <div className="px-3">
+                      <ThemeToggle />
+                    </div>
                     <CalendlyEmbed
                       buttonText="Book a Call"
                       className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"

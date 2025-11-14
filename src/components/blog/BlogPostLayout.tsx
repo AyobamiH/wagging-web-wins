@@ -5,6 +5,7 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import DOMPurify from "dompurify";
 
 interface BlogPostLayoutProps {
   title: string;
@@ -116,8 +117,8 @@ export default function BlogPostLayout({
           prose-img:rounded-lg prose-img:shadow-md
         ">
           {isHtml ? (
-            // Render HTML for backwards compatibility (old posts)
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            // Render HTML for backwards compatibility (old posts) - SANITIZED for security
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
           ) : (
             // Render Markdown for new posts
             <ReactMarkdown remarkPlugins={[remarkGfm]}>

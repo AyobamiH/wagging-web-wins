@@ -8,7 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Nebula Night — default dark theme */
+    /* Nebula Night — light theme as default per KB */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Brand & accents */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 33%;
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 91% 60%;
+
+    --radius: 1rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 217 91% 60%;
+
+    /* Nebula Night extras */
+    --brand-gradient-from: 258 90% 66%;
+    --brand-gradient-to: 217 91% 60%;
+    --brand-gradient-from-hover: 262 83% 58%;
+    --brand-gradient-to-hover: 221 83% 56%;
+
+    --bg-page: 0 0% 100%;
+    --glass: 255 255 255 / 0.72;
+    --glass-hover: 255 255 255 / 0.82;
+    --surface-border: 0 0% 0% / 0.08;
+    --surface-inner: 0 0% 0% / 0.04;
+
+    --gradient-primary: linear-gradient(90deg, hsl(var(--brand-gradient-from)), hsl(var(--brand-gradient-to)));
+    --gradient-primary-hover: linear-gradient(90deg, hsl(var(--brand-gradient-from-hover)), hsl(var(--brand-gradient-to-hover)));
+
+    /* Subtle nebula overlay for light mode */
+    --bg-nebula: radial-gradient(1200px 600px at 10% -10%, hsl(258 90% 85% / 0.25), transparent 60%),
+      radial-gradient(1000px 500px at 110% 0%, hsl(217 91% 85% / 0.18), transparent 60%);
+
+    /* Shadows & motion */
+    --shadow-glow: 0 10px 30px -10px hsl(258 92% 75% / 0.25), 0 0 40px hsl(217 91% 60% / 0.20);
+    --transition-smooth: all 0.18s ease-out;
+
+    /* Accent aliases for Tailwind tokens */
+    --accent-info: 213 94% 66%;
+    --accent-success: 142 72% 47%;
+    --accent-warn: 36 93% 51%;
+    --accent-error: 350 88% 63%;
+  }
+
+  /* Dark theme variant */
+  .dark {
     --background: 220 49% 8%;
     --foreground: 210 20% 96%;
 
@@ -19,7 +92,7 @@ All colors MUST be HSL.
     --popover-foreground: 210 20% 96%;
 
     /* Brand & accents */
-    --primary: 213 94% 66%; /* info accent used for icon highlights */
+    --primary: 213 94% 66%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 13% 18%;
@@ -57,7 +130,7 @@ All colors MUST be HSL.
     --brand-gradient-to-hover: 221 83% 56%;
 
     --bg-page: 220 49% 8%;
-    --glass: 220 39% 11% / 0.72; /* #111827 @ 72% */
+    --glass: 220 39% 11% / 0.72;
     --glass-hover: 220 39% 11% / 0.82;
     --surface-border: 0 0% 100% / 0.08;
     --surface-inner: 0 0% 100% / 0.04;
@@ -65,7 +138,7 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(90deg, hsl(var(--brand-gradient-from)), hsl(var(--brand-gradient-to)));
     --gradient-primary-hover: linear-gradient(90deg, hsl(var(--brand-gradient-from-hover)), hsl(var(--brand-gradient-to-hover)));
 
-    /* Subtle nebula overlay */
+    /* Subtle nebula overlay for dark mode */
     --bg-nebula: radial-gradient(1200px 600px at 10% -10%, hsl(258 90% 30% / 0.35), transparent 60%),
       radial-gradient(1000px 500px at 110% 0%, hsl(217 91% 40% / 0.28), transparent 60%);
 
@@ -78,39 +151,6 @@ All colors MUST be HSL.
     --accent-success: 142 72% 47%;
     --accent-warn: 36 93% 51%;
     --accent-error: 350 88% 63%;
-  }
-
-  /* Minimal light fallback */
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 33%;
-
-    --accent: 217 91% 60%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 60%;
-
-    --radius: 1rem;
   }
 }
 
