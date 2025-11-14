@@ -1,7 +1,12 @@
-import { useEffect } from "react";
+/**
+ * SEO Component using react-helmet-async for SSR compatibility
+ * 
+ * This component handles all meta tags, Open Graph, Twitter Cards, and JSON-LD
+ * structured data. It works with both server-side rendering (prerendering) and
+ * client-side SPA navigation.
+ */
+import { Helmet } from "react-helmet-async";
 import pawprintOg from "@/assets/pawprint-og.png";
-import pawprintSquare from "@/assets/pawprint-square.png";
-
 
 const CANONICAL_ORIGIN = "https://tailwaggingwebdesign.com";
 export type Breadcrumb = { name: string; item: string };
@@ -9,12 +14,12 @@ export type Breadcrumb = { name: string; item: string };
 interface SeoProps {
   title: string;
   description: string;
-  path: string; // canonical path e.g. "/services"
+  path: string;
   imageUrl?: string;
   imageAlt?: string;
   type?: "website" | "article";
   breadcrumbs?: Breadcrumb[];
-  jsonLd?: any[]; // additional page-specific JSON-LD blocks
+  jsonLd?: any[];
   keywords?: string[];
   price?: string;
   availability?: string;
@@ -37,7 +42,7 @@ const BRAND = {
   ],
 };
 
-export function Seo({
+function Seo({
   title,
   description,
   path,
@@ -53,277 +58,140 @@ export function Seo({
   canonicalOverride,
   hreflang = []
 }: SeoProps) {
-  useEffect(() => {
-    // Safety: make sure path begins with "/" so we don’t end up with double/missing slashes
-    const safePath = path.startsWith("/") ? path : `/${path}`;
-    const canonical = origin + safePath;
-    const img = imageUrl || pawprintOg;
+  const safePath = path.startsWith("/") ? path : `/${path}`;
+  const canonical = canonicalOverride || `${CANONICAL_ORIGIN}${safePath}`;
+  const img = imageUrl || pawprintOg;
+  const robotsContent = noIndex
+    ? "noindex, follow"
+    : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
-    document.title = title;
-
-    const ensureMeta = (selector: string, attrs: Record<string, string>) => {
-      let el = document.head.querySelector(selector) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement("meta");
-        Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
-        document.head.appendChild(el!);
-      } else {
-        Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
-      }
-      return el;
-    };
-
-    // Basic metas
-    ensureMeta('meta[name="description"]', { name: "description", content: description });
-    ensureMeta('meta[name="viewport"]', { name: "viewport", content: "width=device-width, initial-scale=1" });
-    
-    // Set robots meta (noindex if specified, otherwise default)
-   
-    // in Seo.tsx, inside useEffect where robotsContent is set
-const robotsContent = noIndex
-  ? "noindex, follow"
-  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
-    ensureMeta('meta[name="robots"]', { name: "robots", content: robotsContent });
-    
-    // Keywords if provided
-    if (keywords.length > 0) {
-      ensureMeta('meta[name="keywords"]', { name: "keywords", content: keywords.join(", ") });
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": BRAND.name,
+    "url": CANONICAL_ORIGIN,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${CANONICAL_ORIGIN}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
     }
+  };
 
-    // Open Graph
-    ensureMeta('meta[property="og:title"]', { property: "og:title", content: title });
-    ensureMeta('meta[property="og:description"]', { property: "og:description", content: description });
-    ensureMeta('meta[property="og:type"]', { property: "og:type", content: type });
-    ensureMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
-    ensureMeta('meta[property="og:image"]', { property: "og:image", content: img });
-    ensureMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1200" });
-    ensureMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "630" });
-    ensureMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: imageAlt || "Tail Wagging Websites - Pet Care Web Design" });
-    ensureMeta('meta[property="og:site_name"]', { property: "og:site_name", content: BRAND.name });
-    ensureMeta('meta[property="og:locale"]', { property: "og:locale", content: "en_GB" });
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": BRAND.name,
+    "url": CANONICAL_ORIGIN,
+    "logo": `${CANONICAL_ORIGIN}${pawprintOg}`,
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": BRAND.phone,
+      "contactType": "customer service",
+      "areaServed": BRAND.countryCode,
+      "availableLanguage": "English"
+    },
+    "sameAs": BRAND.sameAs
+  };
 
-    // Twitter
-    ensureMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
-    ensureMeta('meta[name="twitter:title"]', { name: "twitter:title", content: title });
-    ensureMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
-    ensureMeta('meta[name="twitter:image"]', { name: "twitter:image", content: img });
-    ensureMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: imageAlt || "Tail Wagging Websites - Pet Care Web Design" });
-    
-    // Additional SEO meta tags
-    ensureMeta('meta[name="author"]', { name: "author", content: "Ayobami Haastrup" });
-    ensureMeta('meta[name="theme-color"]', { name: "theme-color", content: "#2563eb" });
-    ensureMeta('meta[name="msapplication-TileColor"]', { name: "msapplication-TileColor", content: "#2563eb" });
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": BRAND.name,
+    "image": `${CANONICAL_ORIGIN}${pawprintOg}`,
+    "@id": CANONICAL_ORIGIN,
+    "url": CANONICAL_ORIGIN,
+    "telephone": BRAND.phone,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": BRAND.locality,
+      "addressCountry": BRAND.countryName
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.2405,
+      "longitude": -0.9027
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    },
+    "sameAs": BRAND.sameAs,
+    "priceRange": "££"
+  };
 
-    // Canonical (use override if provided, otherwise construct from origin + path)
-    const finalCanonical = canonicalOverride || canonical;
-    let link = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "canonical";
-      document.head.appendChild(link);
-    }
-    link.href = finalCanonical;
+  const breadcrumbSchema = breadcrumbs ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": crumb.name,
+      "item": `${CANONICAL_ORIGIN}${crumb.item}`
+    }))
+  } : null;
 
-    // Hreflang tags if provided
-    if (hreflang.length > 0) {
-      // Remove existing hreflang links
-      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => link.remove());
+  const allSchemas = [
+    websiteSchema,
+    organizationSchema,
+    localBusinessSchema,
+    breadcrumbSchema,
+    ...jsonLd
+  ].filter(Boolean);
+
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content={robotsContent} />
       
-      // Add new hreflang links
-      hreflang.forEach(({ lang, href }) => {
-        const hreflangLink = document.createElement("link");
-        hreflangLink.rel = "alternate";
-        hreflangLink.hreflang = lang;
-        hreflangLink.href = href;
-        document.head.appendChild(hreflangLink);
-      });
-    }
+      {keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(", ")} />
+      )}
 
-    // JSON-LD: Enhanced schema with professional services
-    const baseJsonLd: any[] = [
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: BRAND.name,
-        url: origin,
-        description: "Professional web design and digital marketing services for pet care businesses in Northampton",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `${origin}/tools?search={search_term_string}`
-          },
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        name: BRAND.name,
-        url: origin,
-        logo: {
-          "@type": "ImageObject",
-          url: pawprintSquare,
-          width: 512,
-          height: 512
-        },
-        image: pawprintOg,
-        telephone: BRAND.phone,
-        areaServed: [
-          { "@type": "City", name: "Northampton" },
-          { "@type": "City", name: "Kettering" },
-          { "@type": "City", name: "Wellingborough" },
-          { "@type": "City", name: "Daventry" },
-          { "@type": "Country", name: BRAND.countryName }
-        ],
-        sameAs: BRAND.sameAs,
-        knowsAbout: [
-          "Pet Care Website Design",
-          "Local SEO for Pet Businesses",
-          "Mobile-First Web Development",
-          "Pet Business Automation",
-          "Google Business Profile Optimization",
-          "Conversion Rate Optimization",
-          "E-commerce for Pet Stores",
-          "Booking System Integration"
-        ],
-        serviceType: [
-          "Website Design",
-          "Search Engine Optimization",
-          "Digital Marketing",
-          "Business Automation",
-          "Web Development",
-          "UX/UI Design",
-          "Content Management"
-        ],
-        foundingDate: "2023",
-        founder: {
-          "@type": "Person",
-          name: "Ayobami Haastrup",
-          jobTitle: "Web Designer & Digital Marketing Specialist"
-        },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "5.0",
-          reviewCount: "50"
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": `${origin}/#localbusiness`,
-        name: BRAND.name,
-        url: origin,
-        telephone: BRAND.phone,
-        priceRange: "££-£££",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: BRAND.locality,
-          addressCountry: BRAND.countryCode,
-        },
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: "52.2405",
-          longitude: "-0.9027"
-        },
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            opens: "09:00",
-            closes: "17:00"
-          }
-        ],
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: "Pet Care Web Services",
-          itemListElement: [
-            {
-              "@type": "Offer",
-              "@id": `${origin}/services/website-design`,
-              name: "Website Design for Pet Care Businesses",
-              description: "Mobile-first website design specifically for dog walkers, groomers, pet sitters and trainers",
-              url: `${origin}/services/website-design`,
-              category: "Web Design",
-              ...(price && { price: price }),
-              ...(availability && { availability: availability }),
-              eligibleRegion: {
-                "@type": "Country",
-                name: "United Kingdom"
-              }
-            },
-            {
-              "@type": "Offer", 
-              "@id": `${origin}/services/local-seo`,
-              name: "Local SEO for Pet Services",
-              description: "Local search optimization to help pet care businesses be found by nearby customers",
-              url: `${origin}/services/local-seo`,
-              category: "SEO Services"
-            },
-            {
-              "@type": "Offer",
-              "@id": `${origin}/services/automations`,
-              name: "Pet Business Automation",
-              description: "Automated workflows for booking confirmations, reminders, and customer communication",
-              url: `${origin}/services/automations`,
-              category: "Business Automation"
-            }
-          ]
-        }
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: "Pet Care Website Design & Digital Marketing",
-        provider: {
-          "@type": "Organization",
-          name: BRAND.name
-        },
-        areaServed: [
-          { "@type": "City", name: "Northampton" },
-          { "@type": "City", name: "Kettering" },
-          { "@type": "City", name: "Wellingborough" },
-          { "@type": "City", name: "Daventry" }
-        ],
-        audience: {
-          "@type": "Audience",
-          audienceType: "Pet Care Business Owners"
-        },
-        category: "Web Design and Digital Marketing"
-      },
-    ];
+      <link rel="canonical" href={canonical} />
 
-    // Breadcrumbs if provided
-    const breadcrumbJson = breadcrumbs && breadcrumbs.length > 0
-      ? [{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: breadcrumbs.map((b, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            name: b.name,
-            item: origin + b.item,
-          })),
-        }]
-      : [];
+      {hreflang.map((lang) => (
+        <link key={lang.lang} rel="alternate" hrefLang={lang.lang} href={lang.href} />
+      ))}
 
-    const allJson = [...baseJsonLd, ...breadcrumbJson, ...jsonLd];
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={canonical} />
+      <meta property="og:image" content={img} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={imageAlt || "Tail Wagging Websites - Pet Care Web Design"} />
+      <meta property="og:site_name" content={BRAND.name} />
+      <meta property="og:locale" content="en_GB" />
 
-    // Remove previous JSON-LD (ours)
-    document.querySelectorAll('script[data-managed="jsonld"]').forEach((n) => n.remove());
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={img} />
+      <meta name="twitter:image:alt" content={imageAlt || "Tail Wagging Websites - Pet Care Web Design"} />
 
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.setAttribute("data-managed", "jsonld");
-    script.text = JSON.stringify(allJson);
-    document.head.appendChild(script);
+      {price && (
+        <>
+          <meta property="product:price:amount" content={price} />
+          <meta property="product:price:currency" content="GBP" />
+        </>
+      )}
+      {availability && (
+        <meta property="product:availability" content={availability} />
+      )}
 
-    return () => {
-      // Optional cleanup on unmount
-    };
-  }, [title, description, path, imageUrl, imageAlt, type, JSON.stringify(breadcrumbs), JSON.stringify(jsonLd), JSON.stringify(keywords), price, availability, noIndex, canonicalOverride, JSON.stringify(hreflang)]);
-
-  return null;
+      {allSchemas.map((schema, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
+    </Helmet>
+  );
 }
 
+export { Seo };
 export default Seo;

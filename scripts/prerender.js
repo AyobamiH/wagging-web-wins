@@ -15,10 +15,22 @@ const template = fs.readFileSync(toAbsolute("../dist/index.html"), "utf-8");
 // Import the server entry (built by Vite)
 const { render } = await import("../dist-ssr/entry-server.js");
 
-// Define routes to pre-render
+/**
+ * Routes to pre-render
+ * 
+ * To add a new route to the pre-render list:
+ * 1. Add the route path to this array
+ * 2. Ensure the route exists in your React Router configuration
+ * 3. Make sure the route's component uses the Seo component with proper props
+ * 4. Run: npm run build:client && npm run build:server && npm run prerender
+ */
 const routes = [
   "/",
   "/services",
+  "/pricing",
+  "/contact",
+  "/faq",
+  "/tools",
   "/service-areas",
   "/service-areas/northampton",
   "/service-areas/wellingborough",
@@ -29,10 +41,6 @@ const routes = [
   "/service-areas/corby",
   "/service-areas/milton-keynes",
   "/service-areas/banbury",
-  "/pricing",
-  "/contact",
-  "/faq",
-  "/tools",
   "/why-do-dogs",
   "/blog",
 ];
