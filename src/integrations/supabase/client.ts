@@ -2,6 +2,13 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
+// SECURITY NOTE: These values are PUBLIC and safe to expose in the client bundle.
+// - SUPABASE_URL: Public project URL
+// - SUPABASE_PUBLISHABLE_KEY: Public anon key (protected by Row Level Security)
+// 
+// Private secrets (service role key, Stripe keys, etc.) are stored in:
+// - Supabase Edge Function secrets (accessed via Deno.env.get())
+// - NEVER in frontend code or committed to git
 const SUPABASE_URL = "https://viwxxjnehceedyctevau.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpd3h4am5laGNlZWR5Y3RldmF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyMDE3NzcsImV4cCI6MjA3MDc3Nzc3N30.bQqfq-ktOHrIs6cyCYx7t8PRmrn0oaO6qPUY2mGZOrI";
 

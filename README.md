@@ -2,6 +2,22 @@
 
 A modern, responsive website for pet care business web design services. Built with React, TypeScript, and Tailwind CSS.
 
+## 🔒 Security First
+
+**Important**: This project follows strict security practices. See [Secrets Management Guide](./docs/security/secrets-management.md) for complete details.
+
+**Quick Security Rules**:
+- ✅ All private secrets stored in Supabase Edge Function secrets (not in code)
+- ✅ Frontend only contains public keys (Supabase anon key)
+- ✅ Service role keys and API secrets only in backend Edge Functions
+- ❌ Never commit `.env` files with real secrets to git
+- ❌ Never put service role keys or API secrets in frontend code
+
+For detailed security information, see:
+- [Secrets Management Guide](./docs/security/secrets-management.md)
+- [Security Audit Summary](./docs/security/SECRET_AUDIT_SUMMARY.md)
+- [SECURITY.md](./SECURITY.md)
+
 ## Features
 
 - **Responsive Design**: Mobile-first approach with beautiful layouts
@@ -45,12 +61,25 @@ cd tail-wagging-websites
 npm install
 ```
 
-3. Start the development server:
+3. Set up environment variables:
+```bash
+# Copy example file
+cp .env.example .env
+
+# Edit .env with your PUBLIC Supabase values only
+# Real secrets go in Supabase Edge Function secrets!
+```
+
+4. Configure Supabase secrets (see [Secrets Management Guide](./docs/security/secrets-management.md)):
+   - Go to Supabase Dashboard → Project Settings → Edge Functions → Secrets
+   - Set all required secrets (see `.env.example` for list)
+
+5. Start the development server:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and visit `http://localhost:8080`
+6. Open your browser and visit `http://localhost:8080`
 
 ## Available Scripts
 
@@ -62,27 +91,34 @@ npm run dev
 
 ## Post-Deploy Checklist
 
-### Required Environment Variables (Supabase Secrets)
-Set these in your Supabase dashboard under Settings → Edge Functions:
+### 1. Configure Supabase Edge Function Secrets
+
+**CRITICAL**: Set these in Supabase Dashboard → Settings → Edge Functions → Secrets (NOT in .env):
 
 ```bash
 STRIPE_SECRET_KEY=sk_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-SUPABASE_URL=https://...supabase.co
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ALLOWED_ORIGINS=https://tailwaggingwebdesign.com,https://www.tailwaggingwebdesign.com
 N8N_MESSAGES_WEBHOOK_URL=https://...
 N8N_EMAIL_UPDATE_WEBHOOK_URL=https://...
+N8N_WEBHOOK_SECRET=your_webhook_secret
+RUNWARE_API_KEY=your_runware_key (if using image generation)
+BOOTSTRAP_SECRET=your_bootstrap_secret (for initial admin creation)
 ```
 
-### Supabase Auth Security Settings
+**Security Note**: These secrets must NEVER be committed to git or put in frontend code. They are accessed by Edge Functions via `Deno.env.get()` at runtime.
+
+See [Secrets Management Guide](./docs/security/secrets-management.md) for complete instructions.
+
+### 2. Supabase Auth Security Settings
 Go to Supabase Dashboard → Authentication → Settings:
 
 1. **OTP Expiry**: Set to 15 minutes (recommended)
 2. **Leaked Password Protection**: Enable this feature
 3. **Postgres Version**: Update to latest if available
 
-### Stripe Webhook Configuration
+### 3. Stripe Webhook Configuration
 1. Go to Stripe Dashboard → Developers → Webhooks
 2. Add endpoint: `https://viwxxjnehceedyctevau.supabase.co/functions/v1/stripe-webhook`
 3. Select events:
@@ -93,7 +129,7 @@ Go to Supabase Dashboard → Authentication → Settings:
    - `customer.subscription.deleted`
 4. Copy webhook secret to `STRIPE_WEBHOOK_SECRET` env var
 
-### CDN/Hosting Configuration
+### 4. CDN/Hosting Configuration
 For optimal performance, configure your hosting platform:
 
 ```nginx
