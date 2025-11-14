@@ -37,7 +37,7 @@ export default function WhyDoDogs() {
         />
       ))}
 
-      <div className="bg-card/50 backdrop-blur-sm">
+      <div className="bg-card/50 backdrop-blur-sm py-8">
         <FAQList
           items={[
             {
@@ -66,7 +66,7 @@ export default function WhyDoDogs() {
         <div className="mt-6 flex justify-center">
           <a
             href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
-            className="inline-flex items-center justify-center rounded-2xl bg-gradient-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-2xl bg-primary text-primary-foreground px-6 py-3 text-base font-semibold shadow-glow transition-all duration-300 hover:scale-105 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
           >
             Book a consult
           </a>

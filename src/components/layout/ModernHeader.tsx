@@ -40,7 +40,7 @@ export default function ModernHeader() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
         isScrolled 
-          ? "bg-card/98 backdrop-blur-md border-b border-primary/30 shadow-[0_4px_20px_-4px_rgba(59,130,246,0.3)]" 
+          ? "bg-card/98 backdrop-blur-md border-b border-border shadow-glow" 
           : "bg-card/60 backdrop-blur-sm border-b border-border/40"
       )}
       role="banner"
@@ -155,9 +155,9 @@ export default function ModernHeader() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 sm:w-96 bg-card/98 backdrop-blur-md border-l border-primary/20">
+              <SheetContent side="right" className="w-80 sm:w-96 bg-card/98 backdrop-blur-md border-l border-border">
                 <div className="flex flex-col h-full gap-2">
-                  <div className="flex items-center justify-between pb-4 mb-2 border-b border-primary/20">
+                  <div className="flex items-center justify-between pb-4 mb-2 border-b border-border">
                     <Link
                       to="/"
                       onClick={() => setIsMobileOpen(false)}
@@ -187,8 +187,8 @@ export default function ModernHeader() {
 
                   <nav className="flex-1 py-4">
                     <div className="space-y-2">
-                      <div className="pb-3 mb-4 border-b border-primary/20">
-                        <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider px-3 pb-2">
+                      <div className="pb-3 mb-4 border-b border-border">
+                        <p className="text-xs font-semibold text-primary uppercase tracking-wider px-3 pb-2">
                           Main Navigation
                         </p>
                         {primaryNavItems.map((item) => (
@@ -211,7 +211,7 @@ export default function ModernHeader() {
                       </div>
                       
                       <div>
-                        <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider px-3 pb-2">
+                        <p className="text-xs font-semibold text-primary uppercase tracking-wider px-3 pb-2">
                           More
                         </p>
                         {moreNavItems.map((item) => (
@@ -235,7 +235,7 @@ export default function ModernHeader() {
                     </div>
                   </nav>
 
-                  <div className="pt-4 mt-2 border-t border-primary/20 space-y-3">
+                  <div className="pt-4 mt-2 border-t border-border space-y-3">
                     <div className="px-3">
                       <ThemeToggle />
                     </div>
