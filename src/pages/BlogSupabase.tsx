@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
+import DOMPurify from 'dompurify';
 
 const postRepository = new SupabasePostRepository();
 
@@ -100,8 +101,9 @@ function BlogPost({ slug }: { slug: string }) {
   const readingTime = Math.ceil(post.content.replace(/<[^>]*>/g, '').split(' ').length / 200);
 
   // Handle content - if it's already HTML, use it directly; otherwise convert markdown
+  // SECURITY: All untrusted HTML must be sanitized to prevent XSS attacks
   const isHtml = post.content.trim().startsWith('<');
-  const htmlContent = isHtml ? post.content : post.content
+  const rawHtmlContent = isHtml ? post.content : post.content
     .replace(/^# (.*$)/gim, '<h1>$1</h1>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -111,6 +113,9 @@ function BlogPost({ slug }: { slug: string }) {
     .replace(/^\* (.*$)/gim, '<li>$1</li>')
     .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
     .split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g, '<br>')}</p>` : '').join('');
+  
+  // Sanitize HTML to prevent XSS injection from blog content
+  const htmlContent = DOMPurify.sanitize(rawHtmlContent);
 
   return (
     <>
