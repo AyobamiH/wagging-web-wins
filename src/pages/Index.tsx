@@ -2,6 +2,7 @@ import Seo from "@/components/Seo";
 import { CTAButtons, SecondaryCTAs } from "@/components/CTAButtons";
 import { CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Index() {
   return (
@@ -175,38 +176,96 @@ export default function Index() {
         ]}
       />
 
-      <section className="hero">
+      <motion.section 
+        className="hero"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
-          <p className="text-xs font-medium text-muted-foreground">Tail Wagging Websites Factory Northampton</p>
-          <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+          <motion.p 
+            className="text-xs font-medium text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            Tail Wagging Websites Factory Northampton
+          </motion.p>
+          <motion.h1 
+            className="mt-2 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
             Websites that turn pet parents into paying clients — automatically.
-          </h1>
-          <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl">
+          </motion.h1>
+          <motion.p 
+            className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
             We build mobile-first websites and smart automations for dog walkers, groomers, pet sitters and trainers in Northampton — so you get more bookings while doing less admin work. 
             <Link to="/services" className="text-primary hover:underline">Explore our pet-care web design services in Northampton</Link>.
-          </p>
-          <CTAButtons className="mt-6" />
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            <CTAButtons className="mt-6" />
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section aria-labelledby="trust" className="border-y">
+      <motion.section 
+        aria-labelledby="trust" 
+        className="border-y"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="mx-auto max-w-6xl px-4 py-6 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
           {[
             "Specialists in pet care businesses — we know your customers' journey.",
             "Mobile-first design — 80% of pet bookings happen on phones.",
             "Local SEO & Google Business Profile setup included as standard.",
             "Smart automations: booking confirmations, review requests, lead nurturing.",
-          ].map((text) => (
-            <div key={text} className="flex items-start gap-2">
+          ].map((text, index) => (
+            <motion.div 
+              key={text} 
+              className="flex items-start gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
               <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" aria-hidden />
               <p className="text-sm">{text}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section aria-labelledby="value" className="mx-auto max-w-6xl px-4 py-10">
-        <h2 id="value" className="text-2xl font-semibold tracking-tight">Why it works</h2>
+      <motion.section 
+        aria-labelledby="value" 
+        className="mx-auto max-w-6xl px-4 py-10"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.h2 
+          id="value" 
+          className="text-2xl font-semibold tracking-tight"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          Why it works
+        </motion.h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
@@ -224,21 +283,41 @@ export default function Index() {
               body:
                 "Smart workflows for booking confirmations, payment reminders, review requests, and follow-up sequences.",
             },
-          ].map((c) => (
-            <article
+          ].map((c, index) => (
+            <motion.article
               key={c.title}
               className="rounded-lg border p-5 shadow-sm transition-transform hover:-translate-y-0.5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15, duration: 0.5 }}
             >
               <h3 className="font-medium">{c.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{c.body}</p>
-            </article>
+            </motion.article>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section aria-labelledby="how" className="bg-muted/40 border-y">
+      <motion.section 
+        aria-labelledby="how" 
+        className="bg-muted/40 border-y"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="mx-auto max-w-6xl px-4 py-10">
-          <h2 id="how" className="text-2xl font-semibold tracking-tight">How it works</h2>
+          <motion.h2 
+            id="how" 
+            className="text-2xl font-semibold tracking-tight"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            How it works
+          </motion.h2>
           <ol className="mt-6 grid gap-4 sm:grid-cols-3">
             {[
               {
@@ -254,15 +333,22 @@ export default function Index() {
                 b: "SEO basics, analytics, and optional care plan with updates.",
               },
             ].map((s, i) => (
-              <li key={s.t} className="rounded-lg border p-5 bg-background">
+              <motion.li 
+                key={s.t} 
+                className="rounded-lg border p-5 bg-background"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+              >
                 <p className="text-sm font-medium text-primary">Step {i + 1}</p>
                 <h3 className="mt-1 font-semibold">{s.t}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{s.b}</p>
-              </li>
+              </motion.li>
             ))}
           </ol>
         </div>
-      </section>
+      </motion.section>
 
       <section aria-labelledby="proof" className="mx-auto max-w-6xl px-4 py-10">
         <h2 id="proof" className="text-2xl font-semibold tracking-tight">What clients say</h2>
@@ -285,12 +371,33 @@ export default function Index() {
         </div>
       </section>
 
-      <section aria-labelledby="closing" className="mx-auto max-w-6xl px-4 py-12 text-center">
-        <h2 id="closing" className="text-2xl sm:text-3xl font-semibold tracking-tight">
+      <motion.section 
+        aria-labelledby="closing" 
+        className="mx-auto max-w-6xl px-4 py-12 text-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.h2 
+          id="closing" 
+          className="text-2xl sm:text-3xl font-semibold tracking-tight"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
           Ready to look professional and get more bookings?
-        </h2>
-        <SecondaryCTAs className="mt-6 justify-center" />
-      </section>
+        </motion.h2>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <SecondaryCTAs className="mt-6 justify-center" />
+        </motion.div>
+      </motion.section>
     </>
   );
 }

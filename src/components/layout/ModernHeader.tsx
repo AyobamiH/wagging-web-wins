@@ -151,13 +151,13 @@ export default function ModernHeader() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 sm:w-96">
-                <div className="flex flex-col h-full">
-                  <div className="flex items-center justify-between pb-4 border-b">
+              <SheetContent side="right" className="w-80 sm:w-96 bg-card/98 backdrop-blur-md border-l border-primary/20">
+                <div className="flex flex-col h-full gap-2">
+                  <div className="flex items-center justify-between pb-4 mb-2 border-b border-primary/20">
                     <Link
                       to="/"
                       onClick={() => setIsMobileOpen(false)}
-                      className="flex items-center gap-2 font-semibold"
+                      className="flex items-center gap-2 font-semibold text-foreground transition-colors hover:text-primary"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -181,10 +181,10 @@ export default function ModernHeader() {
                     </Link>
                   </div>
 
-                  <nav className="flex-1 py-6">
-                    <div className="space-y-1">
-                      <div className="pb-2 mb-4 border-b">
-                        <p className="text-sm font-medium text-muted-foreground px-3 pb-2">
+                  <nav className="flex-1 py-4">
+                    <div className="space-y-2">
+                      <div className="pb-3 mb-4 border-b border-primary/20">
+                        <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider px-3 pb-2">
                           Main Navigation
                         </p>
                         {primaryNavItems.map((item) => (
@@ -194,10 +194,10 @@ export default function ModernHeader() {
                             onClick={() => setIsMobileOpen(false)}
                             className={({ isActive }) =>
                               cn(
-                                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
-                                  ? "text-primary bg-primary/10"
-                                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                  ? "text-primary bg-primary/20 shadow-sm"
+                                  : "text-foreground/80 hover:text-foreground hover:bg-accent/80 hover:shadow-sm"
                               )
                             }
                           >
@@ -207,7 +207,7 @@ export default function ModernHeader() {
                       </div>
                       
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground px-3 pb-2">
+                        <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider px-3 pb-2">
                           More
                         </p>
                         {moreNavItems.map((item) => (
@@ -217,10 +217,10 @@ export default function ModernHeader() {
                             onClick={() => setIsMobileOpen(false)}
                             className={({ isActive }) =>
                               cn(
-                                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
-                                  ? "text-primary bg-primary/10"
-                                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                  ? "text-primary bg-primary/20 shadow-sm"
+                                  : "text-foreground/80 hover:text-foreground hover:bg-accent/80 hover:shadow-sm"
                               )
                             }
                           >
@@ -231,10 +231,10 @@ export default function ModernHeader() {
                     </div>
                   </nav>
 
-                  <div className="pt-4 border-t">
+                  <div className="pt-4 mt-2 border-t border-primary/20">
                     <CalendlyEmbed
                       buttonText="Book a Call"
-                      className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200"
+                      className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"
                     />
                   </div>
                 </div>
