@@ -36,27 +36,27 @@ export default function Pricing() {
         {/* Trust Badges */}
         <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-green-600" />
+            <Shield className="h-4 w-4 text-[hsl(var(--accent-success))]" />
             <span>SSL Secured</span>
           </div>
           <div className="flex items-center gap-2">
-            <Lock className="h-4 w-4 text-blue-600" />
+            <Lock className="h-4 w-4 text-[hsl(var(--accent-info))]" />
             <span>256-bit Encryption</span>
           </div>
           <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-purple-600" />
+            <CreditCard className="h-4 w-4 text-[hsl(var(--accent))]" />
             <span>Secure Payments by Stripe</span>
           </div>
           <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-orange-600" />
+            <Users className="h-4 w-4 text-[hsl(var(--primary))]" />
             <span>Trusted by 500+ Pet Businesses</span>
           </div>
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600" />
+            <CheckCircle className="h-4 w-4 text-[hsl(var(--accent-success))]" />
             <span>30-Day Money Back Guarantee</span>
           </div>
           <div className="flex items-center gap-2">
-            <Star className="h-4 w-4 text-yellow-500" />
+            <Star className="h-4 w-4 text-[hsl(var(--accent-warn))]" />
             <span>4.9/5 Customer Rating</span>
           </div>
         </div>
@@ -112,17 +112,17 @@ export default function Pricing() {
             <h3 className="font-semibold mb-4">Why Choose Us?</h3>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm">
               <div className="flex flex-col items-center gap-2">
-                <Shield className="h-8 w-8 text-green-600" />
+                <Shield className="h-8 w-8 text-[hsl(var(--accent-success))]" />
                 <strong>Bank-Level Security</strong>
                 <p className="text-muted-foreground">Your payment data is protected with industry-standard encryption</p>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <CheckCircle className="h-8 w-8 text-blue-600" />
+                <CheckCircle className="h-8 w-8 text-[hsl(var(--accent-info))]" />
                 <strong>100% Satisfaction</strong>
                 <p className="text-muted-foreground">30-day money-back guarantee on all packages</p>
               </div>
               <div className="flex flex-col items-center gap-2 sm:col-span-2 lg:col-span-1">
-                <Users className="h-8 w-8 text-purple-600" />
+                <Users className="h-8 w-8 text-[hsl(var(--primary))]" />
                 <strong>Proven Results</strong>
                 <p className="text-muted-foreground">Join 500+ successful pet care businesses</p>
               </div>
