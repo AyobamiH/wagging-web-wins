@@ -55,8 +55,10 @@ const PlanAssistantWidget = ({ onOpenQuestionnaire }: PlanAssistantWidgetProps) 
             size="sm"
             onClick={handleClose}
             className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+            aria-label="Dismiss plan assistant"
           >
             <X className="h-3 w-3" />
+            <span className="sr-only">Close</span>
           </Button>
         </div>
       </div>
@@ -65,8 +67,10 @@ const PlanAssistantWidget = ({ onOpenQuestionnaire }: PlanAssistantWidgetProps) 
       <Button
         onClick={handleOpenQuestionnaire}
         className="h-14 w-14 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+        aria-label="Open plan selection assistant"
       >
         <MessageCircle className="h-6 w-6" />
+        <span className="sr-only">Get help choosing a plan</span>
       </Button>
     </div>
   );
