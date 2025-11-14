@@ -3,12 +3,24 @@ import Seo from "@/components/Seo";
 import { CTAButtons } from "@/components/CTAButtons";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { CheckCircle, Star, Phone, MapPin } from "lucide-react";
+import { CheckCircle, Star, Phone, MapPin, ChevronRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { SERVICES, SLUGS, BASE_URL, SERVICE_AREA, type Slug } from "@/data/services";
+import { PACKAGES } from "@/data/pricing";
 import { useRef, useEffect, useState } from "react";
 import { trackEvent, trackCTAClick, trackNavClick, trackFAQToggle } from "@/lib/analytics";
-import { ChevronRight } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+// Import service images
+import servicesHeroImg from "@/assets/services-hero.jpg";
+import serviceWebsiteDesignImg from "@/assets/service-website-design.jpg";
+import serviceAutomationsImg from "@/assets/service-automations.jpg";
+import serviceBookingImg from "@/assets/service-booking.jpg";
+import serviceLocalSeoImg from "@/assets/service-local-seo.jpg";
+import serviceBrandingImg from "@/assets/service-branding.jpg";
+import serviceReviewsImg from "@/assets/service-reviews.jpg";
+import servicePricingImg from "@/assets/service-pricing.jpg";
+import serviceFaqImg from "@/assets/service-faq.jpg";
 
 export default function Services() {
   // --- Service cards (UI + used in JSON-LD) ---
@@ -52,32 +64,32 @@ export default function Services() {
   type FAQItem = { q: string; a: string };
   const faqs: FAQItem[] = [
     {
+      q: "How long does it take?",
+      a: "Most pet care websites take 2-4 weeks from start to launch. This includes design, content creation, SEO setup, and testing. We provide regular updates throughout the process.",
+    },
+    {
+      q: "Do you help with copy?",
+      a: "Yes! We craft friendly, pet-care aligned copy and brand stories that resonate with pet owners. All packages include professional copywriting tailored to your business.",
+    },
+    {
+      q: "What if I'm not tech-savvy?",
+      a: "That's exactly why we exist. We handle all the technical setup, hosting, and maintenance. You just focus on running your pet care business while we manage the website.",
+    },
+    {
+      q: "Can you update my existing site?",
+      a: "Absolutely. We handle complete website migrations including content transfer, SEO preservation, and redirect setup to maintain your search rankings and ensure no downtime.",
+    },
+    {
+      q: "Do I need to provide photos?",
+      a: "While your own photos are great, they're not required. We can help source professional pet care imagery or guide you on taking better photos of your furry clients.",
+    },
+    {
       q: "Which pet-care businesses do you build websites for?",
-      a: "Dog walkers, dog groomers, pet sitters, pet daycares and veterinary practices across Northamptonshire.",
+      a: "Dog walkers, dog groomers, pet sitters, home boarders, dog trainers, cat sitters, house sitters, pet taxi providers, daycares, kennels and veterinary practices across Northamptonshire.",
     },
     {
       q: "Do you offer local SEO for 'near me' searches?",
       a: "Yes. We optimise Google Business Profile, service pages and location content to rank for 'near me' and town-specific queries in Northampton, Kettering, Milton Keynes and surrounding areas.",
-    },
-    {
-      q: "Can you automate bookings and client follow-ups?",
-      a: "Absolutely. We connect forms, calendars and CRMs to send confirmations, reminders and updates automatically.",
-    },
-    {
-      q: "What's included in your pricing packages?",
-      a: "Our packages range from £750-£3,500 and include website design, SEO setup, Google Business Profile optimization, contact forms, and mobile responsiveness. Higher packages add automations, content marketing, and conversion optimization.",
-    },
-    {
-      q: "How long does a website project typically take?",
-      a: "Most pet care websites take 2-4 weeks from start to launch. This includes design, content creation, SEO setup, and testing. We provide regular updates throughout the process.",
-    },
-    {
-      q: "Do you help migrate existing websites?",
-      a: "Yes, we handle complete website migrations including content transfer, SEO preservation, and redirect setup to maintain your search rankings and ensure no downtime.",
-    },
-    {
-      q: "Which areas of Northamptonshire do you cover?",
-      a: "We serve all of Northamptonshire including Northampton, Kettering, Wellingborough, Daventry, Corby, Rushden, Towcester, plus Milton Keynes and Banbury.",
     },
   ];
 
@@ -343,334 +355,389 @@ export default function Services() {
           </Breadcrumb>
         </div>
 
-        <header className="max-w-3xl mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Pet-Care Web Design Services in Northampton</h1>
-          <p className="mt-3 text-muted-foreground">
-            Websites, <strong>local SEO</strong> and <strong>automations</strong> built for how pet parents shop.
-            We help dog walkers, groomers, pet sitters and vets across <strong>Northamptonshire</strong> get found,
-            look professional and turn clicks into bookings.
-          </p>
-          {/* NAP chip: keep UI local-only, keep full address in JSON-LD */}
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
-            <span className="inline-flex items-center gap-1 rounded-full border bg-card/60 px-2.5 py-1">
-              <MapPin className="h-3.5 w-3.5 text-primary" />
-              Northampton, Northamptonshire
-            </span>
-            <a
-              href="tel:+447402342694"
-              className="inline-flex items-center gap-1 rounded-full border bg-card/60 px-2.5 py-1 hover:bg-card"
-            >
-              <Phone className="h-3.5 w-3.5 text-primary" />
-              +44 7402 342694
-            </a>
-          </div>
-        </header>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
-          {SLUGS.map((slug, i) => {
-            const c = SERVICES[slug];
-            return (
-              <article
-                key={slug}
-                role="link"
-                tabIndex={0}
-                aria-label={`Learn more: ${c.title}`}
-                onClick={() => activateCard(slug, i)}
-                onKeyDown={(e) => onCardKeyDown(e, slug, i)}
-                onMouseEnter={() => onCardEnter(slug, i)}
-                onMouseLeave={() => onCardLeave(slug)}
-                className="
-                  group relative cursor-pointer rounded-lg border border-border bg-card/50 p-5
-                  transition
-                  hover:bg-card hover:shadow-md hover:border-primary/40
-                  active:scale-[0.99]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-                  focus-visible:ring-offset-2 focus-visible:ring-offset-background
-                "
-              >
-                <div
-                    className="
-                      pointer-events-none absolute inset-0 z-10 rounded-lg opacity-0 transition
-                      group-hover:opacity-100
-                    "
-                    aria-hidden="true"
-                    role="presentation"
-                  >
-                    {/* Scrim: strong bottom gradient + blur when supported */}
-                    <div className="
-                          absolute inset-0 rounded-lg ring-1 ring-border
-                          bg-gradient-to-t from-background/95 via-background/80 to-background/20
-                          supports-[backdrop-filter]:backdrop-blur-sm
-                        "
-                      />
-
-                    {/* Content: bottom stack of 2–3 bullets */}
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      <ul className="space-y-1.5 text-[13px] text-foreground">
-                        {SERVICES[slug].includes.slice(0, 3).map((b) => (
-                          <li key={b} className="flex gap-2">
-                            <CheckCircle className="h-3.5 w-3.5 text-primary flex-none mt-0.5" />
-                            <span className="line-clamp-1">{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{c.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-
-                {/* visual CTA; the whole card is the actionable link */}
-                <div className="inline-flex items-center gap-1 text-sm font-medium">
-                  <span className="underline underline-offset-4">Learn more</span>
-                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </div>
-              </article>
-            );
-          })}
+        {/* Hero Section */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              Everything You Need to Grow Your Pet-Care Business.
+            </h1>
+            <p className="text-lg text-muted-foreground mb-6">
+              We design modern websites and smart automations that help dog walkers, groomers, pet sitters, trainers and home-boarders attract more bookings with less admin.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button size="lg" asChild onClick={() => trackCTAClick("hero_cta", "consultation")}>
+                <Link to="/contact">Book Free Consultation</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild onClick={() => trackCTAClick("hero_cta", "pricing")}>
+                <Link to="/pricing">View Pricing</Link>
+              </Button>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl"
+          >
+            <img
+              src={servicesHeroImg}
+              alt="Friendly pet care business scene with dog walker and dogs"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
         </div>
 
-        {/* Trust Strip */}
-        <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-          <h2 className="text-lg font-semibold mb-3 text-center">What locals say</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex items-start gap-3">
-              <div className="flex text-yellow-500">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
+        {/* Service Sections with Images */}
+        <div className="space-y-16 mb-16">
+          {/* 1. Custom Website Design */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceWebsiteDesignImg}
+                alt="Clean laptop mockup displaying pet care website design"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Custom Website Design</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                Your website should feel friendly, professional, and built for pet parents — not a generic template.
+              </p>
+              <h3 className="font-semibold mb-2">Includes:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Clean, mobile-first layouts", "Scroll-based storytelling", "Strong CTAs", "Accessibility-focused", "Fast performance"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
                 ))}
-              </div>
-              <div>
-                <p className="text-sm font-medium">"Groomer in Kettering: +38% bookings in 6 weeks"</p>
-                <p className="text-xs text-muted-foreground">— Professional Pet Grooming, Kettering</p>
-              </div>
+              </ul>
+              <p className="text-sm text-muted-foreground mb-4">
+                <strong>Perfect for:</strong> Dog walkers, groomers, sitters, trainers.
+              </p>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "website-design")}>
+                <Link to="/services/website-design">Learn More</Link>
+              </Button>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="flex text-yellow-500">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
+          </motion.div>
+
+          {/* 2. Smart Automations */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="order-2 lg:order-1">
+              <h2 className="text-3xl font-bold mb-4">Smart Automations</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                Stop spending hours sending reminders or answering the same questions.
+              </p>
+              <h3 className="font-semibold mb-2">We automate:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Booking confirmations", "Appointment reminders", "Review requests", "Cancellation notices", "Lead nurturing messages"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
                 ))}
-              </div>
-              <div>
-                <p className="text-sm font-medium">"Dog Walker in Northampton: 2 hours/day saved via automations"</p>
-                <p className="text-xs text-muted-foreground">— Happy Paws Walking Service, Northampton</p>
-              </div>
+              </ul>
+              <p className="text-sm font-semibold text-primary mb-4">
+                Saves 5–10 hours per week instantly.
+              </p>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "automations")}>
+                <Link to="/services/automations">Learn More</Link>
+              </Button>
             </div>
-          </div>
+            <div className="order-1 lg:order-2 relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceAutomationsImg}
+                alt="Modern automation flowchart with pet care icons"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+
+          {/* 3. Booking & Scheduling System */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceBookingImg}
+                alt="Smartphone displaying pet care booking calendar"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Booking & Scheduling System Setup</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                We integrate a clean, reliable booking system into your site.
+              </p>
+              <p className="text-sm text-muted-foreground mb-2">
+                <strong>Systems supported:</strong> Calendly, Trafft, Acuity, Timely, custom booking pages.
+              </p>
+              <h3 className="font-semibold mb-2">Features:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Online bookings", "Payment/deposit collection", "Automated reminders", "Two-way sync", "Client notes"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "booking")}>
+                <Link to="/contact">Get Started</Link>
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* 4. Google Business Profile + Local SEO */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="order-2 lg:order-1">
+              <h2 className="text-3xl font-bold mb-4">Google Business Profile + Local SEO</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                We help you appear on Google when pet owners search:
+              </p>
+              <ul className="space-y-1 mb-4 text-sm">
+                <li>"dog walker near me"</li>
+                <li>"pet sitter Northampton"</li>
+                <li>"best groomer in my area"</li>
+              </ul>
+              <h3 className="font-semibold mb-2">Includes:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Google Business Profile setup", "Local SEO optimisation", "On-page SEO", "Map ranking improvements", "Review strategy"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "local-seo")}>
+                <Link to="/services/local-seo">Learn More</Link>
+              </Button>
+            </div>
+            <div className="order-1 lg:order-2 relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceLocalSeoImg}
+                alt="Google Maps style illustration with paw-shaped location pins"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+
+          {/* 5. Branding + Copywriting */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceBrandingImg}
+                alt="Brand moodboard with colors, typography, and pet care icons"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Branding + Copywriting</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                Build trust instantly with friendly, pet-care aligned branding and warm, human copy.
+              </p>
+              <h3 className="font-semibold mb-2">Includes:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Brand story", "Service descriptions", "Taglines", "Typography + colour palettes", "Friendly pet-care icons"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "branding")}>
+                <Link to="/contact">Get Started</Link>
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* 6. Review Booster System */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 items-center"
+          >
+            <div className="order-2 lg:order-1">
+              <h2 className="text-3xl font-bold mb-4">Review Booster System</h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                Get more 5-star reviews automatically.
+              </p>
+              <h3 className="font-semibold mb-2">System includes:</h3>
+              <ul className="space-y-2 mb-4">
+                {["Automated review requests", "Private filter page", "Google review funnel", "Review widgets for your site"].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild onClick={() => trackCTAClick("service_cta", "reviews")}>
+                <Link to="/contact">Get Started</Link>
+              </Button>
+            </div>
+            <div className="order-1 lg:order-2 relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={serviceReviewsImg}
+                alt="Floating 5-star review cards with pet owner testimonials"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
         </div>
 
-        {/* Detailed Service Sections */}
-        <div className="mb-12">
-          {/* Sticky jump nav */}
-          <div className="sticky top-16 z-10 -mx-4 px-4 py-2 bg-gradient-to-b from-background/80 via-background/60 to-transparent backdrop-blur supports-[backdrop-filter]:backdrop-blur-md border-b border-border/40">
-            
-            <div
-                className="
-                  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2
-                  
-                "
-                role="tablist"
-                aria-label="Jump to service"
-              >
-              {SECTION_ORDER.map((slug) => {
-                const s = SERVICES[slug];
-                return (
-                  <button
-                    key={slug}
-                    role="tab"
-                    aria-controls={slug}
-                    onClick={() => scrollToSection(slug)}
-                    // BEFORE: className="shrink-0 rounded-full ..."
-                    className="
-                      w-full sm:w-auto md:shrink-0
-                      rounded-full border bg-card/60 px-3 py-1.5 text-sm
-                      text-left leading-tight whitespace-normal
-                      hover:border-primary hover:bg-primary/10
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-                    "
-                  >
-                    {s.title}
-                  </button>
-                );
-              })}
-            </div>
+        {/* Pricing Preview Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold mb-3">Choose a package designed for your stage</h2>
+            <p className="text-muted-foreground">Starter – perfect for new pet pros  |  Pro – for growing businesses  |  Enterprise – full automations + scale</p>
           </div>
-
-            
-
-          <div className="space-y-10">
-            {SECTION_ORDER.map((slug, idx) => {
-              const d = SERVICES[slug];
-              const showAll = !!expanded[slug];
-              const inc = showAll ? d.includes : d.includes.slice(0, 6);
-              const out = showAll ? d.outcomes : d.outcomes.slice(0, 6);
-              return (
-                <motion.section
-                  key={slug}
-                  id={slug}
-                  ref={(el) => (sectionRefs.current[slug] = el)}
-                  className="scroll-mt-24 group rounded-2xl border bg-card/50 p-6 transition hover:bg-card/70"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  onMouseEnter={() => onSectionEnter(slug)}
-                  onMouseLeave={() => onSectionLeave(slug)}
-                >
-                  <div className="grid gap-6 lg:grid-cols-[1.1fr,1fr] items-start">
-                    {/* Left: summary + actions */}
-                    <div>
-                      <h2 className="text-2xl font-semibold tracking-tight">{d.title}</h2>
-                      <p className="mt-2 text-muted-foreground max-w-3xl">{d.intro}</p>
-
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <Button
-                          asChild
-                          onClick={() =>
-                            trackEvent("service_section_cta", { slug, action: "view_details", location: PAGE_LOC })
-                          }
-                        >
-                          <Link to={`/services/${slug}`}>View full details</Link>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          asChild
-                          onClick={() => trackCTAClick("get_quote_section", slug)}
-                        >
-                          <Link to="/contact">Get quote</Link>
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Right: interactive includes/outcomes */}
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="rounded-xl border bg-background/60 p-4">
-                        <p className="font-medium mb-2">Includes</p>
-                        <ul className="grid gap-2">
-                          {inc.map((item) => (
-                            <motion.li
-                              key={item}
-                              className="rounded-lg border bg-card/50 px-3 py-2 text-sm text-muted-foreground flex items-start gap-2"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                              <span>{item}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="rounded-xl border bg-background/60 p-4">
-                        <p className="font-medium mb-2">Outcomes</p>
-                        <ul className="grid gap-2">
-                          {out.map((item) => (
-                            <motion.li
-                              key={item}
-                              className="rounded-lg border bg-card/50 px-3 py-2 text-sm text-muted-foreground flex items-start gap-2"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <CheckCircle className="mt-0.5 h-4 w-4 text-primary" />
-                              <span>{item}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {PACKAGES.map((pkg) => (
+              <div key={pkg.id} className={`rounded-xl border p-6 ${pkg.popular ? 'border-primary shadow-lg' : 'border-border'}`}>
+                {pkg.popular && (
+                  <div className="inline-block px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold mb-2">
+                    Most Popular
                   </div>
-
-                  {(d.includes.length > 6 || d.outcomes.length > 6) && (
-                    <div className="mt-4">
-                      <button
-                        type="button"
-                        onClick={() => toggleExpanded(slug)}
-                        className="text-sm font-medium underline underline-offset-4 hover:text-primary"
-                      >
-                        {showAll ? "Show less" : "Show more"}
-                      </button>
-                    </div>
-                  )}
-                </motion.section>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Service area for local SEO */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">Areas We Serve</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5 mb-6">
-            {SERVICE_AREA.map((area) => (
-              <Link
-                key={area.slug}
-                to={`/locations/${area.slug}`}
-                className="p-3 rounded-lg border bg-card/50 hover:bg-card transition-colors text-center group"
-                onClick={() => trackNavClick(area.name, `/locations/${area.slug}`, "services_areas_grid")}
-              >
-                <span className="text-sm font-medium group-hover:text-primary transition-colors">{area.name}</span>
-              </Link>
+                )}
+                <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
+                <div className="text-3xl font-bold mb-2">{pkg.price}</div>
+                <p className="text-sm text-muted-foreground mb-4">{pkg.desc}</p>
+                <ul className="space-y-2 mb-6">
+                  {pkg.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-sm">
+                      <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
-
-          {/* Mid-page CTA */}
-          <div
-            className="p-6 bg-muted/30 rounded-lg border text-center"
-            onClick={() => trackCTAClick("midpage_cta_block", "consultation_service_page")}
-          >
-            <h3 className="text-lg font-semibold mb-2">Ready to get started?</h3>
-            <p className="text-sm text-muted-foreground mb-4">Book a free consultation to discuss your pet care business needs</p>
-            <CTAButtons className="justify-center" />
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <div className="mt-8">
-          <CTAButtons className="justify-center sm:justify-start" />
-
-          {/* Inline helper: Calendly + contact form */}
-          <div className="mt-3 text-center sm:text-left text-sm text-muted-foreground">
-            Need a hand choosing a package? 
-            <a
-              href="https://calendly.com/coffee-chat-with-ayobami-haastrup/consultation-call"
-              className="font-medium underline ml-1"
-              onClick={() => trackCTAClick("calendly_inline_link", "services_page")}
-            >
-              Book a Calendly slot
-            </a>
-            
-            <span className="mx-2">•</span>
-            <Link
-              to="/contact"
-              className="font-medium underline"
-              onClick={() => trackCTAClick("contact_form_link", "services_page")}
-            >
-              Contact form
-            </Link>
-          </div>
-
-          <div className="mt-4 text-center sm:text-left">
-            <Button variant="default" size="sm" asChild>
-              <a href="tel:+447402342694" onClick={() => trackCTAClick("call", "services_page_call")}>
-                Call +44 7402 342694
-              </a>
+          <div className="text-center">
+            <Button size="lg" asChild onClick={() => trackCTAClick("pricing_preview", "view_pricing")}>
+              <Link to="/pricing">View Full Pricing Details</Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Expanded FAQ that mirrors JSON-LD */}
-        <section className="mt-12 max-w-3xl">
-          <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {faqs.map((item) => (
-              <details
-                key={item.q}
-                className="rounded-lg border p-4 bg-card/50"
-                onToggle={(e) => trackFAQToggle(item.q, "services_faq", e.currentTarget.open ? "open" : "close")}
-              >
-                <summary className="cursor-pointer font-medium">{item.q}</summary>
-                <p className="mt-2 text-sm text-muted-foreground">{item.a}</p>
-              </details>
+        {/* Who We Help (SEO Section) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16 bg-muted/30 rounded-2xl p-8"
+        >
+          <h2 className="text-3xl font-bold text-center mb-8">Who We Help</h2>
+          <p className="text-center text-muted-foreground mb-8">
+            We specialise in websites and digital systems for:
+          </p>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              "Dog walkers",
+              "Groomers",
+              "Pet sitters",
+              "Home boarders",
+              "Dog trainers",
+              "Cat sitters",
+              "House sitters",
+              "Pet taxi providers",
+              "Daycares",
+              "Kennels"
+            ].map((business) => (
+              <div key={business} className="flex items-center gap-2 p-3 rounded-lg bg-background/60 border">
+                <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                <span className="text-sm font-medium">{business}</span>
+              </div>
             ))}
           </div>
-        </section>
+        </motion.div>
+
+        {/* FAQ Block */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <div className="grid lg:grid-cols-[2fr_1fr] gap-8">
+            <div>
+              <h2 className="text-3xl font-bold mb-6">Frequently Asked Questions</h2>
+              <Accordion type="single" collapsible className="space-y-4">
+                {faqs.map((faq, idx) => (
+                  <AccordionItem key={idx} value={`faq-${idx}`} className="border rounded-lg px-4">
+                    <AccordionTrigger
+                      onClick={() => trackFAQToggle(faq.q, "services", "open")}
+                      className="text-left hover:no-underline"
+                    >
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground">
+                      {faq.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+            <div className="flex items-center justify-center">
+              <img
+                src={serviceFaqImg}
+                alt="Playful dog tilting head with question mark"
+                className="w-full max-w-[300px] rounded-xl"
+              />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Final CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Ready to look more professional and get more pet-care bookings?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Let's build a website that attracts pet owners and makes your business run smoother.
+          </p>
+          <Button size="lg" asChild onClick={() => trackCTAClick("final_cta", "contact")}>
+            <Link to="/contact">Let's Build Your New Website</Link>
+          </Button>
+        </motion.div>
+
       </section>
     </>
   );
