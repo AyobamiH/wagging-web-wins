@@ -10,6 +10,7 @@ import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import BlogPostLayout from "@/components/blog/BlogPostLayout";
 import { EnhancedSupabasePostRepository } from "@/lib/repositories/supabase-adapters.enhanced";
+import DOMPurify from "dompurify";
 
 const postRepository = new EnhancedSupabasePostRepository();
 
