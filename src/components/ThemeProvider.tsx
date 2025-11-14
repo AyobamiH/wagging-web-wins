@@ -17,24 +17,34 @@ export const useTheme = () => {
   return context;
 };
 
+const getInitialTheme = (): Theme => {
+  // SSR-safe: default to light mode on server
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
+  // Check localStorage first
+  const stored = localStorage.getItem('theme') as Theme | null;
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+  
+  // Check system preference (optional, light is still default if no preference)
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  
+  // Default to light mode per KB requirement
+  return 'light';
+};
+
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored === 'light' || stored === 'dark') {
-      return stored;
-    }
-    
-    // Check system preference (optional, light is still default if no preference)
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    // Default to light mode per KB requirement
-    return 'light';
-  });
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
+    // Browser-only effect
+    if (typeof window === "undefined") return;
+    
     const root = document.documentElement;
     
     // Remove both classes first
