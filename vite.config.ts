@@ -9,6 +9,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  ssr: {
+    // Externalize dependencies that should not be bundled in SSR build
+    noExternal: mode === 'production' ? ['react-helmet-async'] : [],
+  },
   plugins: [
     react(),
     mode === 'development' &&
@@ -41,6 +45,10 @@ export default defineConfig(({ mode }) => ({
    */
   build: {
     rollupOptions: {
+      input: mode === 'production' ? {
+        main: path.resolve(__dirname, 'index.html'),
+        server: path.resolve(__dirname, 'src/entry-server.tsx')
+      } : undefined,
       output: {
         manualChunks: (id) => {
           // Core React runtime (needed immediately)

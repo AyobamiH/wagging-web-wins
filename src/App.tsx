@@ -63,50 +63,48 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-          <PageViewTracker />
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/admin/blog" element={
-                <AdminGuard>
-                  <BlogList />
-                </AdminGuard>
-              } />
-              <Route path="/admin/blog/:id" element={
-                <AdminGuard>
-                  <BlogEditor />
-                </AdminGuard>
-              } />
-              <Route element={<MarketingLayout />}>
-                <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
-                <Route path="/trades" element={<TradesLanding />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/:slug" element={<ServiceDetail />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/tools" element={<ToolsHub />} />
-                <Route path="/tools/:slug" element={<ToolDetail />} />
-                <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
-                <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
-                <Route path="/blog" element={<BlogSupabase />} />
-                <Route path="/blog/:slug" element={<BlogPostSupabase />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/service-areas" element={<ServiceAreas />} />
-                <Route path="/locations/:slug" element={<Location />} />
-                <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
-                <Route path="/cancel" element={<PaymentCancel />} />
-                <Route path="/payment-failed" element={<PaymentFailed />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </ReviewsProvider>
-    </AuthProvider>
+            <PageViewTracker />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/admin/blog" element={
+                  <AdminGuard>
+                    <BlogList />
+                  </AdminGuard>
+                } />
+                <Route path="/admin/blog/:id" element={
+                  <AdminGuard>
+                    <BlogEditor />
+                  </AdminGuard>
+                } />
+                <Route element={<MarketingLayout />}>
+                  <Route path="/" element={isTradesSubdomain ? <TradesLanding /> : <Index />} />
+                  <Route path="/trades" element={<TradesLanding />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/services/:slug" element={<ServiceDetail />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/tools" element={<ToolsHub />} />
+                  <Route path="/tools/:slug" element={<ToolDetail />} />
+                  <Route path="/portfolio" element={<Navigate to="/tools" replace />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
+                  <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
+                  <Route path="/blog" element={<BlogSupabase />} />
+                  <Route path="/blog/:slug" element={<BlogPostSupabase />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/service-areas" element={<ServiceAreas />} />
+                  <Route path="/locations/:slug" element={<Location />} />
+                  <Route path="/success/stripe/:sessionId" element={<PaymentSuccess />} />
+                  <Route path="/cancel" element={<PaymentCancel />} />
+                  <Route path="/payment-failed" element={<PaymentFailed />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </TooltipProvider>
+        </ReviewsProvider>
+      </AuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
