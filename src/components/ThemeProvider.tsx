@@ -24,7 +24,7 @@ const getInitialTheme = (): Theme => {
   }
 
   // Check localStorage first
-  const stored = localStorage.getItem('theme') as Theme | null;
+  const stored = window.localStorage.getItem('theme') as Theme | null;
   if (stored === 'light' || stored === 'dark') {
     return stored;
   }
@@ -54,7 +54,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     root.classList.add(theme);
     
     // Save to localStorage
-    localStorage.setItem('theme', theme);
+    window.localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
