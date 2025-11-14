@@ -31,6 +31,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     setMounted(true);
     
+    if (typeof window === "undefined") return;
+    
     const stored = window.localStorage.getItem('theme') as Theme | null;
     if (stored === 'light' || stored === 'dark') {
       setTheme(stored);
@@ -46,6 +48,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   // Apply theme to DOM (only after mounted to prevent hydration issues)
   useEffect(() => {
     if (!mounted) return;
+    if (typeof window === "undefined") return;
     
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
