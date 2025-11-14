@@ -6,7 +6,11 @@ interface OnlineStatus {
 }
 
 export const useOnline = (): OnlineStatus => {
-  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isOnline, setIsOnline] = useState<boolean>(() => {
+    // SSR-safe: default to true on server
+    if (typeof navigator === 'undefined') return true;
+    return navigator.onLine;
+  });
   const [wasOffline, setWasOffline] = useState<boolean>(false);
 
   useEffect(() => {
