@@ -37,10 +37,10 @@ export default function ModernHeader() {
   return (
     <header 
       className={cn(
-        "sticky top-0 z-50 transition-all duration-300 border-b",
+        "sticky top-0 z-50 transition-all duration-300",
         isScrolled 
-          ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-sm" 
-          : "bg-background/80 supports-[backdrop-filter]:backdrop-blur"
+          ? "bg-card/98 backdrop-blur-md border-b border-primary/30 shadow-[0_4px_20px_-4px_rgba(59,130,246,0.3)]" 
+          : "bg-card/60 backdrop-blur-sm border-b border-border/40"
       )}
       role="banner"
     >
@@ -49,7 +49,7 @@ export default function ModernHeader() {
           {/* Logo */}
           <Link
             to="/"
-            className="text-xl font-bold transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight"
+            className="text-xl font-bold transition-all duration-200 hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight text-foreground"
             aria-label="Tail Wagging Websites - Home"
           >
             <svg
@@ -93,8 +93,8 @@ export default function ModernHeader() {
                         to={item.to}
                         className={({ isActive }) =>
                           cn(
-                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50",
-                            isActive ? "text-primary" : "text-muted-foreground"
+                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent/80 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+                            isActive ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"
                           )
                         }
                       >
@@ -105,7 +105,7 @@ export default function ModernHeader() {
                 ))}
                 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-muted-foreground hover:text-foreground">
+                  <NavigationMenuTrigger className="text-foreground/80 hover:text-foreground font-medium">
                     More
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
