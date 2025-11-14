@@ -128,8 +128,8 @@ export default function ToolsHub() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-primary flex items-center justify-center">
-              <Wrench className="h-8 w-8 text-white" />
+            <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center">
+              <Wrench className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
           
@@ -205,7 +205,7 @@ export default function ToolsHub() {
 
         {/* Bottom CTA */}
         {!loading && !error && filteredTools.length > 0 && (
-          <div className="text-center mt-16 p-8 rounded-2xl bg-glass border border-surface">
+          <div className="text-center mt-16 p-8 rounded-2xl bg-card/50 border border-border">
             <h2 className="text-2xl font-semibold mb-3">
               Need something custom?
             </h2>
