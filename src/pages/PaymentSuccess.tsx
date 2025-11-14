@@ -6,6 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowLeft, Mail, Calendar } from "lucide-react";
 import { trackPurchaseSuccess, trackNavClick } from "@/lib/analytics";
 
+// SECURITY NOTE: This URL is public and safe to use in frontend code.
+// Edge Functions handle sensitive operations server-side with secure secrets.
+const SUPABASE_FUNCTIONS_URL = "https://viwxxjnehceedyctevau.supabase.co/functions/v1";
+
 interface SessionData {
   id: string;
   paymentStatus: string;
@@ -28,7 +32,7 @@ const PaymentSuccess = () => {
       
       try {
         const response = await fetch(
-          `https://viwxxjnehceedyctevau.supabase.co/functions/v1/stripe-session-status?session_id=${sessionId}`
+          `${SUPABASE_FUNCTIONS_URL}/stripe-session-status?session_id=${sessionId}`
         );
         
         if (response.ok) {

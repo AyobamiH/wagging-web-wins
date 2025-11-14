@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
 
+// SECURITY NOTE: This URL is public and safe to use in frontend code.
+// Edge Functions handle sensitive operations server-side with secure secrets.
+const SUPABASE_FUNCTIONS_URL = "https://viwxxjnehceedyctevau.supabase.co/functions/v1";
+
 interface BuyPlanButtonProps {
   planName: string;
   planPrice: number;
@@ -30,7 +34,7 @@ const BuyPlanButton = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://viwxxjnehceedyctevau.supabase.co/functions/v1/create-buy-plan-session", {
+      const response = await fetch(`${SUPABASE_FUNCTIONS_URL}/create-buy-plan-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
