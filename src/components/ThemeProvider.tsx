@@ -17,35 +17,44 @@ export const useTheme = () => {
   return context;
 };
 
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored === 'light' || stored === 'dark') {
-      return stored;
-    }
-    
-    // Check system preference (optional, light is still default if no preference)
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    // Default to light mode per KB requirement
-    return 'light';
-  });
+const getInitialTheme = (): Theme => {
+  // Always return "light" for both SSR and initial client render
+  // This prevents hydration mismatches - we'll update to user preference after mount
+  return "light";
+};
 
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [mounted, setMounted] = useState(false);
+
+  // On mount, read the user's actual preference
   useEffect(() => {
+    setMounted(true);
+    
+    if (typeof window === "undefined") return;
+    
+    const stored = window.localStorage.getItem('theme') as Theme | null;
+    if (stored === 'light' || stored === 'dark') {
+      setTheme(stored);
+      return;
+    }
+    
+    // Check system preference as fallback
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+  }, []);
+
+  // Apply theme to DOM (only after mounted to prevent hydration issues)
+  useEffect(() => {
+    if (!mounted) return;
+    if (typeof window === "undefined") return;
+    
     const root = document.documentElement;
-    
-    // Remove both classes first
     root.classList.remove('light', 'dark');
-    
-    // Add the current theme class
     root.classList.add(theme);
-    
-    // Save to localStorage
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    window.localStorage.setItem('theme', theme);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
