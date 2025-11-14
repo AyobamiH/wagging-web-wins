@@ -231,7 +231,7 @@ export default function Contact() {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="bg-gradient-primary text-white px-6 py-3 rounded-2xl font-medium shadow-glow hover:scale-105 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:hover:scale-100"
+              className="bg-primary text-primary-foreground px-6 py-3 rounded-2xl font-medium shadow-glow hover:bg-primary/90 hover:scale-105 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:hover:scale-100"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>

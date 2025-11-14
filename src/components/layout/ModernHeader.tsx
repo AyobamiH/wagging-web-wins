@@ -137,7 +137,7 @@ export default function ModernHeader() {
               <CalendlyEmbed
                 buttonText="Book a Call"
                 buttonSize="sm"
-                className="bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"
+                className="hover:scale-105 transition-all duration-200 shadow-lg"
               />
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function ModernHeader() {
                     </div>
                     <CalendlyEmbed
                       buttonText="Book a Call"
-                      className="w-full bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-lg"
+                      className="w-full hover:scale-105 transition-all duration-200 shadow-lg"
                     />
                   </div>
                 </div>

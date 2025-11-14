@@ -9,7 +9,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent text-white bg-[linear-gradient(90deg,hsl(var(--brand-gradient-from)),hsl(var(--brand-gradient-to)))]",
+          "border-transparent bg-primary text-primary-foreground",
         secondary:
           "border-surface bg-[hsla(var(--glass))] text-foreground hover:bg-[hsla(var(--glass-hover))]",
         destructive:
