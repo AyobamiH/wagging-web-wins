@@ -380,9 +380,9 @@ export default function Services() {
                 onMouseEnter={() => onCardEnter(slug, i)}
                 onMouseLeave={() => onCardLeave(slug)}
                 className="
-                  group relative cursor-pointer rounded-lg border border-surface bg-glass p-5
+                  group relative cursor-pointer rounded-lg border border-border bg-card/50 p-5
                   transition
-                  hover:bg-glass-hover hover:shadow-md hover:border-primary/40
+                  hover:bg-card hover:shadow-md hover:border-primary/40
                   active:scale-[0.99]
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
                   focus-visible:ring-offset-2 focus-visible:ring-offset-background

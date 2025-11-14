@@ -290,13 +290,13 @@ export default function FAQ() {
 />
 
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+      <div className="min-h-screen bg-background">
         {/* Hero Section */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5">
+        <div className="relative overflow-hidden bg-muted/30">
           <div className="absolute inset-0 bg-grid-pattern opacity-5" />
           <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
             <div className="text-center">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
                 Frequently Asked Questions
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
@@ -314,7 +314,7 @@ export default function FAQ() {
                   placeholder="Search FAQs..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-9 h-12 bg-background/50 backdrop-blur-sm border-primary/20 focus:border-primary/50"
+                  className="pl-9 h-12 bg-background/50 backdrop-blur-sm border-border focus:border-primary"
                 />
               </div>
             </div>
