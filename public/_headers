@@ -1,5 +1,24 @@
-# Cache static assets for 1 year
-/assets/*
+/**
+ * PERFORMANCE OPTIMIZATION: Static Asset Caching Strategy
+ * 
+ * Goals:
+ * - Maximize cache lifetimes for versioned static assets (JS, CSS, images)
+ * - Keep HTML documents fresh with short cache (enables quick updates)
+ * - Reduce repeat load time by ~242 KiB (per PageSpeed Insights)
+ * 
+ * Strategy:
+ * - Vite-generated assets (hashed filenames) → 1 year immutable cache
+ * - Static images/fonts → 1 month cache with validation
+ * - HTML → No cache (always fetch fresh for SPA routing)
+ * - Service workers → No cache (must stay current)
+ */
+
+# Vite-generated JS bundles (hashed filenames: index-*.js, vendor-*.js, etc.)
+/assets/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# Vite-generated CSS bundles (hashed filenames)
+/assets/*.css
   Cache-Control: public, max-age=31536000, immutable
 
 # Cache images for 1 month
