@@ -167,15 +167,13 @@ export default function FAQ() {
   } as const;
 
   const categoryColors = {
-    "General Questions": "bg-blue-500/10 text-blue-700 border-blue-200",
-    "Services Offered": "bg-purple-500/10 text-purple-700 border-purple-200",
-    "Pricing and Payments": "bg-green-500/10 text-green-700 border-green-200",
-    "Policies and Procedures": "bg-red-500/10 text-red-700 border-red-200",
-    "General Website & Design": "bg-pink-500/10 text-pink-700 border-pink-200",
-    "Marketing & Online Presence":
-      "bg-orange-500/10 text-orange-700 border-orange-200",
-    "Niche-Specific Questions":
-      "bg-indigo-500/10 text-indigo-700 border-indigo-200",
+    "General Questions": "bg-[hsl(var(--accent-info))]/10 text-[hsl(var(--accent-info))] border-[hsl(var(--accent-info))]/20",
+    "Services Offered": "bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] border-[hsl(var(--primary))]/20",
+    "Pricing and Payments": "bg-[hsl(var(--accent-success))]/10 text-[hsl(var(--accent-success))] border-[hsl(var(--accent-success))]/20",
+    "Policies and Procedures": "bg-[hsl(var(--accent-error))]/10 text-[hsl(var(--accent-error))] border-[hsl(var(--accent-error))]/20",
+    "General Website & Design": "bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] border-[hsl(var(--accent))]/20",
+    "Marketing & Online Presence": "bg-[hsl(var(--accent-warn))]/10 text-[hsl(var(--accent-warn))] border-[hsl(var(--accent-warn))]/20",
+    "Niche-Specific Questions": "bg-[hsl(var(--primary))]/15 text-[hsl(var(--primary))] border-[hsl(var(--primary))]/25",
   } as const;
 
   // Flatten all FAQ items for search
