@@ -20,7 +20,7 @@ const isBrowser = typeof window !== "undefined";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: isBrowser ? localStorage : undefined,
+    storage: isBrowser ? window.localStorage : undefined,
     persistSession: isBrowser,
     autoRefreshToken: isBrowser,
     detectSessionInUrl: isBrowser,
