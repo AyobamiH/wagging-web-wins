@@ -1,83 +1,42 @@
-/**
- * PERFORMANCE OPTIMIZATION: Static Asset Caching Strategy
- * SECURITY HARDENING: Security headers applied site-wide
- * 
- * Goals:
- * - Maximize cache lifetimes for versioned static assets (JS, CSS, images)
- * - Keep HTML documents fresh with short cache (enables quick updates)
- * - Reduce repeat load time by ~242 KiB (per PageSpeed Insights)
- * - Apply defense-in-depth security headers to prevent common attacks
- * 
- * Strategy:
- * - Vite-generated assets (hashed filenames) → 1 year immutable cache
- * - Static images/fonts → 1 month cache with validation
- * - HTML → No cache (always fetch fresh for SPA routing)
- * - Service workers → No cache (must stay current)
- * 
- * Security hardening completed: 2025-01-14
- * - XSS sanitisation in blog rendering
- * - RLS policies updated for sensitive tables
- * - Webhook signature verification implemented
- * - Security headers applied (CSP, HSTS, X-Frame-Options, etc.)
- * - Rate limiting configured to fail-closed
- * - Audit logging infrastructure in place
- */
-
-# Global security headers for all routes
+# Global security + HTML caching
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://assets.calendly.com https://*.stripe.com https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.stripe.com https://assets.calendly.com; frame-src https://calendly.com https://assets.calendly.com https://*.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self';
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # HTML: no cache so updates go live quickly
+  Cache-Control: no-store
 
-# Vite-generated JS bundles (hashed filenames: index-*.js, vendor-*.js, etc.)
-/assets/*.js
+# Vite hashed assets (JS/CSS) – long-lived & immutable
+/assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Vite-generated CSS bundles (hashed filenames)
-/assets/*.css
+/*.js
   Cache-Control: public, max-age=31536000, immutable
 
-# Cache images for 1 month
-*.png
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images – cache for 30 days
+/*.png
   Cache-Control: public, max-age=2592000
 
-*.jpg
+/*.jpg
   Cache-Control: public, max-age=2592000
 
-*.jpeg
+/*.jpeg
   Cache-Control: public, max-age=2592000
 
-*.webp
+/*.webp
   Cache-Control: public, max-age=2592000
 
-*.svg
+/*.svg
   Cache-Control: public, max-age=2592000
 
-# Cache fonts for 1 year
-*.woff2
+# Fonts – long-lived
+/*.woff2
   Cache-Control: public, max-age=31536000, immutable
 
-*.woff
+/*.woff
   Cache-Control: public, max-age=31536000, immutable
-
-# Cache CSS and JS for 1 year (with versioning)
-*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-# HTML files - cache for 1 hour
-/*.html
-  Cache-Control: public, max-age=3600
-
-# Service worker - don't cache
-/sw.js
-  Cache-Control: no-cache
-
-# API responses - cache for 5 minutes
-/api/*
-  Cache-Control: public, max-age=300
