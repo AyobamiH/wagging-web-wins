@@ -148,3 +148,24 @@ export const trackPageLoad = (path: string, loadTime: number) => {
     load_time: Math.round(loadTime),
   });
 };
+
+// Lovable Content Hub tracking
+export const trackLovableHubView = () => {
+  trackEvent('lovable_hub_view', {
+    location: 'lovable_hub',
+  });
+};
+
+export const trackLovableCategoryView = (category: string) => {
+  trackEvent('lovable_category_view', {
+    category,
+    location: 'lovable_category',
+  });
+};
+
+export const trackRedditSnippetCopy = (slug: string) => {
+  trackEvent('reddit_snippet_copy', {
+    post_slug: slug,
+    location: 'blog_post',
+  });
+};

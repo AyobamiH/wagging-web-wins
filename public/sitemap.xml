@@ -130,6 +130,38 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Lovable Content Hub -->
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable/guides</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable/debug-diaries</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable/case-studies</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable/survival-notes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tailwaggingwebdesign.com/blog/lovable/frameworks</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Pillar 1 Posts -->
   <url>
     <loc>https://tailwaggingwebdesign.com/blog/calendly-vs-built-in-booking-for-pet-sitters</loc>

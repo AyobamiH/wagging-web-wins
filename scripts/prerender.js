@@ -43,6 +43,13 @@ const routes = [
   "/service-areas/banbury",
   "/why-do-dogs",
   "/blog",
+  // Lovable Content Hub
+  "/blog/lovable",
+  "/blog/lovable/guides",
+  "/blog/lovable/debug-diaries",
+  "/blog/lovable/case-studies",
+  "/blog/lovable/survival-notes",
+  "/blog/lovable/frameworks",
 ];
 
 // Ensure dist directory exists
