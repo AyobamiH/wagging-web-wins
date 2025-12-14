@@ -6,14 +6,15 @@ export default function SiteFooter() {
   return (
     <footer className="mt-16 border-t">
       <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 sm:grid-cols-3">
-        {/* Logo */}
-        <Link
-          to="/"
-          className="text-xl font-bold transition-all duration-200 hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight text-foreground"
-          aria-label="Tail Wagging Websites Design Factory Northampton - Home"
-        >
-          <span className="hidden sm:inline">Tail Wagging Websites Design Factory Northampton</span>
-        </Link>
+        <div>
+          <p className="font-medium">Tail Wagging Websites Design Factory Northampton</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Websites & automations that actually win pet care clients.
+          </p>
+          <Button variant="default" size="sm" asChild className="mt-2 w-fit">
+            <a href="tel:+447402342694">Call +44 7402 342694</a>
+          </Button>
+        </div>
         <nav aria-label="Footer" className="flex flex-col gap-2">
           <Link to="/services">Services</Link>
           <Link to="/tools">Tools</Link>
