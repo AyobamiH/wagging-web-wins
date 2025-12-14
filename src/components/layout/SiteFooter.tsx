@@ -12,29 +12,6 @@ export default function SiteFooter() {
           className="text-xl font-bold transition-all duration-200 hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight text-foreground"
           aria-label="Tail Wagging Websites Design Factory Northampton - Home"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="h-8 w-8">
-            <defs>
-              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="6" result="blur1" />
-                <feMerge>
-                  <feMergeNode in="blur1" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-              <radialGradient id="nebularNight" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="hsl(var(--primary))" />
-                <stop offset="40%" stopColor="hsl(var(--accent))" />
-                <stop offset="75%" stopColor="hsl(var(--primary))" />
-                <stop offset="100%" stopColor="hsl(var(--accent))" />
-              </radialGradient>
-            </defs>
-            <g filter="url(#glow)" fill="url(#nebularNight)" stroke="hsl(var(--accent))" strokeWidth={3}>
-              <ellipse cx="100" cy="130" rx="40" ry="35" />
-              <circle cx="60" cy="70" r="20" />
-              <circle cx="100" cy="50" r="20" />
-              <circle cx="140" cy="70" r="20" />
-            </g>
-          </svg>
           <span className="hidden sm:inline">Tail Wagging Websites Design Factory Northampton</span>
         </Link>
         <nav aria-label="Footer" className="flex flex-col gap-2">
