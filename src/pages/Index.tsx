@@ -129,7 +129,7 @@ export default function Index() {
                   "website automations for pet care businesses",
                   "crm integrations for pet businesses",
                   "pet website maintenance and support"
-                  ]
+                  ],
 
                 "aggregateRating": {
                   "@type": "AggregateRating",
