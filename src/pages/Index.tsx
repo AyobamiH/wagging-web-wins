@@ -8,33 +8,57 @@ export default function Index() {
   return (
     <>
       <Seo
-        title="Pet Website Design & Automations in Northampton | Tail Wagging Websites Factory"
+        title="Pet Website Design & Workflow Automations in Northampton | Tail Wagging Websites Design Factory Northampton"
         description="Fast, mobile-first pet websites and automations for dog walkers, groomers, sitters, trainers & vets across Northamptonshire. Local SEO & Google Business Profile included. Book a free consult."
         path="/"
         keywords={[
           // Primary + locale
-          "pet website designer northampton",
-          "pet web design northamptonshire",
-          "northampton web design for pet businesses",
-          "pet website designer near me northampton",
-          // Core niches
-          "dog groomer website design northampton",
-          "dog walker websites northampton",
-          "pet sitter website designer northampton",
-          "veterinary website design northampton",
-          "pet trainer website design",
-          // Outcomes / tech
-          "mobile-first pet websites",
-          "core web vitals pet websites",
-          "local seo for pet businesses northampton",
-          "google business profile setup pet business",
-          "pet business automations crm northampton",
-          "booking reminders automation pet care",
-          "pet website maintenance northampton",
-          // Broader capture
-          "pet business websites uk",
-          "pet web design agency northampton",
-          "northampton web design"
+          // Core local intent
+        "pet website designer northampton",
+        "pet web design northamptonshire",
+        "northampton web design for pet businesses",
+        "pet website designer near me northampton",
+        "pet website designer northampton uk",
+        
+        // Transactional intent
+        "pet website design services northampton",
+        "pet website design company northampton",
+        "pet web designer cost northampton",
+        "pet website design packages northampton",
+        
+        // Core pet niches
+        "dog groomer website design northampton",
+        "dog walker websites northampton",
+        "pet sitter website designer northampton",
+        "veterinary website design northampton",
+        "pet trainer website design northampton",
+        
+        // Micro-niches
+        "dog boarding website design",
+        "cat sitter website design",
+        "pet daycare website design",
+        "animal care website design",
+        
+        // Outcomes / tech
+        "mobile-first pet websites",
+        "core web vitals pet websites",
+        "local seo for pet businesses northampton",
+        "google business profile setup pet business",
+        "pet business automations crm northampton",
+        "booking reminders automation pet care",
+        "pet website maintenance northampton",
+        
+        // Problem-led capture
+        "pet business website redesign",
+        "pet website not getting bookings",
+        "dog groomer website not converting",
+        "pet website speed optimisation",
+        
+        // Broader capture
+        "pet business websites uk",
+        "pet web design agency northampton",
+        "northampton web design"
+
         ]}
         breadcrumbs={[{ name: "Home", item: "/" }]}
         jsonLd={[
@@ -44,7 +68,7 @@ export default function Index() {
               {
                 "@type": "Organization",
                 "@id": "https://tailwagginwebdesign.com/#org",
-                "name": "Tail Wagging Websites Factory Northampton",
+                "name": "Tail Wagging Websites Design Factory Northampton",
                 "url": "https://tailwagginwebdesign.com/",
                 "logo": "https://tailwaggingwebdesign.com/og.png",
                 "telephone": "+447402342694",
@@ -73,7 +97,7 @@ export default function Index() {
               {
                 "@type": "ProfessionalService",
                 "@id": "https://tailwaggingwebdesign.com/#local",
-                "name": "Pet Web Design & Automations – Tail Wagging Websites Factory Northampton",
+                "name": "Pet Web Design & Workflow Automations – Tail Wagging Websites Design Factory Northampton",
                 "url": "https://tailwaggingwebdesign.com/",
                 "image": "https://tailwaggingwebdesign.com/og.png",
                 "telephone": "+447402342694",
@@ -89,9 +113,24 @@ export default function Index() {
                   "addressLocality": "Northampton"
                 },
                 "knowsAbout": [
-                  "pet website design","local seo for pet businesses","google business profile",
-                  "core web vitals","website automations","crm integrations"
-                ],
+                  "pet website design in northampton",
+                  "pet website design",
+                  "pet web design for dog groomers",
+                  "pet web design for dog walkers",
+                  "pet web design for pet sitters",
+                  "pet business website redesign",
+                  "local seo for pet businesses",
+                  "google business profile setup for pet businesses",
+                  "northampton local seo",
+                  "mobile-first pet websites",
+                  "core web vitals optimisation",
+                  "conversion-focused pet websites",
+                  "online booking systems for pet businesses",
+                  "website automations for pet care businesses",
+                  "crm integrations for pet businesses",
+                  "pet website maintenance and support"
+                  ]
+
                 "aggregateRating": {
                   "@type": "AggregateRating",
                   "ratingValue": "5.0",
@@ -189,7 +228,7 @@ export default function Index() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            Tail Wagging Websites Factory Northampton
+            Tail Wagging Websites Design Factory Northampton
           </motion.p>
           <motion.h1 
             className="mt-2 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight"
@@ -228,11 +267,12 @@ export default function Index() {
       >
         <div className="mx-auto max-w-6xl px-4 py-6 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
           {[
-            "Specialists in pet care businesses — we know your customers' journey.",
-            "Mobile-first design — 80% of pet bookings happen on phones.",
-            "Local SEO & Google Business Profile setup included as standard.",
-            "Smart automations: booking confirmations, review requests, lead nurturing.",
-          ].map((text, index) => (
+            "Built specifically for pet-care businesses — we understand how pet owners choose and book.",
+            "Mobile-first journeys designed for fast enquiries and bookings on phones.",
+            "Local visibility included: on-page SEO and Google Business Profile optimisation.",
+            "Quiet automations that reduce admin: confirmations, reminders, reviews, and follow-ups."
+          ]
+          .map((text, index) => (
             <motion.div 
               key={text} 
               className="flex items-start gap-2"
