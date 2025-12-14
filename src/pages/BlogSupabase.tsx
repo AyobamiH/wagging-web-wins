@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
@@ -13,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
+import { getPillarTagLabel } from "@/lib/pillarTags";
 import DOMPurify from 'dompurify';
 
 const postRepository = new SupabasePostRepository();
@@ -227,8 +227,8 @@ function BlogPost({ slug }: { slug: string }) {
 
           <header className="mb-8">
             <div className="mb-4">
-              <Badge variant="secondary" className="capitalize">
-                {post.pillarTag ? post.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+              <Badge variant="secondary">
+                {getPillarTagLabel(post.pillarTag)}
               </Badge>
             </div>
             
@@ -308,8 +308,8 @@ function BlogPost({ slug }: { slug: string }) {
                         />
                       </div>
                       <CardHeader>
-                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                          {relatedPost.pillarTag ? relatedPost.pillarTag.replace('pillar-', 'Category ') : 'Article'}
+                        <Badge variant="outline" className="self-start mb-2 text-xs">
+                          {getPillarTagLabel(relatedPost.pillarTag)}
                         </Badge>
                         <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
                           {relatedPost.title}
@@ -440,7 +440,7 @@ function BlogIndex() {
                   <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
-                      {category.replace('pillar-', 'Category ').replace(/^\w/, c => c.toUpperCase())}
+                      {getPillarTagLabel(category)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -462,9 +462,9 @@ function BlogIndex() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className="transition-all duration-200 capitalize"
+                  className="transition-all duration-200"
                 >
-                  {category.replace('pillar-', '').replace(/-/g, ' ')}
+                  {getPillarTagLabel(category)}
                 </Button>
               ))}
             </div>
@@ -495,8 +495,8 @@ function BlogIndex() {
                         />
                       </div>
                       <CardContent className="p-6">
-                        <Badge variant="outline" className="mb-3 capitalize">
-                          {featuredPosts[0].pillarTag ? featuredPosts[0].pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                        <Badge variant="outline" className="mb-3">
+                          {getPillarTagLabel(featuredPosts[0].pillarTag)}
                         </Badge>
                         <h3 className="text-2xl font-bold line-clamp-2 hover:text-primary transition-colors mb-3">
                           {featuredPosts[0].title}
@@ -529,8 +529,8 @@ function BlogIndex() {
                           />
                         </div>
                         <CardContent className="p-4">
-                          <Badge variant="outline" className="mb-2 capitalize text-xs">
-                            {post.pillarTag ? post.pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                          <Badge variant="outline" className="mb-2 text-xs">
+                            {getPillarTagLabel(post.pillarTag)}
                           </Badge>
                           <h3 className="text-lg font-semibold line-clamp-2 hover:text-primary transition-colors mb-2">
                             {post.title}
@@ -569,8 +569,8 @@ function BlogIndex() {
                         />
                       </div>
                       <CardHeader>
-                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                          {post.pillarTag ? post.pillarTag.replace('pillar-', '').replace(/-/g, ' ') : 'Article'}
+                        <Badge variant="outline" className="self-start mb-2 text-xs">
+                          {getPillarTagLabel(post.pillarTag)}
                         </Badge>
                         <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
                           {post.title}
