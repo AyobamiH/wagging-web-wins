@@ -166,14 +166,15 @@ export default function FAQ() {
     "Niche-Specific Questions": Target,
   } as const;
 
+  // All categories use consistent muted styling - no warning/attention colors
   const categoryColors = {
-    "General Questions": "bg-[hsl(var(--accent-info))]/10 text-[hsl(var(--accent-info))] border-[hsl(var(--accent-info))]/20",
-    "Services Offered": "bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] border-[hsl(var(--primary))]/20",
-    "Pricing and Payments": "bg-[hsl(var(--accent-success))]/10 text-[hsl(var(--accent-success))] border-[hsl(var(--accent-success))]/20",
-    "Policies and Procedures": "bg-[hsl(var(--accent-error))]/10 text-[hsl(var(--accent-error))] border-[hsl(var(--accent-error))]/20",
-    "General Website & Design": "bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] border-[hsl(var(--accent))]/20",
-    "Marketing & Online Presence": "bg-[hsl(var(--accent-warn))]/10 text-[hsl(var(--accent-warn))] border-[hsl(var(--accent-warn))]/20",
-    "Niche-Specific Questions": "bg-[hsl(var(--primary))]/15 text-[hsl(var(--primary))] border-[hsl(var(--primary))]/25",
+    "General Questions": "bg-muted text-muted-foreground border-border",
+    "Services Offered": "bg-muted text-muted-foreground border-border",
+    "Pricing and Payments": "bg-muted text-muted-foreground border-border",
+    "Policies and Procedures": "bg-muted text-muted-foreground border-border",
+    "General Website & Design": "bg-muted text-muted-foreground border-border",
+    "Marketing & Online Presence": "bg-muted text-muted-foreground border-border",
+    "Niche-Specific Questions": "bg-muted text-muted-foreground border-border",
   } as const;
 
   // Flatten all FAQ items for search
