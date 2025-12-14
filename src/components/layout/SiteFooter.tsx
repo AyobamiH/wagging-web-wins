@@ -29,23 +29,15 @@ export default function SiteFooter() {
           <p>Registered in England & Wales. Privacy & Cookies.</p>
           <div className="mt-2 flex gap-3">
             <a
-              href="https://www.tiktok.com/@tailwaggingwebdesigns"
+              href="https://www.reddit.com/user/Advanced_Pudding9228/ "
               target="_blank"
               rel="me noopener noreferrer"
-              aria-label="TikTok — Tail Wagging Websites Factory"
+              aria-label="Reddit — Tail Wagging Websites Factory"
               className="underline"
             >
-              TikTok
+              Reddit
             </a>
-            <a
-              href="https://www.instagram.com/tailwaggingwebdesigns/"
-              target="_blank"
-              rel="me noopener noreferrer"
-              aria-label="Instagram — Tail Wagging Websites Factory"
-              className="underline"
-            >
-              Instagram
-            </a>
+
             <a
               href="https://www.linkedin.com/in/john-haastrup/"
               target="_blank"
