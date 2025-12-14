@@ -32,7 +32,7 @@ export default function SiteFooter() {
               href="https://www.reddit.com/user/Advanced_Pudding9228/ "
               target="_blank"
               rel="me noopener noreferrer"
-              aria-label="Reddit — Tail Wagging Websites Factory"
+              aria-label="Reddit — Lovable Builders Hub"
               className="underline"
             >
               Reddit
