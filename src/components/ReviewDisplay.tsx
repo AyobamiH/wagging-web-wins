@@ -18,10 +18,10 @@ export default function ReviewDisplay({ variant = "default", className = "" }: R
               key={i}
               className={`h-3 w-3 ${
                 i < Math.floor(average) 
-                  ? "fill-yellow-400 text-yellow-400" 
+                  ? "fill-[hsl(var(--star-fill))] text-[hsl(var(--star-fill))]" 
                   : i < average 
-                    ? "fill-yellow-200 text-yellow-400"
-                    : "fill-gray-200 text-gray-200"
+                    ? "fill-[hsl(var(--star-fill)/0.5)] text-[hsl(var(--star-fill))]"
+                    : "fill-[hsl(var(--star-empty))] text-[hsl(var(--star-empty))]"
               }`}
             />
           ))}
@@ -43,10 +43,10 @@ export default function ReviewDisplay({ variant = "default", className = "" }: R
                 key={i}
                 className={`h-5 w-5 ${
                   i < Math.floor(average) 
-                    ? "fill-yellow-400 text-yellow-400" 
+                    ? "fill-[hsl(var(--star-fill))] text-[hsl(var(--star-fill))]" 
                     : i < average 
-                      ? "fill-yellow-200 text-yellow-400"
-                      : "fill-gray-200 text-gray-200"
+                      ? "fill-[hsl(var(--star-fill)/0.5)] text-[hsl(var(--star-fill))]"
+                      : "fill-[hsl(var(--star-empty))] text-[hsl(var(--star-empty))]"
                 }`}
               />
             ))}
@@ -66,10 +66,10 @@ export default function ReviewDisplay({ variant = "default", className = "" }: R
             key={i}
             className={`h-4 w-4 ${
               i < Math.floor(average) 
-                ? "fill-yellow-400 text-yellow-400" 
+                ? "fill-[hsl(var(--star-fill))] text-[hsl(var(--star-fill))]" 
                 : i < average 
-                  ? "fill-yellow-200 text-yellow-400"
-                  : "fill-gray-200 text-gray-200"
+                  ? "fill-[hsl(var(--star-fill)/0.5)] text-[hsl(var(--star-fill))]"
+                  : "fill-[hsl(var(--star-empty))] text-[hsl(var(--star-empty))]"
             }`}
           />
         ))}

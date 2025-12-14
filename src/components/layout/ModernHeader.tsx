@@ -155,7 +155,7 @@ export default function ModernHeader() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 sm:w-96 bg-card/98 backdrop-blur-md border-l border-border">
+              <SheetContent side="right" className="w-80 sm:w-96 bg-card border-l border-border">
                 <div className="flex flex-col h-full gap-2">
                   <div className="flex items-center justify-between pb-4 mb-2 border-b border-border">
                     <Link

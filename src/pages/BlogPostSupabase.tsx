@@ -10,6 +10,7 @@ import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import BlogPostLayout from "@/components/blog/BlogPostLayout";
 import { EnhancedSupabasePostRepository } from "@/lib/repositories/supabase-adapters.enhanced";
+import { getPillarTagLabel } from "@/lib/pillarTags";
 import DOMPurify from "dompurify";
 
 const postRepository = new EnhancedSupabasePostRepository();
@@ -234,8 +235,8 @@ export default function BlogPostSupabase() {
                     </div>
                     <CardHeader>
                       {relatedPost.pillarTag && (
-                        <Badge variant="outline" className="self-start mb-2 capitalize text-xs">
-                          {relatedPost.pillarTag.replace('pillar-', 'Category ')}
+                        <Badge variant="outline" className="self-start mb-2 text-xs">
+                          {getPillarTagLabel(relatedPost.pillarTag)}
                         </Badge>
                       )}
                       <CardTitle className="text-lg line-clamp-2 hover:text-primary transition-colors">
