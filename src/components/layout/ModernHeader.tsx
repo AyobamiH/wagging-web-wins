@@ -1,7 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import CalendlyEmbed from "../CalendlyEmbed";
@@ -16,8 +23,8 @@ export default function ModernHeader() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 24);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const primaryNavItems = [
@@ -25,7 +32,6 @@ export default function ModernHeader() {
     { to: "/contact", label: "Contact" },
     { to: "/faq", label: "FAQ" },
     { to: "/blog", label: "Blog" },
-    
   ];
 
   const moreNavItems = [
@@ -36,12 +42,12 @@ export default function ModernHeader() {
   ];
 
   return (
-    <header 
+    <header
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
-        isScrolled 
-          ? "bg-card/98 backdrop-blur-md border-b border-border shadow-glow" 
-          : "bg-card/60 backdrop-blur-sm border-b border-border/40"
+        isScrolled
+          ? "bg-card/98 backdrop-blur-md border-b border-border shadow-glow"
+          : "bg-card/60 backdrop-blur-sm border-b border-border/40",
       )}
       role="banner"
     >
@@ -51,13 +57,9 @@ export default function ModernHeader() {
           <Link
             to="/"
             className="text-xl font-bold transition-all duration-200 hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm flex items-center gap-2 font-semibold tracking-tight text-foreground"
-            aria-label="Tail Wagging Websites - Home"
+            aria-label="Tail Wagging Websites Design Factory Northampton - Home"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 200 200"
-              className="h-8 w-8"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="h-8 w-8">
               <defs>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="6" result="blur1" />
@@ -80,7 +82,7 @@ export default function ModernHeader() {
                 <circle cx="140" cy="70" r="20" />
               </g>
             </svg>
-            <span className="hidden sm:inline">Tail Wagging Websites Factory</span>
+            <span className="hidden sm:inline">Tail Wagging Websites Design Factory Northampton</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -95,7 +97,7 @@ export default function ModernHeader() {
                         className={({ isActive }) =>
                           cn(
                             "inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                            isActive ? "text-primary font-semibold" : "text-foreground/90 hover:text-foreground"
+                            isActive ? "text-primary font-semibold" : "text-foreground/90 hover:text-foreground",
                           )
                         }
                       >
@@ -104,7 +106,7 @@ export default function ModernHeader() {
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
-                
+
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-foreground/90 hover:text-foreground hover:bg-muted font-medium">
                     More
@@ -118,7 +120,7 @@ export default function ModernHeader() {
                             className={({ isActive }) =>
                               cn(
                                 "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground",
-                                isActive ? "text-primary bg-muted font-semibold" : "text-foreground/80"
+                                isActive ? "text-primary bg-muted font-semibold" : "text-foreground/80",
                               )
                             }
                           >
@@ -146,12 +148,7 @@ export default function ModernHeader() {
           <div className="lg:hidden">
             <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
               <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 p-0"
-                  aria-label="Open menu"
-                >
+                <Button variant="ghost" size="sm" className="h-9 w-9 p-0" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -163,11 +160,7 @@ export default function ModernHeader() {
                       onClick={() => setIsMobileOpen(false)}
                       className="flex items-center gap-2 font-semibold text-foreground transition-colors hover:text-primary"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        className="h-6 w-6"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="h-6 w-6">
                         <defs>
                           <radialGradient id="mobileLogo" cx="50%" cy="50%" r="50%">
                             <stop offset="0%" stopColor="hsl(var(--primary))" />
@@ -201,7 +194,7 @@ export default function ModernHeader() {
                                 "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
                                   ? "text-primary bg-muted font-semibold shadow-sm"
-                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm"
+                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm",
                               )
                             }
                           >
@@ -209,11 +202,9 @@ export default function ModernHeader() {
                           </NavLink>
                         ))}
                       </div>
-                      
+
                       <div>
-                        <p className="text-xs font-semibold text-primary uppercase tracking-wider px-3 pb-2">
-                          More
-                        </p>
+                        <p className="text-xs font-semibold text-primary uppercase tracking-wider px-3 pb-2">More</p>
                         {moreNavItems.map((item) => (
                           <NavLink
                             key={item.to}
@@ -224,7 +215,7 @@ export default function ModernHeader() {
                                 "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                                 isActive
                                   ? "text-primary bg-muted font-semibold shadow-sm"
-                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm"
+                                  : "text-foreground/90 hover:text-foreground hover:bg-muted hover:shadow-sm",
                               )
                             }
                           >
