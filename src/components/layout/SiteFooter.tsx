@@ -7,7 +7,7 @@ export default function SiteFooter() {
     <footer className="mt-16 border-t">
       <div className="mx-auto max-w-6xl px-4 py-8 grid gap-6 sm:grid-cols-3">
         <div>
-          <p className="font-medium">Tail Wagging Websites Factory Northampton</p>
+          <p className="font-medium">Tail Wagging Websites Design Factory Northampton</p>
           <p className="text-sm text-muted-foreground mt-2">
             Websites & automations that actually win pet care clients.
           </p>
