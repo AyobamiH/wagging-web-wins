@@ -271,7 +271,7 @@ export default function Index() {
             "Mobile-first journeys designed for fast enquiries and bookings on phones.",
             "Local visibility included: on-page SEO and Google Business Profile optimisation.",
             "Quiet automations that reduce admin: confirmations, reminders, reviews, and follow-ups."
-          ]
+          ]}
           .map((text, index) => (
             <motion.div 
               key={text} 
