@@ -25,38 +25,37 @@ export default function SiteFooter() {
         </nav>
 
         <div className="text-sm text-muted-foreground">
-          <p>© {year} Tail Wagging Websites Factory Northampton.</p>
+          <p>© {year} Tail Wagging Websites Design Factory Northampton.</p>
           <p>Registered in England & Wales. Privacy & Cookies.</p>
           <div className="mt-2 flex gap-3">
-  <a
-    href="https://www.tiktok.com/@tailwaggingwebdesigns"
-    target="_blank"
-    rel="me noopener noreferrer"
-    aria-label="TikTok — Tail Wagging Websites Factory"
-    className="underline"
-  >
-    TikTok
-  </a>
-  <a
-    href="https://www.instagram.com/tailwaggingwebdesigns/"
-    target="_blank"
-    rel="me noopener noreferrer"
-    aria-label="Instagram — Tail Wagging Websites Factory"
-    className="underline"
-  >
-    Instagram
-  </a>
-  <a
-    href="https://www.linkedin.com/in/john-haastrup/"
-    target="_blank"
-    rel="me noopener noreferrer"
-    aria-label="LinkedIn — John Haastrup"
-    className="underline"
-  >
-    LinkedIn
-  </a>
-</div>
-
+            <a
+              href="https://www.tiktok.com/@tailwaggingwebdesigns"
+              target="_blank"
+              rel="me noopener noreferrer"
+              aria-label="TikTok — Tail Wagging Websites Factory"
+              className="underline"
+            >
+              TikTok
+            </a>
+            <a
+              href="https://www.instagram.com/tailwaggingwebdesigns/"
+              target="_blank"
+              rel="me noopener noreferrer"
+              aria-label="Instagram — Tail Wagging Websites Factory"
+              className="underline"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://www.linkedin.com/in/john-haastrup/"
+              target="_blank"
+              rel="me noopener noreferrer"
+              aria-label="LinkedIn — John Haastrup"
+              className="underline"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
     </footer>
