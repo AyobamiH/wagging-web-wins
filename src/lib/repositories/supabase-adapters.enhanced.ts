@@ -1,7 +1,17 @@
 // Enhanced Supabase adapters with proper error handling and pagination
 
 import { supabase } from "@/integrations/supabase/client";
-import type { PostRepository, SettingsRepository, Post, PostSeed, PostListParams, ReviewCount } from "./types";
+import type { 
+  PostRepository, 
+  SettingsRepository, 
+  Post, 
+  PostSeed, 
+  PostListParams, 
+  ReviewCount,
+  LovableListParams,
+  LovableCategory,
+  LovableExtras
+} from "./types";
 import { createRepositoryError, NotFoundError, DatabaseError } from "@/lib/errors";
 
 export class EnhancedSupabasePostRepository implements PostRepository {
@@ -63,6 +73,97 @@ export class EnhancedSupabasePostRepository implements PostRepository {
     }
   }
 
+  // Lovable-specific methods
+  async listLovablePosts(params: LovableListParams = {}): Promise<Post[]> {
+    try {
+      let query = supabase
+        .from('posts')
+        .select('*')
+        .eq('published', true)
+        .eq('pillar_tag', 'lovable');
+
+      // Filter by category if specified
+      if (params.category) {
+        query = query.eq('extras->>lovableCategory', params.category);
+      }
+
+      // Filter featured if specified
+      if (params.featured) {
+        query = query.eq('extras->>featured', 'true');
+      }
+
+      query = query.order('published_at', { ascending: false });
+
+      const limit = params.limit || 50;
+      const offset = params.offset || 0;
+      query = query.range(offset, offset + limit - 1);
+
+      const { data, error } = await query;
+
+      if (error) {
+        throw new DatabaseError('Failed to fetch Lovable posts', error);
+      }
+
+      return (data || []).map((item) => this.mapToPost(item));
+    } catch (error) {
+      if (error instanceof DatabaseError) throw error;
+      throw createRepositoryError('fetch', 'lovable posts', error);
+    }
+  }
+
+  async listLovableByCategory(
+    category: LovableCategory, 
+    params: Omit<LovableListParams, 'category'> = {}
+  ): Promise<Post[]> {
+    return this.listLovablePosts({ ...params, category });
+  }
+
+  async listFeaturedLovable(limit: number = 3): Promise<Post[]> {
+    try {
+      // First try to get explicitly featured posts
+      const { data: featured, error: featuredError } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('published', true)
+        .eq('pillar_tag', 'lovable')
+        .eq('extras->>featured', 'true')
+        .order('published_at', { ascending: false })
+        .limit(limit);
+
+      if (featuredError) {
+        throw new DatabaseError('Failed to fetch featured Lovable posts', featuredError);
+      }
+
+      // If we have enough featured posts, return them
+      if (featured && featured.length >= limit) {
+        return featured.map((item) => this.mapToPost(item));
+      }
+
+      // Otherwise, fill with newest Lovable posts
+      const existingIds = (featured || []).map(p => p.id);
+      const remaining = limit - (featured?.length || 0);
+
+      const { data: newest, error: newestError } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('published', true)
+        .eq('pillar_tag', 'lovable')
+        .not('id', 'in', `(${existingIds.length > 0 ? existingIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
+        .order('published_at', { ascending: false })
+        .limit(remaining);
+
+      if (newestError) {
+        throw new DatabaseError('Failed to fetch newest Lovable posts', newestError);
+      }
+
+      const combined = [...(featured || []), ...(newest || [])];
+      return combined.map((item) => this.mapToPost(item));
+    } catch (error) {
+      if (error instanceof DatabaseError) throw error;
+      throw createRepositoryError('fetch', 'featured lovable posts', error);
+    }
+  }
+
   async seed(posts: PostSeed[]): Promise<void> {
     try {
       const { error } = await supabase
@@ -115,6 +216,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       if (post.ogImageUrl !== undefined) updateData.og_image_url = post.ogImageUrl;
       if (post.coverAlt !== undefined) updateData.cover_alt = post.coverAlt;
       if (post.publishedAt !== undefined) updateData.published_at = post.publishedAt;
+      if (post.extras !== undefined) updateData.extras = post.extras;
 
       const { data, error } = await supabase
         .from('posts')
@@ -190,6 +292,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       publishedAt: data.published_at,
       ogImageUrl: data.og_image_url || undefined,
       coverAlt: data.cover_alt || undefined,
+      extras: data.extras ? (data.extras as LovableExtras) : undefined,
     };
   }
 
@@ -206,6 +309,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       og_image_url: post.ogImageUrl,
       cover_alt: post.coverAlt,
       published_at: post.publishedAt || new Date().toISOString(),
+      extras: post.extras || {},
     };
   }
 }

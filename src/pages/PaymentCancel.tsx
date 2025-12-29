@@ -20,10 +20,10 @@ const PaymentCancel = () => {
         <div className="max-w-2xl w-full">
           <Card className="text-center shadow-lg">
             <CardHeader className="pb-4">
-              <div className="mx-auto mb-4 flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full">
-                <XCircle className="w-8 h-8 text-orange-600" />
+              <div className="mx-auto mb-4 flex items-center justify-center w-16 h-16 bg-muted rounded-full">
+                <XCircle className="w-8 h-8 text-muted-foreground" />
               </div>
-              <CardTitle className="text-2xl font-bold text-orange-600 mb-2">
+              <CardTitle className="text-2xl font-bold text-foreground mb-2">
                 Payment Cancelled
               </CardTitle>
               <p className="text-muted-foreground text-lg">

@@ -29,6 +29,8 @@ const ServiceAreas = lazy(() => import("./pages/ServiceAreas"));
 const Location = lazy(() => import("./pages/Location"));
 const BlogSupabase = lazy(() => import("./pages/BlogSupabase"));
 const BlogPostSupabase =  lazy(()  => import("./pages/BlogPostSupabase"))
+const LovableHub = lazy(() => import("./pages/LovableHub"));
+const LovableCategory = lazy(() => import("./pages/LovableCategory"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
@@ -90,6 +92,8 @@ const App = () => (
                   <Route path="/why-do-dogs/" element={<WhyDoDogs />} />
                   <Route path="/why-do-dogs/:slug/" element={<WhyDogsGuideDetail />} />
                   <Route path="/blog" element={<BlogSupabase />} />
+                  <Route path="/blog/lovable" element={<LovableHub />} />
+                  <Route path="/blog/lovable/:category" element={<LovableCategory />} />
                   <Route path="/blog/:slug" element={<BlogPostSupabase />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/service-areas" element={<ServiceAreas />} />
