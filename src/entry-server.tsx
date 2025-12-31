@@ -40,13 +40,13 @@
 
 
 /**
- * Server-side entry point for pre-rendering
- * This file is used during the build process to generate static HTML
+ * Server-side entry point for pre-rendering (ESM + streaming)
  */
 import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "react-helmet-async";
+import { Writable } from "node:stream";
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -58,6 +58,7 @@ export function render(url: string) {
     helmet: { title: string; meta: string; link: string; script: string };
   }>((resolve, reject) => {
     let html = "";
+    let didError = false;
 
     const { pipe, abort } = renderToPipeableStream(
       <HelmetProvider context={helmetContext}>
@@ -69,36 +70,44 @@ export function render(url: string) {
       </HelmetProvider>,
       {
         onAllReady() {
-          const stream = new (require("stream").Writable)({
-            write(chunk: any, _enc: any, cb: any) {
+          const writable = new Writable({
+            write(chunk, _enc, cb) {
               html += chunk.toString();
               cb();
             },
           });
 
-          stream.on("finish", () => {
-            const { helmet } = helmetContext;
+          writable.on("finish", () => {
+            const helmet = helmetContext?.helmet;
 
             resolve({
               html,
               helmet: {
-                title: helmet?.title?.toString() || "",
-                meta: helmet?.meta?.toString() || "",
-                link: helmet?.link?.toString() || "",
-                script: helmet?.script?.toString() || "",
+                title: helmet?.title?.toString?.() ?? "",
+                meta: helmet?.meta?.toString?.() ?? "",
+                link: helmet?.link?.toString?.() ?? "",
+                script: helmet?.script?.toString?.() ?? "",
               },
             });
           });
 
-          pipe(stream);
+          writable.on("error", (err) => reject(err));
+
+          pipe(writable);
         },
-        onError(err) {
+
+        onShellError(err) {
           reject(err);
+        },
+
+        onError(err) {
+          didError = true;
+          // keep logging but don’t crash immediately; prerender can still complete
+          console.error(err);
         },
       }
     );
 
-    // Safety: avoid hanging builds if something suspends forever
-    setTimeout(() => abort(), 10000);
+    setTimeout(() => abort(), 10_000);
   });
 }
