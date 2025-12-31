@@ -13,7 +13,7 @@ export function render(url: string) {
   const helmetContext = {};
   
   const html = renderToString(
-    <React.StrictMode>
+   
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={url}>
           <ErrorBoundary>
@@ -21,7 +21,7 @@ export function render(url: string) {
           </ErrorBoundary>
         </StaticRouter>
       </HelmetProvider>
-    </React.StrictMode>
+    
   );
 
   // Extract helmet data
