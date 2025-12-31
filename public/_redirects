@@ -1,3 +1,7 @@
-/assets/*  /assets/*  200
-/*         /index.html 200
+
+# Serve real static assets as-is
+/assets/* /assets/:splat 200
+
+# SPA fallback (safe target)
+ /* / 200
 
