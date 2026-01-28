@@ -51,7 +51,7 @@ serve(async (req) => {
     }
 
     const messageData = validation.data;
-    if (import.meta.env?.DEV) console.log('Received message data');
+    console.log('Received message data');
 
     // SECURITY: Send to webhook with signature verification
     const webhookUrl = Deno.env.get('N8N_MESSAGES_WEBHOOK_URL');
@@ -94,7 +94,7 @@ serve(async (req) => {
       throw new Error(`Webhook failed with status: ${webhookResponse.status}`);
     }
     
-    if (import.meta.env?.DEV) console.log('Message sent to webhook successfully');
+    console.log('Message sent to webhook successfully');
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -106,9 +106,10 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in submit-message function:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(JSON.stringify({ 
       error: 'Failed to submit message',
-      details: error.message 
+      details: errorMessage 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

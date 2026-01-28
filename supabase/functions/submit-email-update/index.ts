@@ -48,7 +48,7 @@ serve(async (req) => {
     }
 
     const { email } = validation.data;
-    if (import.meta.env?.DEV) console.log('Received email update');
+    console.log('Received email update');
 
     // SECURITY: Send to webhook with signature verification
     const webhookUrl = Deno.env.get('N8N_EMAIL_UPDATE_WEBHOOK_URL');
@@ -91,7 +91,7 @@ serve(async (req) => {
       throw new Error(`Webhook failed with status: ${webhookResponse.status}`);
     }
     
-    if (import.meta.env?.DEV) console.log('Email sent to webhook successfully');
+    console.log('Email sent to webhook successfully');
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -103,9 +103,10 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in submit-email-update function:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(JSON.stringify({ 
       error: 'Failed to submit email',
-      details: error.message 
+      details: errorMessage 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
