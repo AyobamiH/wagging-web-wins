@@ -18,9 +18,11 @@ const postRepository = new EnhancedSupabasePostRepository();
 export default function BlogPostSupabase() {
   const { slug } = useParams<{ slug: string }>();
 
-  // Scroll to top when component mounts or slug changes
+  // Scroll to top when component mounts or slug changes (SSR-safe)
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [slug]);
 
   const { data: post, isLoading, error } = useQuery({
@@ -108,11 +110,11 @@ export default function BlogPostSupabase() {
             "@type": "Article",
             "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
             "headline": post.title,
-            "description": post.metaDescription,
+            "description": post.metaDescription || post.excerpt,
             "datePublished": post.publishedAt,
-            "dateModified": post.publishedAt,
+            "dateModified": post.updatedAt || post.publishedAt,
             "wordCount": post.content.replace(/<[^>]*>/g, '').split(' ').length,
-            "articleBody": post.excerpt,
+            "articleBody": post.content.replace(/<[^>]*>/g, '').substring(0, 500),
             "mainEntityOfPage": {
               "@type": "WebPage",
               "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`

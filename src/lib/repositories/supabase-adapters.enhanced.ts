@@ -290,6 +290,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       faq: data.faq ? (data.faq as Array<{ q: string; a: string }>) : undefined,
       pillarTag: data.pillar_tag || undefined,
       publishedAt: data.published_at,
+      updatedAt: data.updated_at || undefined,
       ogImageUrl: data.og_image_url || undefined,
       coverAlt: data.cover_alt || undefined,
       extras: data.extras ? (data.extras as LovableExtras) : undefined,

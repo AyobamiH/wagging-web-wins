@@ -12,7 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { SupabasePostRepository } from '@/lib/repositories/supabase-adapters';
+import { EnhancedSupabasePostRepository } from '@/lib/repositories/supabase-adapters.enhanced';
 import type { Post, PostSeed } from '@/lib/repositories/types';
 import BlogPostLayout from '@/components/blog/BlogPostLayout';
 import { ArrowLeft, Save, Eye, Edit } from 'lucide-react';
@@ -39,7 +39,7 @@ const BlogEditor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const postRepo = new SupabasePostRepository();
+  const postRepo = new EnhancedSupabasePostRepository();
 
   const {
     register,
