@@ -11,11 +11,11 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Seo from "@/components/Seo";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
-import { SupabasePostRepository } from "@/lib/repositories/supabase-adapters";
+import { EnhancedSupabasePostRepository } from "@/lib/repositories/supabase-adapters.enhanced";
 import { getPillarTagLabel } from "@/lib/pillarTags";
 import DOMPurify from 'dompurify';
 
-const postRepository = new SupabasePostRepository();
+const postRepository = new EnhancedSupabasePostRepository();
 
 export default function BlogSupabase() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,9 +31,11 @@ export default function BlogSupabase() {
 
 // Blog post component for individual posts
 function BlogPost({ slug }: { slug: string }) {
-  // Scroll to top when component mounts or slug changes
+  // Scroll to top when component mounts or slug changes (SSR-safe)
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [slug]);
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['supabase-post', slug],
@@ -137,11 +139,11 @@ function BlogPost({ slug }: { slug: string }) {
             "@type": "Article",
             "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`,
             "headline": post.title,
-            "description": post.metaDescription,
+            "description": post.metaDescription || post.excerpt,
             "datePublished": post.publishedAt,
-            "dateModified": post.publishedAt,
+            "dateModified": post.updatedAt || post.publishedAt,
             "wordCount": post.content.replace(/<[^>]*>/g, '').split(' ').length,
-            "articleBody": post.excerpt,
+            "articleBody": post.content.replace(/<[^>]*>/g, '').substring(0, 500),
             "mainEntityOfPage": {
               "@type": "WebPage",
               "@id": `https://tailwaggingwebdesign.com/blog/${post.slug}`

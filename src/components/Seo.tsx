@@ -9,11 +9,14 @@ import { Helmet } from "react-helmet-async";
 import pawprintOg from "@/assets/pawprint-og.png";
 
 const CANONICAL_ORIGIN = "https://tailwaggingwebdesign.com";
+const DEFAULT_TITLE = "Tail Wagging Websites | Pet Care Web Design";
+const DEFAULT_DESCRIPTION = "Mobile-first websites and automations for dog walkers, groomers, sitters and trainers in Northamptonshire.";
+
 export type Breadcrumb = { name: string; item: string };
 
 interface SeoProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   path: string;
   imageUrl?: string;
   imageAlt?: string;
@@ -60,7 +63,16 @@ function Seo({
 }: SeoProps) {
   const safePath = path.startsWith("/") ? path : `/${path}`;
   const canonical = canonicalOverride || `${CANONICAL_ORIGIN}${safePath}`;
-  const img = imageUrl || pawprintOg;
+  
+  // Fallback chains for SEO resilience
+  const safeTitle = title || DEFAULT_TITLE;
+  const safeDescription = description || DEFAULT_DESCRIPTION;
+  const img = imageUrl?.startsWith('http') 
+    ? imageUrl 
+    : imageUrl 
+      ? `${CANONICAL_ORIGIN}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`
+      : `${CANONICAL_ORIGIN}${pawprintOg}`;
+  
   const robotsContent = noIndex
     ? "noindex, follow"
     : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
@@ -142,8 +154,8 @@ function Seo({
 
   return (
     <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
+      <title>{safeTitle}</title>
+      <meta name="description" content={safeDescription} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="robots" content={robotsContent} />
       
@@ -157,8 +169,8 @@ function Seo({
         <link key={lang.lang} rel="alternate" hrefLang={lang.lang} href={lang.href} />
       ))}
 
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      <meta property="og:title" content={safeTitle} />
+      <meta property="og:description" content={safeDescription} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={img} />
@@ -169,8 +181,8 @@ function Seo({
       <meta property="og:locale" content="en_GB" />
 
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:title" content={safeTitle} />
+      <meta name="twitter:description" content={safeDescription} />
       <meta name="twitter:image" content={img} />
       <meta name="twitter:image:alt" content={imageAlt || "Tail Wagging Websites - Pet Care Web Design"} />
 

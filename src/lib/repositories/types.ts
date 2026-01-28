@@ -37,6 +37,7 @@ export interface Post {
   faq?: Array<{ q: string; a: string }>;
   pillarTag?: string;
   publishedAt: string;
+  updatedAt?: string;
   ogImageUrl?: string;
   coverAlt?: string;
   extras?: LovableExtras;

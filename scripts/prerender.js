@@ -1,6 +1,11 @@
 /**
  * Pre-render script for generating static HTML files
  * Runs after Vite build to create SEO-optimized HTML for key routes
+ * 
+ * This script:
+ * 1. Fetches all published blog post slugs from Supabase
+ * 2. Renders static HTML for marketing pages AND individual blog posts
+ * 3. Injects helmet (SEO) data into each page
  */
 import fs from "fs";
 import path from "path";
@@ -9,22 +14,54 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const toAbsolute = (p) => path.resolve(__dirname, p);
 
+// Supabase config for fetching blog slugs (uses anon key for public reads only)
+const SUPABASE_URL = "https://viwxxjnehceedyctevau.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpd3h4am5laGNlZWR5Y3RldmF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyMDE3NzcsImV4cCI6MjA3MDc3Nzc3N30.bQqfq-ktOHrIs6cyCYx7t8PRmrn0oaO6qPUY2mGZOrI";
+
+/**
+ * Fetch all published blog post slugs from Supabase
+ */
+async function fetchBlogSlugs() {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/posts?select=slug&published=eq.true&order=published_at.desc`,
+      {
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(`⚠️  Failed to fetch blog slugs: ${response.status} ${response.statusText}`);
+      return [];
+    }
+
+    const posts = await response.json();
+    return posts.map(p => p.slug);
+  } catch (error) {
+    console.warn("⚠️  Could not fetch blog slugs from Supabase:", error instanceof Error ? error.message : String(error));
+    return [];
+  }
+}
+
 // Template HTML (will be generated from index.html)
 const template = fs.readFileSync(toAbsolute("../dist/index.html"), "utf-8");
 
 // Import the server entry (built by Vite)
+const { render, initCache } = await import("../dist-ssr/entry-server.js");
+
+// Initialize the post cache before rendering
+console.log("📚 Initializing blog post cache for SSR...");
+await initCache();
 const { render } = await import("../dist-ssr/entry-server.js");
 
 /**
- * Routes to pre-render
- * 
- * To add a new route to the pre-render list:
- * 1. Add the route path to this array
- * 2. Ensure the route exists in your React Router configuration
- * 3. Make sure the route's component uses the Seo component with proper props
- * 4. Run: npm run build:client && npm run build:server && npm run prerender
+ * Static routes to pre-render (always included)
  */
-const routes = [
+const staticRoutes = [
   "/",
   "/services",
   "/pricing",
@@ -60,6 +97,20 @@ if (!fs.existsSync(distDir)) {
 
 console.log("🚀 Starting pre-render process...\n");
 
+// Fetch blog slugs from Supabase
+console.log("📡 Fetching blog post slugs from Supabase...");
+const blogSlugs = await fetchBlogSlugs();
+console.log(`   Found ${blogSlugs.length} published blog posts\n`);
+
+// Build dynamic blog post routes
+const blogRoutes = blogSlugs.map(slug => `/blog/${slug}`);
+
+// Combine all routes
+const routes = [...staticRoutes, ...blogRoutes];
+
+let successCount = 0;
+let failCount = 0;
+
 for (const route of routes) {
   try {
     const { html, helmet } = render(route);
@@ -86,9 +137,17 @@ for (const route of routes) {
     // Write the file
     fs.writeFileSync(filePath, finalHtml);
     console.log(`✅ Pre-rendered: ${route}`);
+    successCount++;
   } catch (error) {
-    console.error(`❌ Failed to pre-render ${route}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Failed to pre-render ${route}:`, errorMessage);
+    failCount++;
   }
 }
 
-console.log("\n✨ Pre-render complete!\n");
+console.log(`\n✨ Pre-render complete!`);
+console.log(`   ✅ ${successCount} pages rendered successfully`);
+if (failCount > 0) {
+  console.log(`   ❌ ${failCount} pages failed`);
+}
+console.log("");
