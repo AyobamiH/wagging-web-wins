@@ -289,6 +289,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       content: data.content,
       faq: data.faq ? (data.faq as Array<{ q: string; a: string }>) : undefined,
       pillarTag: data.pillar_tag || undefined,
+      published: data.published ?? true,
       publishedAt: data.published_at,
       updatedAt: data.updated_at || undefined,
       ogImageUrl: data.og_image_url || undefined,
@@ -310,6 +311,7 @@ export class EnhancedSupabasePostRepository implements PostRepository {
       og_image_url: post.ogImageUrl,
       cover_alt: post.coverAlt,
       published_at: post.publishedAt || new Date().toISOString(),
+      published: post.published ?? true,
       extras: post.extras || {},
     };
   }

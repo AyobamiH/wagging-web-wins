@@ -13,8 +13,9 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { EnhancedSupabasePostRepository } from '@/lib/repositories/supabase-adapters.enhanced';
-import type { Post, PostSeed } from '@/lib/repositories/types';
+import type { Post, PostSeed, LovableExtras } from '@/lib/repositories/types';
 import BlogPostLayout from '@/components/blog/BlogPostLayout';
+import { PillarTagSelect } from '@/components/admin/PillarTagSelect';
 import { ArrowLeft, Save, Eye, Edit } from 'lucide-react';
 
 const postSchema = z.object({
@@ -54,6 +55,7 @@ const BlogEditor: React.FC = () => {
 
   const watchTitle = watch('title');
   const watchAllFields = watch();
+  const watchPillarTag = watch('pillarTag');
 
   // Auto-generate slug from title
   useEffect(() => {
@@ -86,9 +88,10 @@ const BlogEditor: React.FC = () => {
               ogImageUrl: existingPost.ogImageUrl || '',
               coverAlt: existingPost.coverAlt || '',
             });
-            // Note: We'd need to extend the Post type to include published and featured status
-            setPublished(true); // Default for now
-            setFeatured(false); // Default for now
+            // Load published state from post
+            setPublished(existingPost.published ?? true);
+            // Load featured state from extras
+            setFeatured(existingPost.extras?.featured ?? false);
           }
         } catch (error) {
           toast({
@@ -109,6 +112,13 @@ const BlogEditor: React.FC = () => {
     try {
       setLoading(true);
       
+      // Build extras object, preserving existing extras and updating featured
+      const existingExtras = post?.extras || {};
+      const newExtras: LovableExtras = {
+        ...existingExtras,
+        featured: featured,
+      };
+      
       const postData: PostSeed = {
         slug: data.slug,
         title: data.title,
@@ -116,10 +126,12 @@ const BlogEditor: React.FC = () => {
         metaTitle: data.metaTitle,
         metaDescription: data.metaDescription,
         content: data.content,
-        pillarTag: data.pillarTag,
-        ogImageUrl: data.ogImageUrl,
-        coverAlt: data.coverAlt,
-        publishedAt: new Date().toISOString(),
+        pillarTag: data.pillarTag || undefined,
+        ogImageUrl: data.ogImageUrl || undefined,
+        coverAlt: data.coverAlt || undefined,
+        publishedAt: post?.publishedAt || new Date().toISOString(),
+        published: published,
+        extras: newExtras,
       };
 
       if (id && id !== 'new' && post) {
@@ -136,10 +148,11 @@ const BlogEditor: React.FC = () => {
         });
         navigate('/admin/blog');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Failed to save post";
       toast({
         title: "Error",
-        description: error.message || "Failed to save post",
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -280,7 +293,10 @@ Start writing your blog post using Markdown...
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="published">Published</Label>
+                  <div>
+                    <Label htmlFor="published">Published</Label>
+                    <p className="text-xs text-muted-foreground">Visible on public site</p>
+                  </div>
                   <Switch
                     id="published"
                     checked={published}
@@ -289,7 +305,10 @@ Start writing your blog post using Markdown...
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="featured">Featured</Label>
+                  <div>
+                    <Label htmlFor="featured">Featured</Label>
+                    <p className="text-xs text-muted-foreground">Show in featured section</p>
+                  </div>
                   <Switch
                     id="featured"
                     checked={featured}
@@ -300,12 +319,14 @@ Start writing your blog post using Markdown...
                 <Separator />
 
                 <div className="space-y-2">
-                  <Label htmlFor="pillarTag">Pillar Tag</Label>
-                  <Input
-                    id="pillarTag"
-                    {...register('pillarTag')}
-                    placeholder="e.g., pet-care-tips"
+                  <Label htmlFor="pillarTag">Category</Label>
+                  <PillarTagSelect
+                    value={watchPillarTag}
+                    onChange={(value) => setValue('pillarTag', value)}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Choose "Lovable" for Lovable hub content
+                  </p>
                 </div>
               </CardContent>
             </Card>
