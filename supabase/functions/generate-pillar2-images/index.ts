@@ -5,20 +5,26 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface RunwareRequest {
-  taskType: string
+interface RunwareAuthRequest {
+  taskType: 'authentication'
   apiKey: string
-  positivePrompt?: string
-  model?: string
-  width?: number
-  height?: number
-  numberResults?: number
-  outputFormat?: string
-  CFGScale?: number
-  scheduler?: string
-  strength?: number
-  taskUUID?: string
 }
+
+interface RunwareImageRequest {
+  taskType: 'imageInference'
+  taskUUID: string
+  positivePrompt: string
+  model: string
+  width: number
+  height: number
+  numberResults: number
+  outputFormat: string
+  CFGScale: number
+  scheduler: string
+  strength: number
+}
+
+type RunwareRequest = RunwareAuthRequest | RunwareImageRequest
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -81,7 +87,7 @@ serve(async (req) => {
     console.log('Runware response:', result)
 
     // Find the image inference result
-    const imageResult = result.data?.find((item: any) => item.taskType === 'imageInference')
+    const imageResult = result.data?.find((item: { taskType: string; imageURL?: string }) => item.taskType === 'imageInference')
     
     if (!imageResult || !imageResult.imageURL) {
       throw new Error('No image generated')
@@ -107,8 +113,9 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in generate-pillar2-images function:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: errorMessage }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     )
   }

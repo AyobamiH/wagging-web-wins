@@ -76,17 +76,18 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    if (import.meta.env?.DEV) console.log('Checkout session created:', session.id);
+    console.log('Checkout session created:', session.id);
 
     return new Response(
       JSON.stringify({ url: session.url, sessionId: session.id }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in create-buy-plan-session:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create checkout session';
     return new Response(
-      JSON.stringify({ error: error.message || 'Failed to create checkout session' }),
+      JSON.stringify({ error: errorMessage }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }

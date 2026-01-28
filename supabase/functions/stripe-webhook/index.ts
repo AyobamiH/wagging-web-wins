@@ -39,14 +39,15 @@ serve(async (req) => {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
       console.log('Webhook signature verified successfully');
     } catch (err) {
-      console.error('Webhook signature verification failed:', err.message);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Webhook signature verification failed:', errorMessage);
       return new Response(
         JSON.stringify({ error: 'Invalid signature' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    if (import.meta.env?.DEV) console.log('Webhook event type:', event.type);
+    console.log('Webhook event type:', event.type);
 
     // Initialize Supabase client with service role key
     const supabaseUrl = Deno.env.get('SUPABASE_URL');
@@ -70,7 +71,7 @@ serve(async (req) => {
       .single();
 
     if (existingEvent) {
-      if (import.meta.env?.DEV) console.log('Event already processed:', event.id);
+      console.log('Event already processed:', event.id);
       return new Response(
         JSON.stringify({ received: true, message: 'Already processed' }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
@@ -81,19 +82,17 @@ serve(async (req) => {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
       
-      if (import.meta.env?.DEV) {
-        console.log('Payment successful for session:', session.id);
-        console.log('Customer email:', session.customer_details?.email);
-        console.log('Amount paid:', session.amount_total, session.currency);
-      }
+      console.log('Payment successful for session:', session.id);
+      console.log('Customer email:', session.customer_details?.email);
+      console.log('Amount paid:', session.amount_total, session.currency);
 
       const userId = session.client_reference_id || session.metadata?.userId;
-      const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+      const stripeClient = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
       // Fetch subscription if exists
       let subscription = null;
       if (session.subscription) {
-        subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+        subscription = await stripeClient.subscriptions.retrieve(session.subscription as string);
       }
 
       // Upsert customer
@@ -119,7 +118,7 @@ serve(async (req) => {
         current_period_end: subscription?.current_period_end 
           ? new Date(subscription.current_period_end * 1000).toISOString() 
           : null,
-        raw_event: event as any,
+        raw_event: event as unknown,
       });
 
       // Upsert subscription if exists
@@ -138,23 +137,23 @@ serve(async (req) => {
       // TODO: Send confirmation email via Resend
       // await sendConfirmationEmail(session.customer_details?.email, session);
       
-      if (import.meta.env?.DEV) console.log('Fulfillment completed for session:', session.id);
+      console.log('Fulfillment completed for session:', session.id);
     }
 
     // Handle invoice events
     if (event.type === 'invoice.payment_succeeded' || event.type === 'invoice.payment_failed') {
-      const invoice = event.data.object as any;
+      const invoice = event.data.object as Stripe.Invoice;
       const status = event.type === 'invoice.payment_succeeded' ? 'paid' : 'failed';
       
       await supabase
         .from('payments')
         .update({ status })
-        .eq('subscription_id', invoice.subscription);
+        .eq('subscription_id', invoice.subscription as string);
     }
 
     // Handle subscription updates
     if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
-      const subscription = event.data.object as any;
+      const subscription = event.data.object as Stripe.Subscription;
       
       if (event.type === 'customer.subscription.deleted') {
         await supabase
@@ -183,8 +182,9 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Webhook error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: errorMessage }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

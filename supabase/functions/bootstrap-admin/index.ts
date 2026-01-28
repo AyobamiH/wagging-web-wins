@@ -124,9 +124,10 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('Bootstrap admin error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An error occurred during admin bootstrap';
     return new Response(
       JSON.stringify({ 
-        error: error.message || 'An error occurred during admin bootstrap' 
+        error: errorMessage 
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
