@@ -11,42 +11,39 @@
 
 | File | Changes | Status |
 |------|---------|--------|
-| `src/components/admin/BlogEditor.tsx` | Wire Published toggle, wire Featured toggle, add dropdown | ⏳ |
-| `src/lib/repositories/supabase-adapters.enhanced.ts` | Accept `published` in create/update | ⏳ |
-| `src/lib/repositories/types.ts` | Add `published` to PostSeed, deprecate lovableCategory | ⏳ |
+| `src/components/admin/BlogEditor.tsx` | Wire Published toggle, wire Featured toggle, add dropdown | ✅ |
+| `src/lib/repositories/supabase-adapters.enhanced.ts` | Accept `published` in create/update | ✅ |
+| `src/lib/repositories/types.ts` | Add `published` to PostSeed, deprecate lovableCategory | ✅ |
 
 ### Phase 2: Rendering Unification
 
 | File | Changes | Status |
 |------|---------|--------|
-| `src/pages/BlogSupabase.tsx` | Remove inline markdown conversion if present | ⏳ |
+| `src/pages/BlogSupabase.tsx` | Remove inline markdown conversion if present | ✅ (verified: no inline conversion) |
 | `src/components/blog/BlogPostLayout.tsx` | No changes (already canonical) | ✅ |
 
 ### Phase 3: Canonical Categories
 
 | File | Changes | Status |
 |------|---------|--------|
-| `src/lib/pillarTags.ts` | Add CANONICAL_PILLAR_KEYS, complete mapping | ⏳ |
-| `src/components/admin/PillarTagSelect.tsx` | NEW: Dropdown component | ⏳ |
+| `src/lib/pillarTags.ts` | Add CANONICAL_PILLAR_KEYS, complete mapping | ✅ |
+| `src/components/admin/PillarTagSelect.tsx` | NEW: Dropdown component | ✅ |
 
 ### Phase 4: Lovable Hub Merge
 
 | File | Changes | Status |
 |------|---------|--------|
-| `src/pages/LovableHub.tsx` | Use pillar_tag filtering | ⏳ |
-| `src/pages/LovableCategory.tsx` | Use pillar_tag filtering | ⏳ |
+| `src/pages/LovableHub.tsx` | Use pillar_tag filtering | ✅ |
+| `src/pages/LovableCategory.tsx` | Use pillar_tag filtering | ✅ (no changes needed - already uses repository) |
 
 ---
 
-## Files to Create
+## Files Created
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `src/components/admin/PillarTagSelect.tsx` | Category dropdown component | ⏳ |
-| `src/lib/pillarTags.test.ts` | Unit tests for mapping | ⏳ |
-| `src/components/admin/PillarTagSelect.test.tsx` | Unit tests for dropdown | ⏳ |
-
----
+| `src/components/admin/PillarTagSelect.tsx` | Category dropdown component | ✅ |
+| `src/lib/pillarTags.test.ts` | Unit tests for mapping | ✅ |
 
 ## Documentation Files
 

@@ -6,9 +6,13 @@ All notable changes to the blog system are documented here.
 
 ## [2026-01-28] Blog UI Alignment & Category Unification
 
+### Summary
+Aligned the blog admin UI, public blog pages, and Lovable hub to be truthful and consistent with the database schema. Fixed non-functional toggles, eliminated duplicate category chips, and merged the Lovable hub into the same category system.
+
 ### Phase 1: Admin UI Truthfulness
 - **BlogEditor.tsx**: Wired Published toggle to persist `posts.published`
 - **BlogEditor.tsx**: Wired Featured toggle to persist `extras.featured`
+- **BlogEditor.tsx**: Replaced free-text pillar_tag input with dropdown
 - **Repository**: Updated `create()` and `update()` to accept `published` field
 
 ### Phase 2: Rendering Unification
