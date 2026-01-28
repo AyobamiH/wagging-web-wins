@@ -37,12 +37,20 @@ UPDATE posts SET pillar_tag = 'How To' WHERE pillar_tag = 'how-to';
 ```
 
 ### Execution Status
-- [ ] Pending execution
-- [ ] Executed successfully
-- [ ] Verified post-migration
+- [x] Executed successfully
+- [x] Verified post-migration
 
 ### Affected Rows
-- TBD after execution
+- "SEO & Content" → "pillar-3": 1 row
+- "How To" → "how-to": 1 row
+- Other mappings: 0 rows (values already canonical)
+
+### Post-Migration Verification
+```sql
+-- Result after migration:
+-- pillar_tag values: how-to, pillar-1, pillar-2, pillar-3, pillar-4, pillar-5, pillar-6
+-- All values are now canonical keys ✓
+```
 
 ---
 
