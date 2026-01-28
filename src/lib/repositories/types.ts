@@ -6,7 +6,11 @@ export interface ReviewCount {
   breakdown?: { [star: number]: number };
 }
 
-// Lovable content hub categories
+/**
+ * Lovable content hub categories
+ * @deprecated Use pillar_tag = 'lovable' instead of extras.lovableCategory
+ * This is kept for backwards compatibility during transition
+ */
 export const LOVABLE_CATEGORIES = [
   'guides',
   'debug-diaries', 
@@ -17,9 +21,14 @@ export const LOVABLE_CATEGORIES = [
 
 export type LovableCategory = typeof LOVABLE_CATEGORIES[number];
 
-// Extended extras field for Lovable posts
+/**
+ * Extended extras field for posts
+ * @note lovableCategory is DEPRECATED - use pillar_tag instead
+ */
 export interface LovableExtras {
+  /** @deprecated Use pillar_tag = 'lovable' instead */
   lovableCategory?: LovableCategory;
+  /** Whether this post is featured (displayed prominently) */
   featured?: boolean;
   relatedSlugs?: string[];
   redditSnippet?: string;
@@ -36,6 +45,8 @@ export interface Post {
   content: string;
   faq?: Array<{ q: string; a: string }>;
   pillarTag?: string;
+  /** Whether the post is published (visible to public) */
+  published?: boolean;
   publishedAt: string;
   updatedAt?: string;
   ogImageUrl?: string;
@@ -43,8 +54,10 @@ export interface Post {
   extras?: LovableExtras;
 }
 
-export interface PostSeed extends Omit<Post, 'id' | 'publishedAt'> {
+export interface PostSeed extends Omit<Post, 'id' | 'publishedAt' | 'published'> {
   publishedAt?: string;
+  /** Whether the post is published (default: true) */
+  published?: boolean;
 }
 
 export interface PostListParams {

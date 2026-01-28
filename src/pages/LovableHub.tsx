@@ -20,6 +20,7 @@ export default function LovableHub() {
     trackLovableHubView();
   }, []);
 
+  // Fetch posts with pillar_tag = 'lovable'
   const { data: featuredPosts, isLoading: loadingFeatured } = useQuery({
     queryKey: ['lovable-featured'],
     queryFn: () => postRepository.listFeaturedLovable(3),
@@ -30,7 +31,8 @@ export default function LovableHub() {
     queryFn: () => postRepository.listLovablePosts({ limit: 100 }),
   });
 
-  // Count posts per category
+  // Category counts are now informational only (deprecated taxonomy)
+  // In future, categories will be filtered by pillar_tag subcategories
   const categoryCounts: Record<LovableCategory, number> = {
     'guides': 0,
     'debug-diaries': 0,
@@ -39,6 +41,8 @@ export default function LovableHub() {
     'frameworks': 0,
   };
 
+  // Count posts - temporarily still use extras.lovableCategory for display
+  // This will be removed once all posts migrate to using pillar_tag only
   allLovablePosts?.forEach(post => {
     const cat = post.extras?.lovableCategory;
     if (cat && cat in categoryCounts) {
