@@ -56,7 +56,6 @@ const { render, initCache } = await import("../dist-ssr/entry-server.js");
 // Initialize the post cache before rendering
 console.log("📚 Initializing blog post cache for SSR...");
 await initCache();
-const { render } = await import("../dist-ssr/entry-server.js");
 
 /**
  * Static routes to pre-render (always included)
